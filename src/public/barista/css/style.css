@@ -1,0 +1,1193 @@
+/* ============== FONTE PELO GOOGLE ============ */
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap');
+
+/* ============= FONTE LOCAL NA PASTA=============== */
+@font-face{
+    font-family: "Geometry Soft Pro-Bold N";
+    src: url(../fonts/Geometry\ Soft\ Pro-Bold\ N.otf) format("opentype");
+    font-weight: 700;
+    font-style: normal;
+}
+
+/* ===== VARIAVEIS PARA NOMER AS CORES DA CASA DO BARISTA E NÃO PRECISAR FICAR ESCREVENDO CÓDIGO DE COR====== */
+/* :root é a estrutura raiz do projeto */
+:root{
+    /* cores */
+    --cor-fundo-1: #f3e8d6;
+    --cor-fundo-2: #2e2e2e;
+    --cor-primaria-principal:#4b2e1e;
+    --cor-secundaria-1:#8b5e3c;
+    --cor-secundaria-2:#b56a34;
+    --cor-destaque:#5c6945;
+
+    --cor-texto: #2e2e2e;
+    --cor-titulo: #4b2e1e;
+    --cor-subtitulo: #8b5e3c;
+
+    /* fontes */
+    --fonte-texto: "Bebas Neue", sans-serif;
+    --fonte-titulo: "Geometry Soft Pro-Bold N";
+}
+
+
+
+h2{
+    font-family: var(--fonte-titulo);
+    font-size: 50px;
+    color: var(--cor-titulo);
+    font-weight: bold;
+}
+
+h3{
+    font-family: var(--fonte-titulo);
+    font-size: 40px;
+    color: var(--cor-secundaria-1);
+}
+
+p{
+    font-family: var(--fonte-texto);
+    color: var(--cor-texto);
+    font-size: 25px;
+
+}
+
+.parallax-padrao{
+    /* cofiguração do parallax */
+    height: 300px;
+    margin: 50px 0 50px 0;
+
+    background-image: url(../assets/parallax.png);
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+
+    /* conteudo dentro do parallax */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+
+    position: relative;
+    overflow: hidden;
+}
+
+.parallax-padrao::before{
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, .8);
+}
+
+.parallax-padrao *{
+    position: relative;
+    z-index: 1;
+}
+
+.parallax-padrao h2{
+    font-size: 50px;
+    font-family: var(--fonte-titulo);
+    color: var(--cor-destaque);
+    text-transform: uppercase;
+    -webkit-text-stroke: 1px var(--cor-fundo-1);
+    margin-bottom: 70px;
+}
+
+.parallax-padrao h3{
+    font-size: 40px;
+    font-family: var(--fonte-titulo);
+    color: var(--cor-destaque);
+    -webkit-text-stroke: 0.5px var(--cor-fundo-1);
+}
+
+/* Estilo padrão de Botão */
+.btn {
+  text-decoration: none;
+  padding: 14px 22px;
+  border-radius: 10px;
+  background-color: var(--cor-primaria);
+  color: var(--cor-fundo-1);
+  display: inline-block;
+  transition: transform .3s ease,
+    box-shadow .3s ease,
+    background-color .3s ease;
+}
+
+.btn:hover {
+  background: var(--cor-secundaria-2);
+  transform: translateY(-2px) scale(1.03);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, .5);
+}
+
+
+
+.site{
+    max-width: 1500px; /* Largura maxima 1500 */
+    width: 100%;
+    margin: 0 auto;
+}
+
+/* TOPO */
+.topo{
+    background-color: #0b0b0b;
+}
+
+
+.topo div{
+    display:flex;
+    justify-content:space-between; 
+    align-items: center;
+}
+
+/* LOGO */
+.topo h1{
+  width: 175px;
+  height: 92px;
+  background-image: url(../assets/logocasadobarista.svg);
+  background-size: cover;
+  margin: 10px 0px;
+  text-indent: -9999px;
+}
+
+.menu{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+}
+
+
+/* MENU */
+.menu ul{
+    display: flex; /*colocar flexivel, automaticamente alinhado horizontalmente*/
+    margin-right: 60px;
+}
+
+/* TEXTO DO MENU */
+.menu ul li a{
+    font-size: 25px;
+    color: var(--cor-fundo-1);
+    text-decoration: none;
+    margin: 0 20px;
+    font-family: var(--fonte-titulo);
+    font-weight: bold;
+}
+
+.menu ul li a:hover{
+    color: var(--cor-secundaria-2);
+}
+
+.menu-ativo{
+    color: var(--cor-secundaria-2) !important;
+}
+
+/* MENU FIXO */
+.menu-fixo {
+    position: fixed;
+    width: 100%;
+    top: 0;
+    z-index: 10;
+    background-color: rgba(0, 0, 0, 0.90);
+    animation: menuFixoIn 0.6s ease;
+}
+ 
+.menu-fixo.menu-fixo-sair {
+    animation: menuFixoOut 0.6s ease forwards;
+}
+ 
+@keyframes menuFixoIn {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+ 
+@keyframes menuFixoOut {
+    from {
+        opacity: 1;
+        transform: translateY(0);
+    }
+    to {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+}
+
+
+
+
+/* REDES SOCIAIS */
+.redeSocial{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+/* Edição dos icons das redes sociais */
+.redeSocial li{
+    width: 40px;
+    height: 40px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--cor-primaria-principal);
+    border-radius: 50px;
+
+    /* Animar para deixar suave */
+    transition: transform 0.25s ease, 
+                background-color 0.25s ease, 
+                box-shadow 0.25s ease;
+}
+
+.redeSocial li:hover{
+    background-color: var(--cor-secundaria-2);
+    /* deixa o botao subir e aumenta */
+    transform: translateY(-3px) scale(1.12);
+    /* box-shadow: sequencia: x y desfoque cor */
+    box-shadow: 0 5px 10px var(--cor-secundaria-1);
+}
+
+
+.menu .redeSocial a{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 30px;
+    margin: 0;
+
+}
+
+.redeSocial img{
+    width: 18px;
+    display: block;
+}
+
+.login img{
+    width: 40px;
+    margin-right: 20px;
+    
+
+    /* Animar para deixar suave */
+    transition: transform 0.25s cubic-bezier(.4,2.8,.6,1),
+                filter 0.25s ease;           
+}
+
+.login:hover{
+    /* deixa o botao subir e aumenta */
+    transform: translateY(-3px) scale(1.2);
+    filter: brightness(1.2); 
+}
+
+/* BANNER */
+.banner img{
+    width: 100%;
+}
+
+.banner .slick-prev:before,
+.banner .slick-next:before {
+    font-size: 60px;
+    color: rgb(0, 0, 0);
+}
+
+.banner .slick-prev
+{
+    left: 40px;
+    z-index: 2;
+}
+
+.banner .slick-next
+{
+    right: 80px;
+}
+
+
+/* BEM VINDO À CASA DO BARISTA */
+.bem-vindo{
+    padding: 50px 0;
+}
+
+/* casa do barista (é o que está editando) */
+.bem-vindo h2, 
+.bem-vindo h3{
+    text-align: center;
+}
+
+
+
+/* paragrafo */
+.bem-vindo header p{
+    font-size: 30px;
+    line-height: 40px;
+    font-family: var(--fonte-texto);
+    text-align: center;
+    margin: 0 auto;
+    width: 800px;
+}
+
+/* edição de tudo que está na tag div */
+.bem-vindo div div{
+    display: flex;
+    text-align: justify;
+    margin-top: 125px;
+    justify-content: space-between;
+}
+
+/* editando tudo que está na tag article */
+.bem-vindo article{
+    background-color: #f2f0f1;
+    width: 400px;
+    height: 350px;
+}
+
+/* editando os dois titulo e subtitulo, pois é mais facil assim quando tem as mesmas conf de visual */
+.bem-vindo h4{
+    font-size: 40px;
+    font-family: var(--fonte-titulo);
+    
+    text-align: center;
+}
+
+.bem-vindo h5{
+    font-family: var(--fonte-titulo);
+    color: var(--cor-secundaria-1);
+    text-align: center;
+    font-size: 40px;
+    margin: 25px 0;
+}
+
+.bem-vindo img{
+  display: block;
+  margin: 20px auto; /* centraliza */
+  width: 20px;
+}
+
+.bem-vindo div p{
+    text-align: justify;
+    padding: 0 10px;
+}
+
+/* DESTAQUE */
+
+
+.destaque div{
+    display: flex;
+    max-width: 1500px;
+    width: 100%;
+    margin: 0 auto;
+    justify-content:space-between;
+    text-align: center;
+}
+
+.destaque img{
+    height: 140px;
+    width: 240px;
+    margin: 25px 0;
+    border-radius: 20px;
+}
+
+.destaque article{
+    background-color:var(--cor-fundo-1);
+    width: 420px;
+    height: 500px;
+}
+
+.destaque h4{
+    font-size: 30px;
+    font-family: var(--fonte-titulo);
+    color: var(--cor-titulo);
+}
+
+.destaque h5{
+    font-size: 25px;
+    font-family: var(--fonte-texto);
+    color: var(--cor-texto);
+    margin: 20px 0;
+}
+
+
+
+
+/* NÃO SE PODE ESQUECER A MARGIN 0 AUTO, FLEX WRAP PARA COLOCAR OS CARDS EM ESCADA */
+
+.cardapio .card-cardapio{
+    display: flex;
+    flex-wrap: wrap;
+    margin-top: 50px;
+    gap: 30px;
+}
+
+.card-flip{
+    perspective: 1000px;
+    height: 240px;
+    width: 480px;
+}
+
+.card-flip-miolo{
+    width: 100%;
+    height: 100%;
+    position: relative;
+    transform-style: preserve-3d;
+    transition: transform .8s ease;
+    border-radius: 25px;
+}
+
+.card-flip:hover .card-flip-miolo{
+    transform: rotateY(180deg);
+}
+
+.flip1,
+.flip2{
+    position: absolute;
+    inset: 0;
+    border-radius: 25px;
+    overflow: hidden;
+    backface-visibility: hidden;
+    display: flex;
+    padding: 22px;
+}
+ 
+.flip1 {
+    background-image: url(../assets/imgcardapio.png);
+    background-size: cover;
+    background-position: center;
+    align-items: center;
+}
+ 
+ 
+ 
+.flip1::before{
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-color: rgba(11, 11, 11, 0.50);
+}
+ 
+.flip1 h4 {
+    color: var(--cor-destaque);
+    font-size: 30px;
+    font-family: var(--fonte-titulo);
+    position: relative;
+    -webkit-text-stroke: 1px var(--cor-fundo-1);
+    z-index: 1;
+}
+ 
+.flip2 {
+    background-color: var(--cor-fundo-1);
+    transform: rotateY(180deg);
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 10px;
+}
+ 
+.flip2 h4 {
+    color: var(--cor-primaria);
+    font-size: 30px;
+    font-family: var(--fonte-titulo);
+}
+ 
+.flip2 span{
+margin-left: 50px;
+}
+ 
+.flip2 h5{
+    font-family: var(--fonte-texto);
+    color: var(--cor-texto);
+    font-size: 25px;
+}
+ 
+.btn-cardapio {
+    color: var(--cor-primaria);
+    font-size: 30px;
+    font-family: var(--fonte-titulo);
+}
+ 
+   
+ 
+    .cardapio a{
+        text-decoration: none;
+        color: var(--cor-fundo-1);
+        padding: 15px 25px;
+        border: solid 1px #333;
+        border-radius: 5px 10px 5px 10px;
+        background-color: var(--cor-primaria-principal);
+ 
+        display: inline-block;
+       
+        transition:
+        transform 0.5s ease,
+        background-color 0.3s ease;
+    }
+ 
+.cardapio a:hover{
+        color: #ccc;
+        border: solid 1px #ffe603;
+ 
+        transform:translateY(-2px) scale(1.05);
+        box-shadow: 0 8px 20px rgba(51, 51, 51, 0.4);
+        background-color: brown;
+}
+ 
+ 
+ 
+ 
+.btn-cardapio {
+    display: flex;
+    justify-content: end;
+    padding-top: 40px;
+ 
+}
+
+
+.equipe div{
+    display: flex;
+    max-width: 1500px;
+    width: 100%;
+    margin: 0 auto;
+    margin-top: 50px;
+    margin-bottom: 50px;
+    justify-content:space-between;
+    text-align: center;
+}
+
+.equipe article{
+    background-color: var(--cor-fundo-1);
+    height: 360px;
+    width: 330px;
+}
+
+.equipe img{
+    padding-top: 15px;
+    height: 190px;
+    width: 220px;
+    border-radius: 20px;
+}
+
+.equipe h4{
+    font-size: 30px;
+    font-family:var(--fonte-titulo);
+    color: var(--cor-titulo);
+    margin: 15px;
+}
+
+.equipe h5{
+    font-size: 25px;
+    font-family: var(--fonte-texto);
+    color: var(--cor-subtitulo);
+}
+
+.eventos {
+    margin: 50px 0;
+}
+
+.eventos .cardEventos {
+    margin-top: 50px;
+}
+
+.eventos .cardEventos article {
+    background-color: var(--cor-fundo-1);
+    width: 320px;
+    overflow: hidden;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    margin: 15px;
+}
+
+.eventos .cardEventos img {
+    width: 100%;
+    height: 240px;
+    object-fit: cover;
+    display: block;
+    border-radius: 0 0 0 100px;
+}
+
+.eventos .cardEventos h5 {
+    color: var(--cor-secundaria-1);
+    font-size: 25px;
+    font-family: var(--fonte-texto);
+    margin: 20px;
+}
+
+.eventos .cardEventos h4 {
+    font-size: 30px;
+    font-family: var(--fonte-titulo);
+    color: var(--cor-primaria-principal);
+    margin: 0 0 15px 20px;
+}
+
+.eventos .cardEventos nav h4 {
+    font-family: var(--fonte-texto);
+    font-size: 19px;
+    color: var(--cor-texto);
+}
+
+.eventos .cardEventos nav ul li {
+    font-family: var(--fonte-texto);
+    font-size: 19px;
+    margin-left: 40px;
+    line-height: 22px;
+    color: var(--cor-texto);
+    list-style: circle;
+}
+
+.eventos .linha-grao {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin: 15px;
+}
+
+.eventos .linha-grao hr {
+    flex: 1;
+    border: none;
+    height: 4px;
+    background-color: var(--cor-fundo-2);
+    opacity: .8;
+}
+
+.eventos .linha-grao img {
+    width: 20px;
+    height: 20px;
+    display: block;
+}
+
+.data{
+    display: block;
+    text-align: center;
+    font-family: var(--fonte-titulo);
+    font-size: 20px;
+    color: var(--cor-titulo);
+    letter-spacing: 4px;
+    padding-bottom: 20px;
+}
+
+.eventos .slick-prev:before,
+.eventos .slick-next:before {
+    font-size: 60px;
+    color: var(--cor-primaria-principal);
+}
+
+.eventos .slick-prev {
+    left: -60px;
+    z-index: 2;
+}
+
+.eventos .slick-next {
+    right: -25px;
+}
+
+
+/* GALERIA */
+.itens-galeria {
+    margin: 50px 0;
+    justify-content:space-between;
+
+}
+
+/* cria espaço entre os itens */
+.itens-galeria .slick-slide{
+    padding: 0 12px;          /* o “gap” */
+    box-sizing: border-box;
+}
+
+/* garante que não “vaze” e pareça colado */
+.itens-galeria .slick-list{
+    overflow: hidden;
+}
+
+.itens-galeria img {
+    width: 300px;
+    height: 300px;
+    border-radius: 20px;
+    object-fit: cover;
+    display: block;
+    margin: 0 auto;  
+    
+}
+
+
+.itens-galeria .slick-prev:before,
+.itens-galeria .slick-next:before {
+    font-size: 60px;
+    color: var(--cor-primaria-principal);
+}
+
+.itens-galeria .slick-prev
+{
+    left: 40px;
+    z-index: 2;
+}
+
+.itens-galeria .slick-next
+{
+    right: 80px;
+}
+
+/* DEPOIMENTO */
+.Itens-Depoimento {
+    margin: 50px 0;
+    position: relative;
+
+}
+
+.Itens-Depoimento .slick-list{
+  overflow: hidden;
+}
+
+/* garante centralização do conteúdo do slide */
+.Itens-Depoimento .slick-track{
+  display: flex;
+}
+
+/* “gap” entre slides */
+.Itens-Depoimento .slick-slide{
+    height: auto;
+    display: flex !important;
+    justify-content: center;
+    padding: 0 16px;
+    box-sizing: border-box;
+}
+
+/* cada card */
+.Itens-Depoimento article{
+    max-width: 1100px;
+    width: 100%;
+    margin: 0 auto;    
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+/* estrelas */
+.Itens-Depoimento .estrelas ul{
+    padding: 50px 0;
+    display: flex;
+    justify-content: center;
+}
+
+
+
+/* texto do depoimento: não use width fixa */
+.dados-Depoimento p{
+    width: min(1000px, 100%);
+    margin: 0 auto 50px auto;
+    text-align: center;
+    font-size: 30px;
+}
+
+.dados-Depoimento img{
+    width: 60px;
+    height: 60px;
+    border-radius: 50px;
+    border-radius: 50%;
+    object-fit: cover;    /* corta sem distorcer */
+    display: block;
+    margin: 0 auto;
+}
+
+.dados-Depoimento h4 {
+    margin-bottom: 50px;
+    font-size: 30px;
+    font-family: var(--fonte-titulo);
+    color: var(--cor-titulo);
+}
+
+.data-evento{
+    display: flex;
+    justify-content: space-between;
+    gap: 40px;
+    align-items: center;
+    width: 100%;
+}
+
+.data-evento h5{
+    font-size: 25px;
+    font-family: var(--fonte-texto);
+    color: var(--cor-texto);
+}
+
+
+/* setas */
+.Itens-Depoimento .slick-prev:before,
+.Itens-Depoimento .slick-next:before {
+    font-size: 60px;
+    color: var(--cor-primaria-principal);
+}
+
+.Itens-Depoimento .slick-prev{
+    left: 40px;
+    z-index: 2;
+}
+
+.Itens-Depoimento .slick-next{
+    right: 80px;
+}
+
+
+/*=================== FOOTER ========================*/
+
+.rodape{
+    background-color: var(--cor-fundo-2);
+    margin-top: 80px;
+
+}
+
+.rodape .rodape-grid{
+    display: flex;
+    justify-content: space-between;
+    gap: 40px;
+    align-items: center;
+    text-align: center;
+}
+
+.rodape h3{
+    font-family: var(--fonte-titulo);
+    color: var(--cor-fundo-1);
+    font-size: 30px;
+    margin-bottom: 15px;
+}
+
+.rodape .coluna-end address,
+.rodape .link-contato{
+    font-family: var(--fonte-texto);
+    font-size: 20px;
+    line-height: 24px;
+    color: var(--cor-fundo-1);
+    display: block;
+    text-decoration: none;
+    
+}
+
+.rodape .link-contato:hover{
+    color: var(--cor-secundaria-2);
+
+}
+
+.rodape .coluna-end a{
+    font-family: var(--fonte-titulo);
+    font-size: 25px;
+    text-decoration: none;
+    color: var(--cor-secundaria-2);
+    margin-top: 25px;
+    display: block;
+}
+
+.rodape .coluna-end a:hover{
+    color: var(--cor-fundo-1);
+}
+
+/* Card central -classe: coluna-reserva */
+
+.box-reserva{
+    background-color: var(--cor-primaria-principal);
+    border-radius: 50px  50px 30px 30px ;
+    padding: 50px ;
+    text-align: center;
+    position: relative;
+    top: -50px;
+    width: 450px;
+}
+
+.linha-box{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    position: relative;
+}
+
+.linha-box hr{
+    /* adicionar mais uma linha */
+    width: 150px;
+    height: 4px;
+    border: none;
+    background-color: var(--cor-fundo-1);
+}
+
+.linha-box img{
+    width: 30px;
+    height: 30px; 
+}
+
+.box-reserva ul{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.box-reserva li{
+    display: flex;
+    justify-content: space-between;
+    font-family: var(--fonte-texto);
+    font-size: 20px;
+    color: var(--cor-fundo-1);
+}
+
+.box-reserva a{
+    background-color: var(--cor-secundaria-2);
+}
+
+.coluna-contato .redeSocial{
+    margin-top: 20px;
+    gap: 30px;
+}
+
+
+/* newlatter */
+.box-email{
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+}
+
+.box-email p{
+    color: var(--cor-fundo-1);
+    font-size: 16px;
+    margin-top: -34px;
+    margin-bottom: 15px;
+}
+
+.box-email form{
+    width: 420px;
+    display: flex;
+    align-items: center;
+    background-color: var(--cor-fundo-1);
+    border-radius: 5px;
+}
+
+.box-email form label{
+    padding: 12px;
+    font-family: var(--fonte-texto);
+    color: var(--cor-primaria-principal);
+    font-size: 20px;
+}
+
+.box-email form input{
+    flex: 1;
+    border: none;
+    outline: none;
+    padding: 10px 12px;
+    font-family: var(--fonte-texto);
+    font-size: 20px;
+    color: var(--cor-texto);
+}
+
+.box-email form button{
+    width: 44px;
+    height: 100%;
+    border: none;
+    background-color: var(--cor-fundo-1);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: backgroud-color .25s ease;
+}
+
+.box-email form button:hover{
+    background-color: var(--cor-secundaria-2);
+}
+
+.box-email form button img{
+    width: 20px;
+    height: 20px;
+    display: block;
+}
+
+.barra-final{
+    background-color: var(--cor-primaria-principal);
+    padding: 14px 0;
+    text-align: center;
+}
+
+.barra-final p{
+    font-family: var(--fonte-texto);
+    color: var(--cor-fundo-1);
+    font-size: 20px;
+}
+
+/******************** 
+PG - CONTATO
+**********************/
+#pg-contato .rodape{
+    margin-top: -10px;
+}
+
+.contato{
+    padding: 50px 20px 0;
+}
+
+.contato > div{
+    display: flex;
+    gap: 60px;
+    align-items: flex-start;
+}
+
+.contato-txt,
+.contato-form{
+    padding-top: 50px;
+    width: 50%;
+}
+
+.contato-titulo{
+    text-align: center;
+    font-size: 50px;
+    color: var(--cor-titulo);
+    margin-bottom: 10px;
+}
+
+.contato-txt p{
+    font-size: 25px;
+    font-family: var(--fonte-texto);
+    text-align: justify;
+    line-height: 30px;
+    text-indent: 20px;
+}
+
+.contato-txt > div{
+    display: flex;
+    justify-content: space-between;
+    margin-top: 50px;
+}
+
+.contato-txt div div div{
+    background-color: var(--cor-fundo-1);
+    height: 200px;
+    width: 260px;
+    padding: 10px;
+    margin-bottom: 50px;
+}
+
+.contato-txt h3{
+    font-family: var(--fonte-titulo);
+    font-size: 30px;
+    color: var(--cor-primaria-principal);
+    margin-top: 25px;
+    margin-bottom: 60px;
+    text-align: center;
+}
+
+.contato-txt h4, 
+.contato-txt a{
+    font-family: var(--fonte-texto);
+    font-size: 20px;
+    color: var(--cor-texto);
+    text-align: center;
+}
+
+.contato-txt a{
+    display: block;
+    text-decoration: none;
+}
+
+
+/* FORMULARIO */
+
+.form-titulo{
+    text-align: center;
+    font-size: 40px;
+    color: var(--cor-titulo);
+    margin-bottom: 20px;
+}
+
+
+.contato-form{
+    margin-top: 10px;
+}
+
+.contato-form form{
+    display: flex;
+    flex-direction: column;
+    gap: 26px;
+}
+
+.contato-form-linha{
+    display: flex;
+    gap: 24px;
+}
+
+.contato-form-campo{
+    width: 100%;
+}
+
+.contato-form-campo-full{
+    width: 100%;
+}
+
+.contato-form input,
+.contato-form select,
+.contato-form textarea{
+    width: 100%;
+    border: 1px solid;
+    background-color: var(--cor-fundo-1);
+    color: var(--cor-texto);
+    font-family: var(--fonte-texto);
+    font-size: 25px;
+    padding: 10px 10px;
+    box-sizing: border-box;
+    outline: none;
+}
+
+.contato-form input::placeholder,
+.contato-form textarea::placeholder{
+    color: var(--cor-fundo-2);
+    opacity: 1;
+}
+
+.contato-form select{
+    appearance: none;
+    cursor: pointer;
+}
+
+.contato-form textarea{
+    min-height: 230px;
+    resize: vertical;
+}
+
+.contato-form input:focus,
+.contato-form select:focus,
+.contato-form textarea:focus{
+    border-color: #4f86ff;
+    box-shadow: 0 0 0 2px rgba(79, 134, 255, 0.15);
+}
+
+.contato-form-acoes{
+    display: flex;
+    justify-content: space-between;
+    gap: 24px;
+    padding-bottom: 20px;
+}
+
+.contato-form-acoes button{
+    width: 100%;
+    border: none;
+    border-radius: 10px;
+    background-color: var(--cor-secundaria-2);
+    color: #f2f0f1;
+    font-family: var(--fonte-titulo);
+    font-size: 25px;
+    padding: 14px 20px;
+    cursor: pointer;
+    transition: transform .25s ease, box-shadow .25s ease, background-color .25s ease;
+}
+
+.contato-form-acoes button:hover{
+    background-color: var(--cor-secundaria-2);
+    transform: translateY(-2px);
+    box-shadow: 0 10px 18px rgba(99, 49, 29, 0.18);
+}
+
+.contato > h4{
+    text-align: center;
+    font-family: var(--fonte-texto);
+    font-size: 24px;
+    color: var(--cor-secundaria-1);
+    margin-bottom: 20px;
+}
