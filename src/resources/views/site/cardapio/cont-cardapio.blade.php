@@ -14,7 +14,7 @@
                             <h4>Espresso Artesanal <span>R$ 15,35</span></h4>
                             <h5>Café especial da montanha</h5>
                         </div>
-                    </artcle>
+                    </article>
                 </div>
 
                 <div class="card-flip">
@@ -26,7 +26,7 @@
                             <h4>Espresso Artesanal <span>R$ 15,35</span></h4>
                             <h5>Café especial da montanha</h5>
                         </div>
-                    </artcle>
+                    </article>
                 </div>
 
                 <div class="card-flip">
@@ -38,7 +38,7 @@
                             <h4>Espresso Artesanal <span>R$ 15,35</span></h4>
                             <h5>Café especial da montanha</h5>
                         </div>
-                    </artcle>
+                    </article>
                 </div>
 
                 <div class="card-flip">
@@ -50,7 +50,7 @@
                             <h4>Espresso Artesanal <span>R$ 15,35</span></h4>
                             <h5>Café especial da montanha</h5>
                         </div>
-                    </artcle>
+                    </article>
                 </div>
 
                 <div class="card-flip">
@@ -62,7 +62,7 @@
                             <h4>Espresso Artesanal <span>R$ 15,35</span></h4>
                             <h5>Café especial da montanha</h5>
                         </div>
-                    </artcle>
+                    </article>
                 </div>
 
                 <div class="card-flip">
@@ -74,7 +74,7 @@
                             <h4>Espresso Artesanal <span>R$ 15,35</span></h4>
                             <h5>Café especial da montanha</h5>
                         </div>
-                    </artcle>
+                    </article>
                 </div>
             </div>
 

@@ -32,25 +32,25 @@
                                 <ul class="redeSocial">
                                     <li>
                                         <a href="https://www.facebook.com/senacsaomiguelpaulista/?locale=pt_BR" target="_blank">
-                                            <img src="assets/facebook-24.png" alt="Logo Facebook - Casa do Barista">
+                                            <img src="{{ asset ('barista/assets/facebook-24.png') }}" alt="Logo Facebook - Casa do Barista">
                                         </a>
                                     </li>
                                         
                                     <li>
                                         <a href="https://www.instagram.com/senacsaomiguelpaulista/" target="_blank">
-                                            <img src="assets/instagram-24.png" alt="Logo Instagram - Casa do Barista">
+                                            <img src="{{ asset ('barista/assets/instagram-24.png') }}" alt="Logo Instagram - Casa do Barista">
                                         </a>
                                     </li>
                                         
                                     <li>
                                         <a href="https://www.linkedeen.com/senacsaomiguelpaulista/" target="_blank">
-                                            <img src="assets/linkedin-24.png" alt="Logo Instagram - Casa do Barista">
+                                            <img src="{{ asset ('barista/assets/linkedin-24.png') }}" alt="Logo Instagram - Casa do Barista">
                                         </a>
                                     </li>
                                         
                                     <li>
                                         <a href="https://wa.me/5511999999999" target="_blank">
-                                            <img src="assets/whatsapp-24.png" alt="Logo Whatsapp - Casa do Barista">
+                                            <img src="{{ asset ('barista/assets/whatsapp-24.png') }}" alt="Logo Whatsapp - Casa do Barista">
                                         </a>
                                     </li>
                                 </ul>

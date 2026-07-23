@@ -16,7 +16,7 @@
                 </ul>
 
                 <a href="#" class="login">
-                    <img src="assets/login.png" alt="Login Casa do Barista">
+                    <img src="{{ asset ('barista/assets/login.png') }}" alt="Login Casa do Barista">
                 </a>
 
                  <ul class="redeSocial">
