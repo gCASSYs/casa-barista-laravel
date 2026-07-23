@@ -80,7 +80,9 @@ $('.Itens-Depoimento').slick({
 });
 
 // script para animação wow
-new WOW().init();
+if (typeof WOW !== 'undefined') {
+  new WOW().init();
+}
               
 /* MEU MOBILE */
 document.querySelector(".abrir-menu").onclick = function(){

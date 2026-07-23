@@ -9,10 +9,10 @@
             
                 <ul>
                     <li><a class="menu-ativo" href="{{ route ('home') }}">Home</a></li>
-                    <li><a class="menu-ativo" href="{{ route ('home') }}">Sobre</a></li>
-                    <li><a class="menu-ativo" href="{{ route ('home') }}">Cardápio</a></li>
-                    <li><a class="menu-ativo" href="{{ route ('home') }}">Eventos</a></li>
-                    <li><a class="menu-ativo" href="{{ route ('home') }}">Contato</a></li>
+                    <li><a class="menu-ativo" href="{{ route ('sobre') }}">Sobre</a></li>
+                    <li><a class="menu-ativo" href="{{ route ('cardapio') }}">Cardápio</a></li>
+                    <li><a class="menu-ativo" href="{{ route ('eventos') }}">Eventos</a></li>
+                    <li><a class="menu-ativo" href="{{ route ('contato') }}">Contato</a></li>
                 </ul>
 
                 <a href="#" class="login">

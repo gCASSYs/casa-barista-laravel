@@ -5,7 +5,7 @@
     <script src="{{ asset ('barista/js/slick.min.js') }}"></script>
 
     <!-- animação wow -->
-    <script src="{{ asset ('barista/js/wow.min.js') }}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/wow/1.1.2/wow.min.js" crossorigin="anonymous"></script>
 
     <!-- MEU SCRIPT (ANIMAÇÃO) -->
     <script src="{{ asset ('barista/js/script.js') }}"></script>
