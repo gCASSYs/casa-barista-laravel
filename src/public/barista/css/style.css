@@ -839,6 +839,14 @@ p{
     justify-content: center;
 }
 
+.estrela-ativa{
+    opacity: 1;
+}
+
+
+.estrela-inativa{
+    opacity: 0.2;
+}
 
 
 /* texto do depoimento: não use width fixa */
