@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Site;
 use App\Http\Controllers\Controller;
 use App\Models\Banner;
 use App\Models\Depoimento;
+use App\Models\Galeria;
 
 class HomeController extends Controller{
 
@@ -21,9 +22,11 @@ class HomeController extends Controller{
 
         //buscar os depoimentos de clientes para exibir na home
         $listaDepo = Depoimento::with('DepoimentoCliente')->where('status_depoimento', 'APROVADO')->orderByDesc('id_depoimento')->get();
+
+        $listaGaleria = Galeria::where('status_galeria', 'ATIVO')->inRandomOrder()->get();
         
         
-        return view('site.home.home', compact('listaBanner', 'listaDepo'));
+        return view('site.home.home', compact('listaBanner', 'listaDepo', 'listaGaleria'));
 
     }
 }    
