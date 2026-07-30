@@ -25,6 +25,7 @@ class HomeController extends Controller{
 
         $listaGaleria = Galeria::where('status_galeria', 'ATIVO')->inRandomOrder()->get();
         
+      
         
         return view('site.home.home', compact('listaBanner', 'listaDepo', 'listaGaleria'));
 

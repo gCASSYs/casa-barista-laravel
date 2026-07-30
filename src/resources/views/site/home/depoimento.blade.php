@@ -33,8 +33,7 @@
                         <div class="dados-Depoimento">
                             <p>{{ $linha->descricao_depoimento }}</p>
                             
-                            <img src="{{ asset('barista/assets/clientes/' . basename($cliente->foto_cliente)) }}" alt= "{{ $cliente->nome_cliente }}"
->
+                            <img src="{{ asset('barista/assets/clientes/' . basename($cliente->foto_cliente)) }}" alt= "{{ $cliente->nome_cliente }}">
                             <h4>{{ $cliente->nome_cliente }}</h4>
                             <div class="data-evento">
                                 <h5>Data: {{ $linha->data_criacao_depoimento ? $linha->data_criacao_depoimento->format('d/m/Y') : 'Data não disponível' }}</h5>
