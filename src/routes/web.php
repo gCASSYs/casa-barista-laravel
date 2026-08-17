@@ -6,6 +6,7 @@ use App\Http\Controllers\Site\CardapioController;
 use App\Http\Controllers\Site\EventosController;
 use App\Http\Controllers\Site\ContatoController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Dash\DashController;
 
 Route::get('/', [HomeController::class, 'home'])->name('home');
 Route::get('/sobre', [SobreController::class, 'sobre'])->name('sobre');
@@ -19,3 +20,7 @@ Route::get('/cardapio/categoria/{id_categoria}', [CardapioController::class, 'ca
 Route::get('/eventos', [EventosController::class, 'eventos'])->name('eventos');
 Route::get('/contato', [ContatoController::class, 'contato'])->name('contato');
 //Basicamente ele está dizendo: quando clicar vai ir para HomeController que tem uma classe, pois pode ter varios e um nome para facilitar
+
+
+//PARTE DO DASHBOARD
+Route::get('/dash', [DashController::class, 'dash'])->name('dash');
