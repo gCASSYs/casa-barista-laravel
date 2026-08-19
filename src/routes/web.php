@@ -6,7 +6,7 @@ use App\Http\Controllers\Site\CardapioController;
 use App\Http\Controllers\Site\EventosController;
 use App\Http\Controllers\Site\ContatoController;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Dash\DashController;
+use App\Http\Controllers\Admin\AdminController;
 
 Route::get('/', [HomeController::class, 'home'])->name('home');
 Route::get('/sobre', [SobreController::class, 'sobre'])->name('sobre');
@@ -23,4 +23,4 @@ Route::get('/contato', [ContatoController::class, 'contato'])->name('contato');
 
 
 //PARTE DO DASHBOARD
-Route::get('/dash', [DashController::class, 'dash'])->name('dash');
+Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('dashboard');

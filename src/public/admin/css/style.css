@@ -1,0 +1,13 @@
+ .sidebar-expand-lg.layout-fixed .app-sidebar{
+    background: #0b0b00 !important;
+}
+
+
+
+.sidebar-brand .brand-link .brand-image {
+    width: 150px;
+    max-height: none;
+}
+
+
+
