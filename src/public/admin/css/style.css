@@ -1,13 +1,158 @@
- .sidebar-expand-lg.layout-fixed .app-sidebar{
+
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap');
+
+/* ============= FONTE LOCAL NA PASTA=============== */
+@font-face {
+    font-family: "Geometry Soft Pro-Bold N";
+    src: url("../fonts/Geometry Soft Pro-Bold N.otf") format("opentype");
+}
+
+h2{
+    font-family: "Geometry Soft Pro-Bold N";
+    font-size: 50px;
+    color: #4b2e1e;
+    font-weight: bold;
+}
+
+h3{
+    font-family: "Geometry Soft Pro-Bold N";
+    font-size: 40px;
+    color: #b56a34;
+}
+
+p{
+    font-family: "Bebas Neue", sans-serif;
+    color: #2e2e2e;
+    font-size: 25px;
+
+}
+
+.sidebar-expand-lg.layout-fixed .app-sidebar{
     background: #0b0b00 !important;
 }
 
 
+
+.sidebar-brand {
+    height: 100px;
+}
 
 .sidebar-brand .brand-link .brand-image {
     width: 150px;
     max-height: none;
 }
 
+.sidebar-menu .nav-link p{
+    color: #f3e8d6 !important;
+    font-size: 16px !important;
+}
 
 
+.sidebar-menu .nav-link p:hover{
+    color: #b56a34 !important;
+}
+
+.app-header{
+    background: #0b0b00 !important;
+}
+
+.navbar-nav a{
+    color: #f3e8d6 !important;
+    font-size: 16px !important;
+    font-family: "Geometry Soft Pro-Bold N";
+    font-weight: bold;
+}
+
+
+.nav-link:hover{
+    color: #b56a34 !important;
+}
+
+.app-content-header{
+    color: #b56a34 !important;
+    font-family: bebas neue, sans-serif;
+    font-weight: bold;
+}
+
+
+
+ .text-bg-primary {
+    background: #f3e8d6 !important;
+}
+
+ .text-bg-primary .link-light {
+    color: #2e2e2e !important;
+    text-decoration: none !important;
+}
+
+.text-bg-success{
+    background: #f3e8d6 !important;
+}
+
+.text-bg-success .link-light{
+    color: #2e2e2e !important;
+    text-decoration: none !important;
+
+}
+
+
+.text-bg-warning{
+    background: #f3e8d6 !important;
+}
+
+.text-bg-warning .link-light{
+    color: #2e2e2e !important;
+    text-decoration: none !important;
+}
+
+
+.text-bg-danger{
+    background: #f3e8d6 !important;
+}
+
+.text-bg-danger .link-light{
+    color: #2e2e2e !important;
+    text-decoration: none !important;
+}
+
+
+.small-box-icon{
+    color: #4b2e1eba !important;
+}
+
+.small-box-icon:hover{
+    color: #4b2e1eba !important;
+}
+
+.link-light:hover{
+   color: #b56a34 !important;
+}
+
+.app-footer{
+    background: #0b0b00 !important;
+    color: #f3e8d6 !important;
+    font-family: "bebas neue", sans-serif;
+
+}
+
+.float-end{
+    color: #f3e8d6 !important;
+    font-family: "bebas neue", sans-serif !important;
+    font-weight: bold !important;
+}
+
+.btn{
+    color: #f3e8d6 !important;
+    font-family: "bebas neue", sans-serif !important;
+
+}
+
+.btn:hover{
+    background: #b56a34 !important;
+    border-color: none !important;
+}
+
+icon{
+    color:  #b56a34 !important;
+}
+}
