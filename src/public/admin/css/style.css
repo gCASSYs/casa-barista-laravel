@@ -64,8 +64,22 @@ p{
 }
 
 
+.app-main .app-content-header .breadcrumb a {
+    color: #f3e8d6 !important;
+    font-weight: bold;
+}
+
+.breadcrumb-item.active {
+    color: #b56a34 !important;
+    font-weight: bold;
+}
+
 .nav-link:hover{
     color: #b56a34 !important;
+}
+
+.app-main{
+    background: #2a1a11 !important;
 }
 
 .app-content-header{
@@ -124,6 +138,11 @@ p{
     color: #4b2e1eba !important;
 }
 
+.link-dark:hover{
+    color: #b56a34 !important;
+    text-decoration: none !important;
+}
+
 .link-light:hover{
    color: #b56a34 !important;
 }
@@ -155,4 +174,18 @@ p{
 icon{
     color:  #b56a34 !important;
 }
+
+.mb-4{
+    background: #f3e8d6 !important;
+    font-family: "bebas neue", sans-serif !important;
+}
+
+.card-body{
+    color: #f3e8d6 !important;
+    font-family: "geometry soft pro-bold n", sans-serif !important;
+}
+
+.card-header{
+    color: #b56a34  !important;
+    
 }

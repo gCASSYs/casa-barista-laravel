@@ -4,14 +4,14 @@
 <head> 
 
 
-    @include('partials.head')
+    @include('partials.site.head')
 
 </head>
 
 <body> 
     
   
-    @include('partials.topo')
+    @include('partials.site.topo')
 
    
     <main>
@@ -19,10 +19,10 @@
     </main>
     
 
-    @include('partials.rodape')
+    @include('partials.site.rodape')
 
 
-    @include('partials.script')
+    @include('partials.site.script')
 
 </body>
 

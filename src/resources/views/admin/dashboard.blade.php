@@ -1,8 +1,7 @@
 @extends('layout.dashboard')
 
 @section('content')
-
- <h1>Bem-vindo ao Dashboard</h1>
-
+   
+    @include('admin.cards')
 
 @endsection

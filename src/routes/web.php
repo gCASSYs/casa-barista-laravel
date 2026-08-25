@@ -7,6 +7,7 @@ use App\Http\Controllers\Site\EventosController;
 use App\Http\Controllers\Site\ContatoController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\AdminController;
+use App\Http\Controllers\Admin\BannerController;
 
 Route::get('/', [HomeController::class, 'home'])->name('home');
 Route::get('/sobre', [SobreController::class, 'sobre'])->name('sobre');
@@ -24,3 +25,6 @@ Route::get('/contato', [ContatoController::class, 'contato'])->name('contato');
 
 //PARTE DO DASHBOARD
 Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('dashboard');
+
+//PARTE DO DASHBOARD DO BANNER
+Route::get('/admin/banner', [BannerController::class, 'index'])->name('admin.banner.index');

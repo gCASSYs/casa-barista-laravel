@@ -21,7 +21,7 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         //Carregar o submenu de categorias no menu principal do site
-        View::composer('partials.topo', function ($view) {
+        View::composer('partials.site.topo', function ($view) {
             
             //Query para buscar as categorias ativas no banco de dados e ordenar pelo nome da categoria
             $categoriaMenu = Categoria::query()
