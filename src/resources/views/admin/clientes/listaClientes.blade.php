@@ -7,13 +7,13 @@
             <!--begin::Row-->
             <div class="row">
               <div class="col-sm-6">
-                <h1 class="mb-0 fs-3">Banners</h1>
+                <h1 class="mb-0 fs-3">Clientes</h1>
               </div>
               <div class="col-sm-6">
                 <nav aria-label="breadcrumb">
                   <ol class="breadcrumb float-sm-end">
-                    <li class="breadcrumb-item"><a href="{{ route('admin.banner.index') }}">Home</a></li>
-                    <li class="breadcrumb-item active" aria-current="page">Banners</li>
+                    <li class="breadcrumb-item"><a href="{{ route('admin.clientes.index') }}">Home</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Clientes</li>
                   </ol>
                 </nav>
               </div>
@@ -36,7 +36,7 @@
                   <div class="card-header">
                     <div class="row g-2 align-items-center">
                       <div class="col-12 col-md-4">
-                        <h3 class="card-title">Banner cadastrados</h3>
+                        <h3 class="card-title">Clientes cadastrados</h3>
                       </div>
                       <div class="col-12 col-md-8">
                         <div class="d-flex flex-wrap justify-content-md-end gap-2">
@@ -46,14 +46,14 @@
                             </span>
                             <input
                               type="search"
-                              id="banner-search"
+                              id="clientes-search"
                               class="form-control admin-search-input"
-                              placeholder="Pesquisar banners"
-                              aria-label="Pesquisar banners"
+                              placeholder="Pesquisar clientes"
+                              aria-label="Pesquisar clientes"
                             />
                           </div>
                           <select
-                            id="banner-role-filter"
+                            id="clientes-role-filter"
                             class="form-select form-select-sm w-auto"
                             aria-label="Filtrar por status"
                           >
@@ -82,8 +82,10 @@
                         <thead>
                           <tr>
                             <th>Id</th>
-                            <th>Imagem</th>
-                            <th>Título</th>
+                            <th>Nome</th>
+                            <th>Email</th>
+                            <th>Senha</th>
+                            <th>Foto</th>
                             <th>Status</th>
                             <th class="text-end">Ações</th>
                           </tr>
@@ -91,40 +93,51 @@
                         <tbody>
 
                       {{--CONTEUDO DA TABELA--}}    
-                        @forelse ($listaBanner as $banner)
+                        @forelse ($listaClientes as $cliente)
                           <tr>
-                            {{--ID BANNER--}}
+                            {{--ID CLIENTE--}}
                             <td>
-                              {{ $banner->id_banner }}
+                              {{ $cliente->id_cliente }}
                             </td>
 
-                            {{--IMAGEM BANNER--}}
+                            {{--NOME CLIENTE--}}
                             <td>
-                              @if ($banner->imagem_banner)
+                              {{ $cliente->nome_cliente }}
+                            </td>
+
+                            {{--EMAIL CLIENTE--}}
+                            <td>
+                              {{ $cliente->email_cliente }}
+                            </td>
+
+                            {{--SENHA CLIENTE--}}
+                            <td>
+                              {{ $cliente->senha_cliente }}
+                            </td>
+
+                            {{--FOTO CLIENTE--}}
+                             <td>
+                              @if ($cliente->foto_cliente)
                                 <img
-                                  src="{{ asset('barista/assets/' . $banner->imagem_banner) }}"
-                                  alt="{{ $banner->titulo_banner }}"
+                                  src="{{ asset('barista/assets/' . $cliente->foto_cliente) }}"
+                                  alt="{{ $cliente->nome_cliente }}"
                                   class="rounded admin-table-thumbnail"
                                 />
                               @else
-                                <span class="text-muted">Sem imagem</span>
+                                <span class="text-muted">Sem Foto</span>
                               @endif
                             </td>
 
-                            {{--TITULO BANNER--}}
+                            {{--STATUS CLIENTE--}}
                             <td>
-                              <span class="badge admin-record-label">{{ $banner->titulo_banner }}</span>
-                            </td>
-                            {{--STATUS DO TITULO--}}
-                            <td>
-                              @if ($banner->status_banner == 'ATIVO')
+                              @if ($cliente->status_cliente == 'ATIVO')
                                 <span class="badge text-bg-success">Ativo</span>
                               @else
                                 <span class="badge text-bg-warning">Inativo</span>
                               @endif
                             </td>
 
-                            {{--STATUS--}}
+                            {{--AÇÕES--}}
                             <td class="text-end">
                               <div class="btn-group btn-group-sm">
                                 <button
@@ -138,8 +151,8 @@
                                   type="button"
                                   class="btn btn-outline-danger"
                                   data-bs-toggle="modal"
-                                  data-bs-target="#modal-delete-banner"
-                                  aria-label="DeletAR"
+                                  data-bs-target="#modal-delete-cliente"
+                                  aria-label="Deletar"
                                 >
                                   <i class="bi bi-trash" aria-hidden="true"> </i>
                                 </button>
@@ -148,8 +161,8 @@
                           </tr>
                           @empty
                             <tr>
-                              <td colspan="5" class="text-center py-4 text-muted">
-                                Nenhum banner encontrado.
+                              <td colspan="6" class="text-center py-4 text-muted">
+                                Nenhum cliente encontrado.
                               </td>
                             </tr>
                           @endforelse
@@ -162,9 +175,9 @@
                   <!--begin::Card Footer-->
                   <div class="card-footer clearfix">
                     <div class="float-start pt-1 fs-7 text-body-secondary">
-                      Total de banners:
+                      Total de Clientes:
                       <strong>
-                        {{ $listaBanner->count() }}
+                        {{ $listaClientes->count() }}
                       </strong>
                     </div>
                     <ul class="pagination pagination-sm m-0 float-end">

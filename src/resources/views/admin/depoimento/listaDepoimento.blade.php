@@ -7,13 +7,13 @@
             <!--begin::Row-->
             <div class="row">
               <div class="col-sm-6">
-                <h1 class="mb-0 fs-3">Banners</h1>
+                <h1 class="mb-0 fs-3">Depoimentos</h1>
               </div>
               <div class="col-sm-6">
                 <nav aria-label="breadcrumb">
                   <ol class="breadcrumb float-sm-end">
-                    <li class="breadcrumb-item"><a href="{{ route('admin.banner.index') }}">Home</a></li>
-                    <li class="breadcrumb-item active" aria-current="page">Banners</li>
+                    <li class="breadcrumb-item"><a href="{{ route('admin.depoimento.index') }}">Home</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Depoimentos</li>
                   </ol>
                 </nav>
               </div>
@@ -36,7 +36,7 @@
                   <div class="card-header">
                     <div class="row g-2 align-items-center">
                       <div class="col-12 col-md-4">
-                        <h3 class="card-title">Banner cadastrados</h3>
+                        <h3 class="card-title">Depoimentos cadastrados</h3>
                       </div>
                       <div class="col-12 col-md-8">
                         <div class="d-flex flex-wrap justify-content-md-end gap-2">
@@ -46,14 +46,14 @@
                             </span>
                             <input
                               type="search"
-                              id="banner-search"
+                              id="depoimento-search"
                               class="form-control admin-search-input"
-                              placeholder="Pesquisar banners"
-                              aria-label="Pesquisar banners"
+                              placeholder="Pesquisar depoimentos"
+                              aria-label="Pesquisar depoimentos"
                             />
                           </div>
                           <select
-                            id="banner-role-filter"
+                            id="depoimento-role-filter"
                             class="form-select form-select-sm w-auto"
                             aria-label="Filtrar por status"
                           >
@@ -82,8 +82,9 @@
                         <thead>
                           <tr>
                             <th>Id</th>
-                            <th>Imagem</th>
-                            <th>Título</th>
+                            <th>Titulo</th>
+                            <th>Descrição</th>
+                            <th>Nota</th>
                             <th>Status</th>
                             <th class="text-end">Ações</th>
                           </tr>
@@ -91,40 +92,38 @@
                         <tbody>
 
                       {{--CONTEUDO DA TABELA--}}    
-                        @forelse ($listaBanner as $banner)
+                        @forelse ($listaDepoimento as $depoimento)
                           <tr>
-                            {{--ID BANNER--}}
+                            {{--ID DEPOIMENTO--}}
                             <td>
-                              {{ $banner->id_banner }}
+                              {{ $depoimento->id_depoimento }}
                             </td>
 
-                            {{--IMAGEM BANNER--}}
+                            {{--TITULO DEPOIMENTO--}}
                             <td>
-                              @if ($banner->imagem_banner)
-                                <img
-                                  src="{{ asset('barista/assets/' . $banner->imagem_banner) }}"
-                                  alt="{{ $banner->titulo_banner }}"
-                                  class="rounded admin-table-thumbnail"
-                                />
-                              @else
-                                <span class="text-muted">Sem imagem</span>
-                              @endif
+                              {{ $depoimento->titulo_depoimento }}
                             </td>
 
-                            {{--TITULO BANNER--}}
+                            {{--DESCRIÇÃO DEPOIMENTO--}}
                             <td>
-                              <span class="badge admin-record-label">{{ $banner->titulo_banner }}</span>
+                              {{ $depoimento->descricao_depoimento }}
                             </td>
-                            {{--STATUS DO TITULO--}}
+
+                            {{--NOTA DEPOIMENTO--}}
                             <td>
-                              @if ($banner->status_banner == 'ATIVO')
+                              {{ $depoimento->nota_depoimento }}
+                            </td>
+
+                            {{--STATUS DEPOIMENTO--}}
+                            <td>
+                              @if ($depoimento->status_depoimento == 'ATIVO')
                                 <span class="badge text-bg-success">Ativo</span>
                               @else
                                 <span class="badge text-bg-warning">Inativo</span>
                               @endif
                             </td>
 
-                            {{--STATUS--}}
+                            {{--AÇÕES--}}
                             <td class="text-end">
                               <div class="btn-group btn-group-sm">
                                 <button
@@ -138,8 +137,8 @@
                                   type="button"
                                   class="btn btn-outline-danger"
                                   data-bs-toggle="modal"
-                                  data-bs-target="#modal-delete-banner"
-                                  aria-label="DeletAR"
+                                  data-bs-target="#modal-delete-depoimento"
+                                  aria-label="Deletar"
                                 >
                                   <i class="bi bi-trash" aria-hidden="true"> </i>
                                 </button>
@@ -148,8 +147,8 @@
                           </tr>
                           @empty
                             <tr>
-                              <td colspan="5" class="text-center py-4 text-muted">
-                                Nenhum banner encontrado.
+                              <td colspan="6" class="text-center py-4 text-muted">
+                                Nenhum depoimento encontrado.
                               </td>
                             </tr>
                           @endforelse
@@ -162,9 +161,9 @@
                   <!--begin::Card Footer-->
                   <div class="card-footer clearfix">
                     <div class="float-start pt-1 fs-7 text-body-secondary">
-                      Total de banners:
+                      Total de Depoimentos:
                       <strong>
-                        {{ $listaBanner->count() }}
+                        {{ $listaDepoimento->count() }}
                       </strong>
                     </div>
                     <ul class="pagination pagination-sm m-0 float-end">

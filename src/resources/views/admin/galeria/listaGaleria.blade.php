@@ -7,13 +7,13 @@
             <!--begin::Row-->
             <div class="row">
               <div class="col-sm-6">
-                <h1 class="mb-0 fs-3">Banners</h1>
+                <h1 class="mb-0 fs-3">Galerias</h1>
               </div>
               <div class="col-sm-6">
                 <nav aria-label="breadcrumb">
                   <ol class="breadcrumb float-sm-end">
-                    <li class="breadcrumb-item"><a href="{{ route('admin.banner.index') }}">Home</a></li>
-                    <li class="breadcrumb-item active" aria-current="page">Banners</li>
+                    <li class="breadcrumb-item"><a href="{{ route('admin.galeria.index') }}">Home</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Galerias</li>
                   </ol>
                 </nav>
               </div>
@@ -36,7 +36,7 @@
                   <div class="card-header">
                     <div class="row g-2 align-items-center">
                       <div class="col-12 col-md-4">
-                        <h3 class="card-title">Banner cadastrados</h3>
+                        <h3 class="card-title">Imagens cadastradas</h3>
                       </div>
                       <div class="col-12 col-md-8">
                         <div class="d-flex flex-wrap justify-content-md-end gap-2">
@@ -46,14 +46,14 @@
                             </span>
                             <input
                               type="search"
-                              id="banner-search"
+                              id="Imagens-search"
                               class="form-control admin-search-input"
-                              placeholder="Pesquisar banners"
-                              aria-label="Pesquisar banners"
+                              placeholder="Pesquisar imagens"
+                              aria-label="Pesquisar imagens"
                             />
                           </div>
                           <select
-                            id="banner-role-filter"
+                            id="galeria-role-filter"
                             class="form-select form-select-sm w-auto"
                             aria-label="Filtrar por status"
                           >
@@ -91,19 +91,19 @@
                         <tbody>
 
                       {{--CONTEUDO DA TABELA--}}    
-                        @forelse ($listaBanner as $banner)
+                        @forelse ($listaGaleria as $galeria)
                           <tr>
-                            {{--ID BANNER--}}
+                            {{--ID GALERIA--}}
                             <td>
-                              {{ $banner->id_banner }}
+                              {{ $galeria->id_galeria }}
                             </td>
 
-                            {{--IMAGEM BANNER--}}
+                            {{--IMAGEM GALERIA--}}
                             <td>
-                              @if ($banner->imagem_banner)
+                              @if ($galeria->imagem_galeria)
                                 <img
-                                  src="{{ asset('barista/assets/' . $banner->imagem_banner) }}"
-                                  alt="{{ $banner->titulo_banner }}"
+                                  src="{{ asset('barista/assets/' . $galeria->imagem_galeria) }}"
+                                  alt="{{ $galeria->nome_galeria }}"
                                   class="rounded admin-table-thumbnail"
                                 />
                               @else
@@ -111,13 +111,13 @@
                               @endif
                             </td>
 
-                            {{--TITULO BANNER--}}
+                            {{--NOME GALERIA--}}
                             <td>
-                              <span class="badge admin-record-label">{{ $banner->titulo_banner }}</span>
+                              <span class="badge admin-record-label">{{ $galeria->nome_galeria }}</span>
                             </td>
-                            {{--STATUS DO TITULO--}}
+                            {{--STATUS DO NOME--}}
                             <td>
-                              @if ($banner->status_banner == 'ATIVO')
+                              @if ($galeria->status_galeria == 'ATIVO')
                                 <span class="badge text-bg-success">Ativo</span>
                               @else
                                 <span class="badge text-bg-warning">Inativo</span>
@@ -138,7 +138,7 @@
                                   type="button"
                                   class="btn btn-outline-danger"
                                   data-bs-toggle="modal"
-                                  data-bs-target="#modal-delete-banner"
+                                  data-bs-target="#modal-delete-galeria"
                                   aria-label="DeletAR"
                                 >
                                   <i class="bi bi-trash" aria-hidden="true"> </i>
@@ -149,7 +149,7 @@
                           @empty
                             <tr>
                               <td colspan="5" class="text-center py-4 text-muted">
-                                Nenhum banner encontrado.
+                                Nenhum galeria encontrado.
                               </td>
                             </tr>
                           @endforelse
@@ -162,9 +162,9 @@
                   <!--begin::Card Footer-->
                   <div class="card-footer clearfix">
                     <div class="float-start pt-1 fs-7 text-body-secondary">
-                      Total de banners:
+                      Total de Imagens:
                       <strong>
-                        {{ $listaBanner->count() }}
+                        {{ $listaGaleria->count() }}
                       </strong>
                     </div>
                     <ul class="pagination pagination-sm m-0 float-end">

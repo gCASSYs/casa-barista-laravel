@@ -1,11 +1,9 @@
-      <footer class="app-footer">
-        <!--begin::To the end-->
-        <div class="float-end d-none d-sm-inline">Criado e Desenvolvido por TIPI06 - Senac SMP</div>
-        <!--end::To the end-->
-        <!--begin::Copyright-->
-        <strong>
-          Copyright &copy; 2014-2026&nbsp;
-          <!-- <a href="https://adminlte.io" class="text-decoration-none">AdminLTE.io</a>. -->
-        </strong>
-        <!--end::Copyright-->
-      </footer>
+<footer class="app-footer barista-footer">
+  <div class="d-flex flex-column flex-sm-row align-items-sm-center justify-content-between gap-2">
+    <span class="barista-footer-brand">
+      <i class="bi bi-cup-hot-fill me-2" aria-hidden="true"></i>
+      Casa do Barista
+    </span>
+    <span>Desenvolvido por TIPI06 &middot; Senac SMP &middot; 2026</span>
+  </div>
+</footer>

@@ -1,12 +1,12 @@
 <!doctype html>
-<html lang="en">
+<html lang="pt-BR">
   <!--begin::Head-->
     <head>
         @include('partials.admin.head-admin')
     </head>
   <!--end::Head-->
   <!--begin::Body-->
-  <body class="layout-fixed sidebar-expand-lg bg-body-tertiary">
+  <body class="layout-fixed sidebar-expand-lg barista-admin">
     <!--begin::App Wrapper-->
     <div class="app-wrapper">
       <!--begin::Header-->
@@ -52,9 +52,9 @@
           <!--begin::Container-->
           <div class="container-fluid">
             <!--begin::Row-->
-            <main>
+            <div class="admin-content-slot">
               @yield('content')
-            </main>
+            </div>
             <!--end::Row-->
             <!--begin::Row-->
             

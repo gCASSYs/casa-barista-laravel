@@ -1,4 +1,3 @@
-  <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title>Área Administrativa</title>
 
@@ -46,20 +45,20 @@
     <!--begin::Accessibility Meta Tags-->
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
     <meta name="color-scheme" content="light dark" />
-    <meta name="theme-color" content="#007bff" media="(prefers-color-scheme: light)" />
-    <meta name="theme-color" content="#1a1a1a" media="(prefers-color-scheme: dark)" />
+    <meta name="theme-color" content="#f3e8d6" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#160f0c" media="(prefers-color-scheme: dark)" />
     <!--end::Accessibility Meta Tags-->
 
     <!--begin::Primary Meta Tags-->
     <meta name="title" content="Área Administrativa" />
-    <meta name="author" content="ColorlibHQ" />
+    <meta name="author" content="Casa do Barista" />
     <meta
       name="description"
-      content="AdminLTE is a free Bootstrap 5 admin dashboard template with almost 50 example pages, built with vanilla JS and designed with accessibility in mind."
+      content="Painel administrativo da Casa do Barista."
     />
     <meta
       name="keywords"
-      content="bootstrap 5, bootstrap, bootstrap 5 admin dashboard, bootstrap 5 dashboard, bootstrap 5 charts, bootstrap 5 calendar, bootstrap 5 datepicker, bootstrap 5 tables, bootstrap 5 datatable, vanilla js datatable, colorlibhq, colorlibhq dashboard, colorlibhq admin dashboard, accessible admin panel"
+      content="Casa do Barista, painel administrativo, café"
     />
     <!--end::Primary Meta Tags-->
 
@@ -69,16 +68,7 @@
     <link rel="preload" href= "{{ asset('admin/css/adminlte.css') }}" as="style" />
     <!--end::Accessibility Features-->
 
-    <!--begin::Fonts-->
-    <link
-      rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/@fontsource/source-sans-3@5.0.12/index.css"
-      integrity="sha256-tXJfXfp6Ewt1ilPzLDtQnJV4hclT9XuaZUKyUvmyr+Q="
-      crossorigin="anonymous"
-      media="print"
-      onload="this.media = 'all'"
-    />
-    <!--end::Fonts-->
+    <link rel="icon" type="image/png" sizes="32x32" href="{{ asset('barista/assets/icon/favicon-32x32.png') }}" />
 
     <!--begin::Third Party Plugin(OverlayScrollbars)-->
     <link
@@ -116,5 +106,4 @@
       crossorigin="anonymous"
     />
 
-    <link rel="stylesheet" href="{{ asset('admin/css/style.css') }}" />
-  </head>
+    <link rel="stylesheet" href="{{ asset('admin/css/style.css') }}?v={{ filemtime(public_path('admin/css/style.css')) }}" />
