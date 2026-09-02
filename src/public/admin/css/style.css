@@ -179,15 +179,6 @@ a, button, input, select, textarea {
   align-items: center;
 }
 
-.admin-page-header h1::after {
-  display: block;
-  width: 42px;
-  height: 3px;
-  margin-top: 0.45rem;
-  border-radius: 999px;
-  background: var(--barista-caramel);
-  content: "";
-}
 
 .card, .modal-content, .dropdown-menu { color: var(--barista-text); background: var(--barista-surface); border-color: var(--barista-border); }
 .card { border: 1px solid var(--barista-border); border-radius: 0.8rem; box-shadow: var(--barista-shadow); overflow: hidden; }
