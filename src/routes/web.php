@@ -16,6 +16,7 @@ use App\Http\Controllers\Admin\ProdutoController;
 use App\Http\Controllers\Admin\LinhaTempoController;
 use App\Http\Controllers\Admin\NewsController;
 use App\Http\Controllers\Admin\CategoriaController;
+use App\Http\Controllers\Admin\UsuariosController;
 
 Route::get('/', [HomeController::class, 'home'])->name('home');
 Route::get('/sobre', [SobreController::class, 'sobre'])->name('sobre');
@@ -60,3 +61,6 @@ Route::get('/admin/categoria', [CategoriaController::class, 'index'])->name('adm
 
 //PARTE DO DASHBOARD DA NEWSLATTER
 Route::get('/admin/news', [NewsController::class, 'index'])->name('admin.news.index');
+
+//PARTE DO DASHBOARD DOS USUÁRIOS
+Route::get('/admin/usuarios', [UsuariosController::class, 'index'])->name('admin.usuarios.index');

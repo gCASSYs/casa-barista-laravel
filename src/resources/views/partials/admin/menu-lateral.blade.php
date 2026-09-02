@@ -83,6 +83,12 @@
                   <p>Cliente</p>
                 </a>
               </li>
+               <li class="nav-item">
+                <a href="{{ route('admin.usuarios.index') }}" class="nav-link {{ request()->routeIs('admin.usuarios.*') ? 'active' : '' }}" @if(request()->routeIs('admin.usuarios.*')) aria-current="page" @endif>
+                  <i class="nav-icon bi bi-person-circle"></i>
+                  <p>Usuários</p>
+                </a>
+              </li>
 
               <li class="nav-header">SITE</li>
               
