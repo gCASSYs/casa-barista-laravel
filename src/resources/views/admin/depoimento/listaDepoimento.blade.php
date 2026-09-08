@@ -84,6 +84,7 @@
                             <th>Id</th>
                             <th>Titulo</th>
                             <th>Descrição</th>
+                            <th>Cliente</th>
                             <th>Nota</th>
                             <th>Status</th>
                             <th class="text-end">Ações</th>
@@ -98,6 +99,20 @@
                             <td>
                               {{ $depoimento->id_depoimento }}
                             </td>
+                            
+         
+                           <td>
+                              @if ($depoimento->id_cliente)
+                                <img
+                                  src="{{ asset('barista/assets/clientes/' . $depoimento->foto_cliente) }}"
+                                  alt="{{ $depoimento->nome_cliente }}"
+                                  class="rounded admin-table-thumbnail"
+                                />
+                              @else
+                                <span class="text-muted">Sem Foto</span>
+                              @endif
+                            </td>
+
 
                             {{--TITULO DEPOIMENTO--}}
                             <td>
