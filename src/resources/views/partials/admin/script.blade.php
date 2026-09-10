@@ -10,7 +10,8 @@
   src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.min.js"
   crossorigin="anonymous"
 ></script>
-<script src="{{ asset('admin/js/adminlte.js') }}"></script>
+  <script src="{{ asset('admin/js/adminlte.js') }}"></script>
+  <script src="{{ asset('admin/js/script.js') }}"></script>
 <script
   src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js"
   crossorigin="anonymous"

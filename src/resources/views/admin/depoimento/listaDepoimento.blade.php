@@ -102,10 +102,10 @@
                             
          
                            <td>
-                              @if ($depoimento->id_cliente)
+                              @if ($depoimento->DepoimentoCliente?->foto_cliente)
                                 <img
-                                  src="{{ asset('barista/assets/clientes/' . $depoimento->foto_cliente) }}"
-                                  alt="{{ $depoimento->nome_cliente }}"
+                                  src="{{ asset('barista/assets/' . $depoimento->DepoimentoCliente->foto_cliente) }}"
+                                  alt="{{ $depoimento->DepoimentoCliente->nome_cliente }}"
                                   class="rounded admin-table-thumbnail"
                                 />
                               @else

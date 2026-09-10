@@ -1,4 +1,5 @@
-      <!--begin::App Main-->
+   <main class="app-main">
+    <!--begin::App Main-->
       <section class="admin-list-page">
         <!--begin::App Content Header-->
         <div class="app-content-header admin-page-header">
@@ -65,10 +66,10 @@
                             type="button"
                             class="btn btn-sm btn-primary"
                             data-bs-toggle="modal"
-                            data-bs-target="#modal-add-user"
+                            data-bs-target="#modal-add-banner"
                           >
                             <i class="bi bi-plus-lg me-1" aria-hidden="true"> </i>
-                            Novo registro
+                            Novo Banner
                           </button>
                         </div>
                       </div>
@@ -131,6 +132,7 @@
                                   type="button"
                                   class="btn btn-outline-secondary"
                                   aria-label="Editar"
+                                  submit="{{ $banner->id_banner }}"
                                 >
                                   <i class="bi bi-pencil" aria-hidden="true"> </i>
                                 </button>
@@ -139,7 +141,7 @@
                                   class="btn btn-outline-danger"
                                   data-bs-toggle="modal"
                                   data-bs-target="#modal-delete-banner"
-                                  aria-label="DeletAR"
+                                  aria-label="Deletar"
                                 >
                                   <i class="bi bi-trash" aria-hidden="true"> </i>
                                 </button>
@@ -199,19 +201,24 @@
             </div>
             <!--end::Row-->
 
-            <!--begin::Add User Modal-->
+            <!--begin::Add Banner Modal-->
             <div
               class="modal fade"
-              id="modal-add-user"
+              id="modal-add-banner"
               tabindex="-1"
-              aria-labelledby="modal-add-user-label"
+              aria-labelledby="modal-add-banner-label"
               aria-hidden="true"
             >
               <div class="modal-dialog">
                 <div class="modal-content">
-                  <form>
+                  {{-- FORMA DE CADASTRO --}}
+                  <form
+                  action="{{ route('admin.banner.store') }}"
+                  method="POST" 
+                  enctype="multipart/form-data">
+                  @csrf {{-- o csrf é um chave de acesso para cada vez que for mandar um formulario, é segurança --}}
                     <div class="modal-header">
-                      <h5 class="modal-title" id="modal-add-user-label">Add new user</h5>
+                      <h5 class="modal-title" id="modal-add-banner-label">Adicionar novo Banner</h5>
                       <button
                         type="button"
                         class="btn-close"
@@ -220,59 +227,74 @@
                       ></button>
                     </div>
                     <div class="modal-body">
+
+                      {{-- FORM TITULO --}}
                       <div class="mb-3">
-                        <label for="new-user-name" class="form-label"> Full name </label>
+                        <label for="new-user-name" class="form-label"> Título Banner </label>
                         <input
                           type="text"
                           class="form-control"
                           id="new-user-name"
-                          placeholder="e.g. Jane Doe"
+                          placeholder="Promoção de Verão"
                           required
+                          name="titulo_banner"
                         />
                       </div>
+
+                     {{-- FORM IMAGEM --}}
                       <div class="mb-3">
-                        <label for="new-user-email" class="form-label"> Email address </label>
+                        <label for="img-banner" class="form-label"> Selecione uma Imagem </label>
+                        
                         <input
-                          type="email"
-                          class="form-control"
-                          id="new-user-email"
-                          placeholder="name@example.com"
+                          type="file"
+                          class="input-banner"
+                          id="img-banner"
                           required
+                          name="imagem_banner"
+                          accept="image/*"
                         />
-                        <div class="form-text">The invitation will be sent to this address.</div>
+
+                        <label
+                          for="img-banner"
+                          class="banner-upload"
+                          id="banner-upload-trigger"
+                          role="button"
+                          tabindex="0"
+                          aria-label="Selecionar imagem do banner"
+                        >
+                          <img id="ver-banner" src="{{ asset('barista/assets/admin/sem-banner.svg') }}" alt="Prévia do banner" />
+                          <span class="banner-upload-overlay" aria-hidden="true">
+                            <i class="bi bi-image"></i>
+                            <span class="form-text mb-0">Clique para selecionar o banner</span>
+                          </span>
+                        </label>
+
+
                       </div>
+
+                      {{-- FORM STATUS --}}
                       <div class="mb-3">
-                        <label for="new-user-role" class="form-label"> Role </label>
-                        <select id="new-user-role" class="form-select">
-                          <option selected>Subscriber</option>
-                          <option>Author</option>
-                          <option>Editor</option>
-                          <option>Administrator</option>
+                        <label for="new-banner-role" class="form-label"> Status </label>
+                        <select id="new-banner-role" class="form-select" name="status_banner">
+                          <option value="ATIVO">Ativo</option>
+                          <option value="INATIVO">Inativo</option>
                         </select>
                       </div>
-                      <div class="form-check">
-                        <input
-                          class="form-check-input"
-                          type="checkbox"
-                          id="new-user-welcome"
-                          checked
-                        />
-                        <label class="form-check-label" for="new-user-welcome">
-                          Send a welcome email with login details
-                        </label>
-                      </div>
+
+                      
                     </div>
                     <div class="modal-footer">
                       <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
-                        Cancel
+                        Cancelar
                       </button>
-                      <button type="submit" class="btn btn-primary">Create user</button>
+                      <button type="submit" class="btn btn-primary">Salvar</button>
                     </div>
                   </form>
+                  {{-- FINAL DO FORMA DE CADASTRO --}}
                 </div>
               </div>
             </div>
-            <!--end::Add User Modal-->
+            <!--end::Add Banner Modal-->
 
             <!--begin::Delete User Modal-->
             <div
@@ -317,3 +339,22 @@
         <!--end::App Content-->
       </section>
       <!--end::App Main-->
+
+    </main>   
+      
+      <script>
+        const inputBanner = document.getElementById('img-banner');
+        const previewBanner = document.getElementById('ver-banner');
+ 
+       inputBanner.addEventListener('change', function() {
+ 
+        const arquivo = this.files[0];
+ 
+            if (arquivo) {
+    
+                previewBanner.src = URL.createObjectURL(arquivo);
+    
+            }
+ 
+        });
+      </script>

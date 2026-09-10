@@ -10,7 +10,9 @@ class DepoimentoController extends Controller
     //Lista todos os depoimentos cadastrados
     public function index()
     {
-        $listaDepoimento = Depoimento::orderBy('id_depoimento')->get();
+        $listaDepoimento = Depoimento::with('DepoimentoCliente')
+            ->orderBy('id_depoimento')
+            ->get();
 
         
         return view('admin.depoimento.index', compact('listaDepoimento'));
