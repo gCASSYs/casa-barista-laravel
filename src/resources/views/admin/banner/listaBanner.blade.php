@@ -233,12 +233,16 @@
                         <label for="new-user-name" class="form-label"> Título Banner </label>
                         <input
                           type="text"
-                          class="form-control"
+                          class="form-control @error('titulo_banner') is-invalid @enderror"
                           id="new-user-name"
                           placeholder="Promoção de Verão"
                           required
                           name="titulo_banner"
+                          value="{{ old('titulo_banner') }}"
                         />
+                        @error('titulo_banner')
+                          <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
                       </div>
 
                      {{-- FORM IMAGEM --}}
