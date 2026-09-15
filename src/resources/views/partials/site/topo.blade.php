@@ -27,7 +27,7 @@
                     <li><a class="menu-ativo" href="{{ route ('contato') }}">Contato</a></li>
                 </ul>
 
-                <a href="#" class="login">
+                <a href=" {{ route('dashboard') }}" class="login">
                     <img src="{{ asset ('barista/assets/login.png') }}" alt="Login Casa do Barista">
                 </a>
 

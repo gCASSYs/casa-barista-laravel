@@ -5,6 +5,7 @@
         <div class="app-content-header admin-page-header">
           <!--begin::Container-->
           <div class="container-fluid">
+
             <!--begin::Row-->
             <div class="row">
               <div class="col-sm-6">
@@ -15,6 +16,7 @@
                   <ol class="breadcrumb float-sm-end">
                     <li class="breadcrumb-item"><a href="{{ route('admin.banner.index') }}">Home</a></li>
                     <li class="breadcrumb-item active" aria-current="page">Banners</li>
+
                   </ol>
                 </nav>
               </div>
@@ -23,6 +25,22 @@
           </div>
           <!--end::Container-->
         </div>
+           {{-- Exibe a confirmação enviada pelo controller após cadastrar um banner. --}}
+            @if (session('sucesso'))
+              <div class="alert alert-success alert-dismissible fade show" role="alert">
+                <i class="bi bi-check-circle-fill" aria-hidden="true"></i>
+                {{ session('sucesso') }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Fechar"></button>
+              </div>
+            @endif
+            {{-- Exibe uma mensagem simples quando o cadastro não puder ser concluído. --}}
+            @if (session('erro'))
+              <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                 <i class="bi bi-exclamation-triangle-fill" aria-hidden="true"></i>
+                {{ session('erro') }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Fechar"></button>
+              </div>
+            @endif
         <!--end::App Content Header-->
         <!--begin::App Content-->
         <div class="app-content">
@@ -272,8 +290,10 @@
                             <span class="form-text mb-0">Clique para selecionar o banner</span>
                           </span>
                         </label>
-
-
+                        {{-- Mostra a mensagem se o envio da imagem falhar. --}}
+                        @error('imagem_banner')
+                          <div class="text-danger small mt-2">{{ $message }}</div>
+                        @enderror
                       </div>
 
                       {{-- FORM STATUS --}}
