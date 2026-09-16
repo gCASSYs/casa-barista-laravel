@@ -149,11 +149,22 @@
                                 <button
                                   type="button"
                                   class="btn btn-outline-secondary"
+                                  data-bs-toggle="modal"
+                                  data-bs-target="#modal-edit-banner"
+                                  data-id="{{ $banner->id_banner }}"
+                                  data-titulo="{{ $banner->titulo_banner }}"
+                                  data-status="{{ $banner->status_banner }}"
+                                  data-image="{{ asset('barista/assets/' . $banner->imagem_banner) }}"
+                                  data-url="{{ route('admin.banner.status', $banner->id_banner) }}"
                                   aria-label="Editar"
-                                  submit="{{ $banner->id_banner }}"
+                                  {{-- submit="{{ $banner->id_banner }}"  --}}
                                 >
                                   <i class="bi bi-pencil" aria-hidden="true"> </i>
                                 </button>
+
+
+
+
                                 <button
                                   type="button"
                                   class="btn btn-outline-danger"
@@ -161,7 +172,7 @@
                                   data-bs-target="#modal-delete-banner"
                                   aria-label="Deletar"
                                 >
-                                  <i class="bi bi-trash" aria-hidden="true"> </i>
+                                  <i class="bi bi-eye" aria-hidden="true"> </i>
                                 </button>
                               </div>
                             </td>
@@ -320,6 +331,109 @@
             </div>
             <!--end::Add Banner Modal-->
 
+            {{-- INICIO MODAL EDITAR BANNER --}}
+            <div
+              class="modal fade"
+              id="modal-edit-banner"
+              tabindex="-1"
+              aria-labelledby="modal-add-banner-label"
+              aria-hidden="true"
+            >
+              <div class="modal-dialog">
+                <div class="modal-content">
+                  {{-- FORM DE ATUALIZAÇÃO --}}
+                  <form
+                  id = 'form-edit-banner'
+                  method="POST" 
+                  enctype="multipart/form-data">
+                  @csrf {{-- o csrf é um chave de acesso para cada vez que for mandar um formulario, é segurança --}}
+                  @method('PUT') {{-- o method put é para atualizar o registro --}}
+                    <div class="modal-header">
+                      <h5 class="modal-title" id="modal-add-banner-label">Editar novo banner</h5>
+                      <button
+                        type="button"
+                        class="btn-close"
+                        data-bs-dismiss="modal"
+                        aria-label="Close"
+                      ></button>
+                    </div>
+                    <div class="modal-body">
+
+                      {{-- FORM TITULO --}}
+                      <div class="mb-3">
+                        <label for="edit-banner-titulo" class="form-label"> Título Banner </label>
+                        <input
+                          type="text"
+                          class="form-control @error('titulo_banner') is-invalid @enderror"
+                          id="edit-banner-titulo"
+                          required
+                          name="titulo_banner"
+                        />
+                        @error('titulo_banner')
+                          <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+                      </div>
+
+                     {{-- FORM IMAGEM --}}
+                      <div class="mb-3">
+                        <label for="edit-banner-imagem" class="form-label"> Selecione uma Imagem </label>
+
+                        
+                        
+                        <input
+                          type="file"
+                          class="input-banner"
+                          id="edit-banner-imagem"
+                          required
+                          name="imagem_banner"
+                          accept="image/*"
+                        />
+
+                    <label
+                          for="edit-banner-imagem"
+                          class="banner-upload"
+                          id="edit-banner-upload-trigger"
+                          role="button"
+                          tabindex="0"
+                          aria-label="Selecionar imagem do banner"
+                        >
+                      <span class="banner-upload-overlay" aria-hidden="true">
+                        <div class="mb-3">
+                          <img id="edit-banner-mostrar" src="" alt="" />
+                        </div>
+                            
+                            <span class="form-text mb-0">Deixe vazio para manter a imagem atual</span>
+                      </span>
+                    </label>
+                        {{-- Mostra a mensagem se o envio da imagem falhar. --}}
+                        @error('imagem_banner')
+                          <div class="text-danger small mt-2">{{ $message }}</div>
+                        @enderror
+                      </div>
+
+                      {{-- FORM STATUS --}}
+                      <div class="mb-3">
+                        <label for="edit-banner-status" class="form-label"> Status </label>
+                        <select id="edit-banner-status" class="form-select" name="status_banner">
+                          <option value="ATIVO">Ativo</option>
+                          <option value="INATIVO">Inativo</option>
+                        </select>
+                      </div>
+
+                      
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                        Cancelar
+                      </button>
+                      <button type="submit" class="btn btn-primary">Atualizar Banner</button>
+                    </div>
+                  </form>
+                  {{-- FINAL DO FORMA DE CADASTRO --}}
+                </div>
+              </div>
+            </div>
+            {{-- FINAL - EDITAL MODAL BANNER --}}
             <!--begin::Delete User Modal-->
             <div
               class="modal fade"
@@ -366,6 +480,7 @@
 
     </main>   
       
+      {{-- CARREGANDO IMG BANNER --}}
       <script>
         const inputBanner = document.getElementById('img-banner');
         const previewBanner = document.getElementById('ver-banner');
@@ -381,4 +496,56 @@
             }
  
         });
+      </script>
+
+
+      <script>
+        const modalEditarBanner = document.getElementById('modal-edit-banner');
+        const formEditBanner = document.getElementById('form-edit-banner');
+        const editId = document.getElementById('edit-banner-id');
+        const editTitulo = document.getElementById('edit-banner-titulo');
+        const editStatus = document.getElementById('edit-banner-status');
+        const editImagem = document.getElementById('edit-banner-imagem');
+        const editMostrar = document.getElementById('edit-banner-mostrar');
+
+
+        //CARREGAR AS INFORMAÇÕES NO MODAL
+        modalEditarBanner.addEventListener('show.bs.modal', function (event) {
+
+          const botao = event.relatedTarget;
+
+          const id = botao.getAttribute('data-id');
+          const titulo = botao.getAttribute('data-titulo');
+          const status = botao.getAttribute('data-status');
+          const image = botao.getAttribute('data-image');
+          const url = botao.getAttribute('data-url');
+
+          //form Action para enviar o formulario para a rota correta
+          formEditBanner.action = url;
+
+          //Preencher os campos
+          editTitulo.value = titulo;
+          editStatus.value = status;
+          editMostrar.src = image;
+
+          console.log(editMostrar)
+
+          editImagem.value = '';
+
+        });
+
+        //VER FOTO PARA EDITAR
+        editImagem.addEventListener('change', function() {
+ 
+        const arquivo = this.files[0];
+ 
+            if (arquivo) {
+    
+                editMostrar.src = URL.createObjectURL(arquivo);
+    
+            }
+ 
+        });
+
+
       </script>

@@ -42,12 +42,12 @@ Route::prefix('admin')->group(function () {
     //CRUD DO BANNER:
     //CADASTRAR BANNER
     Route::post('/banner', [BannerController::class, 'store'])->name('admin.banner.store');
-    //ABRIR O FORM DE EDITAR BANNER
-    Route::get('/banner/{id}/editar', [BannerController::class, 'edit'])->name('admin.banner.edit');
+    //ABRIR O FORM DE EDITAR  (nao vamos usar o edit pois vai abrir na mesma pagina do index, entao vamos usar o modal para editar)
+    //Route::get('/banner/{id}/editar', [BannerController::class, 'edit'])->name('admin.banner.edit');
     //ATUALIZAR BANNER
     Route::put('/banner/{id}', [BannerController::class, 'update'])->name('admin.banner.update');
     //ATIVAR OU DESATIVAR BANNER
-    Route::patch('/banner/{id}/status', [BannerController::class, 'status'])->name('admin.banner.status');
+    Route::patch('/banner/{id}', [BannerController::class, 'status'])->name('admin.banner.status');
 
     //PARTE DO DASHBOARD DA GALERIA
     Route::get('/galeria', [GaleriaController::class, 'index'])->name('admin.galeria.index');

@@ -10,8 +10,6 @@ use Illuminate\Support\Str;
 use Illuminate\Support\Facades\DB;
 
 class BannerController extends Controller
-
-
 {   
     //Lista todos os banners cadastrados
     public function index()
@@ -103,6 +101,137 @@ class BannerController extends Controller
         }
     }
 
+
+    //INCIO DE UPDATE   U
+    public function update (Request $request, int $id)
+    {
+    
+        // 1 - Validação dos dados recebidos do formulário
+        $dados = $request->validate([
+            'titulo_banner' => 'required|string|max:50',
+            'imagem_banner' => 'required|image|mimes:jpg,png,webp,jpeg|max:4096',
+            'status_banner' => 'required|in:ATIVO,INATIVO',
+        ]);
+
+        // 2 0 Buscar o banner pelo ID
+        $banner = Banner::findOrFail($id);
+
+        try {
+
+            //Titulo atual
+            $tituloSlung = Str::slug($dados['titulo_banner'], '_');
+            //Nome da imagem atual
+            $pasta = public_path('barista/assets/banner');
+
+            //caminho do arquivo atual
+            $caminhoArquivo = $banner->imagem_banner;
+
+            //caminho fisico da imagem atual
+            $imgAntiga = public_path('barista/assets/' . $banner->imagem_banner);
+            
+            
+            //CASO 1: NOVA IMAGEM
+
+            if($request->hasFile('imagem_banner')) {
+
+                // 3 - Receber a nova imagem enviada
+                $imagem = $request['imagem_banner'];
+
+                $extensao = strtolower($imagem->getClientOriginalExtension());
+
+                $nomeImg = $tituloImg . '_' . $banner->id_banner . '.' . $imagem->extension();
+
+                // Excluir a imagem anterior se ela existir
+                if (File::exists($imgAntiga)) {
+                    unlink($imgAntiga);
+                }
+
+
+                //salvar a nova imagem
+                $imagem->move($pasta, $nomeImg);
+                $caminhoArquivo = 'banner/' . $nomeImg;
+
+            }elseif ($banner->titulo_banner !== $request->titulo_banner) {
+                
+                // CASO 2: MESMA IMAGEM, MAS ALTEROU O TITULO
+
+                $extensao = pathinfo($banner->titulo_banner, PATHINFO_EXTENSION);
+
+                $nomeImg = $tituloImg . '_' . $banner->id_banner . '.' . $imagem->extension();
+
+                $novaImagem = public_path('barista/assets/banner/' . $nomeImg);
+
+
+                if (File::exists($imgAntiga)) {
+                    rename($imgAntiga, $novaImagem);
+
+                    $caminhoArquivo = 'banner/' . $nomeImg;
+                }
+            }
+            
+            
+           
+
+            // 7 - Redirecionar para a página de listagem com mensagem de sucesso
+            return redirect()->route('admin.banner.index')->with('sucesso', 'Banner: ' . $banner->titulo_banner . ' foi atualizado com sucesso!');
+
+        } catch (\Throwable $th) {
+          
+            // Registra os detalhes técnicos no log do Laravel.
+            report($th);
+
+            return redirect()
+                ->back()
+                ->withInput()
+                ->with('erro', 'Não foi possível atualizar o banner. Tente novamente.');
+        }
+
+    }//FIM DO UPDATE
+
+
+
+    //ATIVAR OU DESATIVAR BANNER  D  
+    public function status(Request $request, int $id){
+
+        try{
+
+            // Buscar o banner pelo ID
+            $banner = Banner::findOrFail($id);
+
+            // Alterna o status do banner entre ATIVO e INATIVO
+            $novoStatus = $banner->status_banner === 'ATIVO' ? 'INATIVO' : 'ATIVO';
+
+            $banner->update([
+                'status_banner' => $novoStatus,
+            ]);
+
+            $mensagem = $novoStatus === 'ATIVO' ? 'Banner ativado com sucesso!' : 'Banner desativado com sucesso!';
+
+            return redirect()
+            ->route('admin.banner.index')
+            ->with('sucesso', $mensagem);
+              
+
+        } catch (\Throwable $th) {
+
+            // Registra os detalhes técnicos no log do Laravel.
+            report($th);
+
+            return redirect()
+                ->back()
+                ->withInput()
+                ->with('erro', 'Não foi possível alterar o status do banner. Tente novamente.');
+
+        }
+
+
+    }
+
+         
+       
+
+    
+
 }
 
 /*
@@ -131,3 +260,4 @@ class BannerController extends Controller
 
     6. A transação e o try/catch desfazem o cadastro e removem a imagem se falhar.
 */
+
