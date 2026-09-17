@@ -109,17 +109,19 @@ class BannerController extends Controller
         // 1 - Validação dos dados recebidos do formulário
         $dados = $request->validate([
             'titulo_banner' => 'required|string|max:50',
-            'imagem_banner' => 'required|image|mimes:jpg,png,webp,jpeg|max:4096',
+            'imagem_banner' => 'nullable|image|mimes:jpg,png,webp,jpeg|max:4096',
             'status_banner' => 'required|in:ATIVO,INATIVO',
         ]);
+        
 
         // 2 0 Buscar o banner pelo ID
         $banner = Banner::findOrFail($id);
-
+       
         try {
 
             //Titulo atual
             $tituloSlung = Str::slug($dados['titulo_banner'], '_');
+            
             //Nome da imagem atual
             $pasta = public_path('barista/assets/banner');
 
@@ -129,24 +131,26 @@ class BannerController extends Controller
             //caminho fisico da imagem atual
             $imgAntiga = public_path('barista/assets/' . $banner->imagem_banner);
             
-            
+           // dd($caminhoArquivo);
+           
             //CASO 1: NOVA IMAGEM
 
             if($request->hasFile('imagem_banner')) {
-
+                 
                 // 3 - Receber a nova imagem enviada
                 $imagem = $request['imagem_banner'];
-
+                
                 $extensao = strtolower($imagem->getClientOriginalExtension());
-
-                $nomeImg = $tituloImg . '_' . $banner->id_banner . '.' . $imagem->extension();
-
+                
+                $nomeImg = $tituloSlung . '_' . $banner->id_banner . '.' . $extensao;
+                //dd($nomeImg);
+                
                 // Excluir a imagem anterior se ela existir
                 if (File::exists($imgAntiga)) {
                     unlink($imgAntiga);
                 }
 
-
+                
                 //salvar a nova imagem
                 $imagem->move($pasta, $nomeImg);
                 $caminhoArquivo = 'banner/' . $nomeImg;
@@ -155,10 +159,9 @@ class BannerController extends Controller
                 
                 // CASO 2: MESMA IMAGEM, MAS ALTEROU O TITULO
 
-                $extensao = pathinfo($banner->titulo_banner, PATHINFO_EXTENSION);
-
-                $nomeImg = $tituloImg . '_' . $banner->id_banner . '.' . $imagem->extension();
-
+                $extensao = pathinfo($banner->imagem_banner, PATHINFO_EXTENSION);
+                //dd($extensao);
+                $nomeImg = $tituloSlung . '_' . $banner->id_banner . '.' . $extensao;
                 $novaImagem = public_path('barista/assets/banner/' . $nomeImg);
 
 
@@ -169,11 +172,17 @@ class BannerController extends Controller
                 }
             }
             
-            
+            //ATUALIZAR NO BANCO 
+            $banner ->update([
+                'titulo_banner' => $dados['titulo_banner'],
+                // Será substituído pelo caminho final da imagem.
+                'imagem_banner' => $caminhoArquivo,
+                'status_banner' => $dados['status_banner'],
+            ]);
            
 
-            // 7 - Redirecionar para a página de listagem com mensagem de sucesso
-            return redirect()->route('admin.banner.index')->with('sucesso', 'Banner: ' . $banner->titulo_banner . ' foi atualizado com sucesso!');
+        // 7 - Redirecionar para a página de listagem com mensagem de sucesso
+         return redirect()->route('admin.banner.index')->with('sucesso', 'Banner: ' . $banner->titulo_banner . ' foi atualizado com sucesso!');
 
         } catch (\Throwable $th) {
           
