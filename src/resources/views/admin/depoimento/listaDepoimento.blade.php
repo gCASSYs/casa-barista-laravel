@@ -65,7 +65,7 @@
                             type="button"
                             class="btn btn-sm btn-primary"
                             data-bs-toggle="modal"
-                            data-bs-target="#modal-add-user"
+                            data-bs-target="#modal-add-depoimento"
                           >
                             <i class="bi bi-plus-lg me-1" aria-hidden="true"> </i>
                             Novo registro
@@ -131,7 +131,7 @@
 
                             {{--STATUS DEPOIMENTO--}}
                             <td>
-                              @if ($depoimento->status_depoimento == 'ATIVO')
+                              @if ($depoimento->status_depoimento == 'APROVADO')
                                 <span class="badge text-bg-success">Ativo</span>
                               @else
                                 <span class="badge text-bg-warning">Inativo</span>
@@ -145,6 +145,14 @@
                                   type="button"
                                   class="btn btn-outline-secondary"
                                   aria-label="Editar"
+                                  data-bs-toggle="modal"
+                                  data-bs-target="#modal-edit-depoimento"
+                                  data-url="{{ route('admin.depoimento.update', $depoimento->id_depoimento) }}"
+                                  data-id_cliente="{{ $depoimento->id_cliente }}"
+                                  data-titulo_depoimento="{{ $depoimento->titulo_depoimento }}"
+                                  data-descricao_depoimento="{{ $depoimento->descricao_depoimento }}"
+                                  data-nota_depoimento="{{ $depoimento->nota_depoimento }}"
+                                  data-status_depoimento="{{ $depoimento->status_depoimento }}"
                                 >
                                   <i class="bi bi-pencil" aria-hidden="true"> </i>
                                 </button>
@@ -152,7 +160,8 @@
                                   type="button"
                                   class="btn btn-outline-danger"
                                   data-bs-toggle="modal"
-                                  data-bs-target="#modal-delete-depoimento"
+                                  data-bs-target="#modal-status-depoimento"
+                                  data-status-url="{{ route('admin.depoimento.status', $depoimento->id_depoimento) }}"
                                   aria-label="Deletar"
                                 >
                                   <i class="bi bi-trash" aria-hidden="true"> </i>
@@ -329,5 +338,122 @@
           <!--end::Container-->
         </div>
         <!--end::App Content-->
+
+
+            {{-- MODAL: CADASTRO DE DEPOIMENTO --}}
+            <div class="modal fade" id="modal-add-depoimento" tabindex="-1" aria-hidden="true">
+              <div class="modal-dialog"><div class="modal-content">
+                <form action="{{ route('admin.depoimento.store') }}" method="POST">
+                  @csrf
+                  <div class="modal-header"><h5 class="modal-title">Adicionar Depoimento</h5><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div>
+                  <div class="modal-body">
+                      <div class="mb-3">
+                        <label for="add-depoimento-id_cliente" class="form-label">Cliente</label>
+                        <select id="add-depoimento-id_cliente" class="form-select" name="id_cliente" required>
+                          @foreach ($listaClientes as $opcao)
+                            <option value="{{ $opcao->id_cliente }}">{{ $opcao->nome_cliente }}</option>
+                          @endforeach
+                        </select>
+                      </div>
+                      <div class="mb-3">
+                        <label for="add-depoimento-titulo_depoimento" class="form-label">Título</label>
+                        <input id="add-depoimento-titulo_depoimento" type="text" class="form-control" name="titulo_depoimento"  required />
+                      </div>
+                      <div class="mb-3">
+                        <label for="add-depoimento-descricao_depoimento" class="form-label">Descrição</label>
+                        <textarea id="add-depoimento-descricao_depoimento" class="form-control" name="descricao_depoimento" required></textarea>
+                      </div>
+                      <div class="mb-3">
+                        <label for="add-depoimento-nota_depoimento" class="form-label">Nota</label>
+                        <input id="add-depoimento-nota_depoimento" type="number" step="0.01" class="form-control" name="nota_depoimento"  required />
+                      </div>
+                      <div class="mb-3">
+                        <label for="add-depoimento-status_depoimento" class="form-label">Status</label>
+                        <select id="add-depoimento-status_depoimento" class="form-select" name="status_depoimento">
+                          <option value="PENDENTE">PENDENTE</option>
+                          <option value="APROVADO">APROVADO</option>
+                          <option value="REPROVADO">REPROVADO</option>
+                        </select>
+                      </div>
+                  </div>
+                  <div class="modal-footer"><button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button><button type="submit" class="btn btn-primary">Salvar</button></div>
+                </form>
+              </div></div>
+            </div>
+
+            {{-- MODAL: EDIÇÃO DE DEPOIMENTO --}}
+            <div class="modal fade" id="modal-edit-depoimento" tabindex="-1" aria-hidden="true">
+              <div class="modal-dialog"><div class="modal-content">
+                <form id="form-edit-depoimento" method="POST">
+                  @csrf
+                  @method('PUT')
+                  <div class="modal-header"><h5 class="modal-title">Editar Depoimento</h5><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div>
+                  <div class="modal-body">
+                      <div class="mb-3">
+                        <label for="edit-depoimento-id_cliente" class="form-label">Cliente</label>
+                        <select id="edit-depoimento-id_cliente" class="form-select" name="id_cliente" required>
+                          @foreach ($listaClientes as $opcao)
+                            <option value="{{ $opcao->id_cliente }}">{{ $opcao->nome_cliente }}</option>
+                          @endforeach
+                        </select>
+                      </div>
+                      <div class="mb-3">
+                        <label for="edit-depoimento-titulo_depoimento" class="form-label">Título</label>
+                        <input id="edit-depoimento-titulo_depoimento" type="text" class="form-control" name="titulo_depoimento"  required />
+                      </div>
+                      <div class="mb-3">
+                        <label for="edit-depoimento-descricao_depoimento" class="form-label">Descrição</label>
+                        <textarea id="edit-depoimento-descricao_depoimento" class="form-control" name="descricao_depoimento" ></textarea>
+                      </div>
+                      <div class="mb-3">
+                        <label for="edit-depoimento-nota_depoimento" class="form-label">Nota</label>
+                        <input id="edit-depoimento-nota_depoimento" type="number" step="0.01" class="form-control" name="nota_depoimento"  required />
+                      </div>
+                      <div class="mb-3">
+                        <label for="edit-depoimento-status_depoimento" class="form-label">Status</label>
+                        <select id="edit-depoimento-status_depoimento" class="form-select" name="status_depoimento">
+                          <option value="PENDENTE">PENDENTE</option>
+                          <option value="APROVADO">APROVADO</option>
+                          <option value="REPROVADO">REPROVADO</option>
+                        </select>
+                      </div>
+                  </div>
+                  <div class="modal-footer"><button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button><button type="submit" class="btn btn-primary">Atualizar</button></div>
+                </form>
+              </div></div>
+            </div>
+
+            {{-- MODAL: CONFIRMAÇÃO DA ALTERAÇÃO DE STATUS --}}
+            <div class="modal fade" id="modal-status-depoimento" tabindex="-1" aria-hidden="true">
+              <div class="modal-dialog"><div class="modal-content">
+                <form id="form-status-depoimento" method="POST">
+                  @csrf
+                  @method('PATCH')
+                  <div class="modal-header"><h5 class="modal-title">Alterar status</h5><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div>
+                  <div class="modal-body"><p class="mb-0">Tem certeza que deseja alterar o status deste registro?</p></div>
+                  <div class="modal-footer"><button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button><button type="submit" class="btn btn-danger">Confirmar</button></div>
+                </form>
+              </div></div>
+            </div>
+
+            {{-- JAVASCRIPT: PREENCHIMENTO DO MODAL, PREVIEW E STATUS --}}
+            <script>
+              const modalEditdepoimento=document.getElementById('modal-edit-depoimento');
+              const modalStatusdepoimento=document.getElementById('modal-status-depoimento');
+              modalEditdepoimento.addEventListener('show.bs.modal',function(event){
+                const botao=event.relatedTarget;
+                document.getElementById('form-edit-depoimento').action=botao.getAttribute('data-url');
+                document.getElementById('edit-depoimento-id_cliente').value=botao.getAttribute('data-id_cliente');
+                document.getElementById('edit-depoimento-titulo_depoimento').value=botao.getAttribute('data-titulo_depoimento');
+                document.getElementById('edit-depoimento-descricao_depoimento').value=botao.getAttribute('data-descricao_depoimento');
+                document.getElementById('edit-depoimento-nota_depoimento').value=botao.getAttribute('data-nota_depoimento');
+                document.getElementById('edit-depoimento-status_depoimento').value=botao.getAttribute('data-status_depoimento');
+
+              });
+              modalStatusdepoimento.addEventListener('show.bs.modal',function(event){document.getElementById('form-status-depoimento').action=event.relatedTarget.getAttribute('data-status-url');});
+
+            </script>
       </section>
       <!--end::App Main-->
+
+

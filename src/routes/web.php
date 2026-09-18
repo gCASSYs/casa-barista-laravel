@@ -56,7 +56,7 @@ Route::prefix('admin')->group(function () {
     //CADASTRAR GALERIA
     Route::post('/galeria', [GaleriaController::class, 'store'])->name('admin.galeria.store');
     //ABRIR O FORM DE EDITAR GALERIA
-    Route::get('/galeria/{id}/editar', [GaleriaController::class, 'edit'])->name('admin.galeria.edit');
+    // A edição abre em modal na própria listagem.
     //ATUALIZAR GALERIA
     Route::put('/galeria/{id}', [GaleriaController::class, 'update'])->name('admin.galeria.update');
     //ATIVAR OU DESATIVAR GALERIA
@@ -70,7 +70,7 @@ Route::prefix('admin')->group(function () {
     //CADASTRAR DEPOIMENTO
     Route::post('/depoimento', [DepoimentoController::class, 'store'])->name('admin.depoimento.store');
     //ABRIR O FORM DE EDITAR DEPOIMENTO
-    Route::get('/depoimento/{id}/editar', [DepoimentoController::class, 'edit'])->name('admin.depoimento.edit');
+    // A edição abre em modal na própria listagem.
     //ATUALIZAR DEPOIMENTO
     Route::put('/depoimento/{id}', [DepoimentoController::class, 'update'])->name('admin.depoimento.update');
     //ATIVAR OU DESATIVAR DEPOIMENTO
@@ -83,7 +83,7 @@ Route::prefix('admin')->group(function () {
     //CADASTRAR CLIENTE
     Route::post('/clientes', [ClientesController::class, 'store'])->name('admin.clientes.store');
     //ABRIR O FORM DE EDITAR CLIENTE
-    Route::get('/clientes/{id}/editar', [ClientesController::class, 'edit'])->name('admin.clientes.edit');
+    // A edição abre em modal na própria listagem.
     //ATUALIZAR CLIENTE
     Route::put('/clientes/{id}', [ClientesController::class, 'update'])->name('admin.clientes.update');
     //ATIVAR OU DESATIVAR CLIENTE
@@ -96,7 +96,7 @@ Route::prefix('admin')->group(function () {
     //CADASTRAR VENDA
     Route::post('/venda', [VendaController::class, 'store'])->name('admin.venda.store');
     //ABRIR O FORM DE EDITAR VENDA  
-    Route::get('/venda/{id}/editar', [VendaController::class, 'edit'])->name('admin.venda.edit');
+    // A edição abre em modal na própria listagem.
     //ATUALIZAR VENDA
     Route::put('/venda/{id}', [VendaController::class, 'update'])->name('admin.venda.update');
     //ATIVAR OU DESATIVAR VENDA
@@ -109,7 +109,7 @@ Route::prefix('admin')->group(function () {
     //CADASTRAR PRODUTO
     Route::post('/produto', [ProdutoController::class, 'store'])->name('admin.produto.store');
     //ABRIR O FORM DE EDITAR PRODUTO 
-    Route::get('/produto/{id}/editar', [ProdutoController::class, 'edit'])->name('admin.produto.edit');
+    // A edição abre em modal na própria listagem.
     //ATUALIZAR PRODUTO
     Route::put('/produto/{id}', [ProdutoController::class, 'update'])->name('admin.produto.update');
     //ATIVAR OU DESATIVAR PRODUTO
@@ -122,7 +122,7 @@ Route::prefix('admin')->group(function () {
     //CADASTRAR LINHA DO TEMPO
     Route::post('/linhatempo', [LinhaTempoController::class, 'store'])->name('admin.linhatempo.store');
     //ABRIR O FORM DE EDITAR LINHA DO TEMPO
-    Route::get('/linhatempo/{id}/editar', [LinhaTempoController::class, 'edit'])->name('admin.linhatempo.edit');
+    // A edição abre em modal na própria listagem.
     //ATUALIZAR LINHA DO TEMPO
     Route::put('/linhatempo/{id}', [LinhaTempoController::class, 'update'])->name('admin.linhatempo.update');
     //ATIVAR OU DESATIVAR LINHA DO TEMPO
@@ -135,7 +135,7 @@ Route::prefix('admin')->group(function () {
     //CADASTRAR CATEGORIA
     Route::post('/categoria', [CategoriaController::class, 'store'])->name('admin.categoria.store');
     //ABRIR O FORM DE EDITAR CATEGORIA
-    Route::get('/categoria/{id}/editar', [CategoriaController::class, 'edit'])->name('admin.categoria.edit');
+    // A edição abre em modal na própria listagem.
     //ATUALIZAR CATEGORIA
     Route::put('/categoria/{id}', [CategoriaController::class, 'update'])->name('admin.categoria.update');
     //ATIVAR OU DESATIVAR CATEGORIA
@@ -148,7 +148,7 @@ Route::prefix('admin')->group(function () {
     //CADASTRAR NEWSLATTER
     Route::post('/news', [NewsController::class, 'store'])->name('admin.news.store');
     //ABRIR O FORM DE EDITAR NEWSLATTER
-    Route::get('/news/{id}/editar', [NewsController::class, 'edit'])->name('admin.news.edit');
+    // A edição abre em modal na própria listagem.
     //ATUALIZAR NEWSLATTER
     Route::put('/news/{id}', [NewsController::class, 'update'])->name('admin.news.update');
     //ATIVAR OU DESATIVAR NEWSLATTER
@@ -161,7 +161,7 @@ Route::prefix('admin')->group(function () {
     //CADASTRAR USUÁRIO
     Route::post('/usuarios', [UsuariosController::class, 'store'])->name('admin.usuarios.store');
     //ABRIR O FORM DE EDITAR USUÁRIO
-    Route::get('/usuarios/{id}/editar', [UsuariosController::class, 'edit'])->name('admin.usuarios.edit');
+    // A edição abre em modal na própria listagem.
     //ATUALIZAR USUÁRIO
     Route::put('/usuarios/{id}', [UsuariosController::class, 'update'])->name('admin.usuarios.update');
     //ATIVAR OU DESATIVAR USUÁRIO

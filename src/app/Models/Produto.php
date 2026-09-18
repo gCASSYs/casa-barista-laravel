@@ -21,6 +21,7 @@ Class Produto extends Model{
         'descricao_curta_produto',
         'descricao_longa_produto',
         'valor_produto',
+        'destaque_produto',
         'status_produto',
     ];
 
@@ -28,4 +29,4 @@ Class Produto extends Model{
     public function categoria(){
         return $this->belongsTo(Categoria::class, 'id_categoria', 'id_categoria');
     }
-}    
+}

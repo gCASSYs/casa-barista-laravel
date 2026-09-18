@@ -65,7 +65,7 @@
                             type="button"
                             class="btn btn-sm btn-primary"
                             data-bs-toggle="modal"
-                            data-bs-target="#modal-add-user"
+                            data-bs-target="#modal-add-produto"
                           >
                             <i class="bi bi-plus-lg me-1" aria-hidden="true"> </i>
                             Novo registro
@@ -143,7 +143,7 @@
                             </td>
                             {{--STATUS--}}
                             <td>
-                              @if ($produto->status_produto == 1)
+                              @if ($produto->status_produto == 'ATIVO')
                                 <span class="badge text-bg-success">Ativo</span>
                               @else
                                 <span class="badge text-bg-danger">Inativo</span>
@@ -156,6 +156,17 @@
                                   type="button"
                                   class="btn btn-outline-secondary"
                                   aria-label="Editar"
+                                  data-bs-toggle="modal"
+                                  data-bs-target="#modal-edit-produto"
+                                  data-url="{{ route('admin.produto.update', $produto->id_produto) }}"
+                                  data-nome_produto="{{ $produto->nome_produto }}"
+                                  data-id_categoria="{{ $produto->id_categoria }}"
+                                  data-descricao_curta_produto="{{ $produto->descricao_curta_produto }}"
+                                  data-descricao_longa_produto="{{ $produto->descricao_longa_produto }}"
+                                  data-valor_produto="{{ $produto->valor_produto }}"
+                                  data-destaque_produto="{{ $produto->destaque_produto }}"
+                                  data-status_produto="{{ $produto->status_produto }}"
+                                  data-imagem_produto="{{ asset('barista/assets/' . $produto->imagem_produto) }}"
                                 >
                                   <i class="bi bi-pencil" aria-hidden="true"> </i>
                                 </button>
@@ -163,7 +174,8 @@
                                   type="button"
                                   class="btn btn-outline-danger"
                                   data-bs-toggle="modal"
-                                  data-bs-target="#modal-delete-produto"
+                                  data-bs-target="#modal-status-produto"
+                                  data-status-url="{{ route('admin.produto.status', $produto->id_produto) }}"
                                   aria-label="Deletar"
                                 >
                                   <i class="bi bi-trash" aria-hidden="true"> </i>
@@ -340,5 +352,154 @@
           <!--end::Container-->
         </div>
         <!--end::App Content-->
+
+
+            {{-- MODAL: CADASTRO DE PRODUTO --}}
+            <div class="modal fade" id="modal-add-produto" tabindex="-1" aria-hidden="true">
+              <div class="modal-dialog"><div class="modal-content">
+                <form action="{{ route('admin.produto.store') }}" method="POST" enctype="multipart/form-data">
+                  @csrf
+                  <div class="modal-header"><h5 class="modal-title">Adicionar Produto</h5><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div>
+                  <div class="modal-body">
+                      <div class="mb-3">
+                        <label for="add-produto-nome_produto" class="form-label">Nome</label>
+                        <input id="add-produto-nome_produto" type="text" class="form-control" name="nome_produto"  required />
+                      </div>
+                      <div class="mb-3">
+                        <label for="add-produto-id_categoria" class="form-label">Categoria</label>
+                        <select id="add-produto-id_categoria" class="form-select" name="id_categoria" required>
+                          @foreach ($listaCategoria as $opcao)
+                            <option value="{{ $opcao->id_categoria }}">{{ $opcao->nome_categoria }}</option>
+                          @endforeach
+                        </select>
+                      </div>
+                      <div class="mb-3">
+                        <label for="add-produto-descricao_curta_produto" class="form-label">Descrição curta</label>
+                        <input id="add-produto-descricao_curta_produto" type="text" class="form-control" name="descricao_curta_produto"  required />
+                      </div>
+                      <div class="mb-3">
+                        <label for="add-produto-descricao_longa_produto" class="form-label">Descrição longa</label>
+                        <textarea id="add-produto-descricao_longa_produto" class="form-control" name="descricao_longa_produto" required></textarea>
+                      </div>
+                      <div class="mb-3">
+                        <label for="add-produto-valor_produto" class="form-label">Valor</label>
+                        <input id="add-produto-valor_produto" type="number" step="0.01" class="form-control" name="valor_produto"  required />
+                      </div>
+                      <div class="mb-3">
+                        <label for="add-produto-imagem_produto" class="form-label">Imagem</label>
+                        <input id="add-produto-imagem_produto" type="file" class="form-control" name="imagem_produto" accept="image/*" required />
+                        <img id="add-produto-imagem_produto-preview" class="img-fluid rounded mt-2" alt="Prévia da imagem" />
+                      </div>
+                      <div class="mb-3">
+                        <label for="add-produto-destaque_produto" class="form-label">Destaque</label>
+                        <select id="add-produto-destaque_produto" class="form-select" name="destaque_produto">
+                          <option value="0">0</option>
+                          <option value="1">1</option>
+                        </select>
+                      </div>
+                      <div class="mb-3">
+                        <label for="add-produto-status_produto" class="form-label">Status</label>
+                        <select id="add-produto-status_produto" class="form-select" name="status_produto">
+                          <option value="ATIVO">ATIVO</option>
+                          <option value="INATIVO">INATIVO</option>
+                        </select>
+                      </div>
+                  </div>
+                  <div class="modal-footer"><button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button><button type="submit" class="btn btn-primary">Salvar</button></div>
+                </form>
+              </div></div>
+            </div>
+
+            {{-- MODAL: EDIÇÃO DE PRODUTO --}}
+            <div class="modal fade" id="modal-edit-produto" tabindex="-1" aria-hidden="true">
+              <div class="modal-dialog"><div class="modal-content">
+                <form id="form-edit-produto" method="POST" enctype="multipart/form-data">
+                  @csrf
+                  @method('PUT')
+                  <div class="modal-header"><h5 class="modal-title">Editar Produto</h5><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div>
+                  <div class="modal-body">
+                      <div class="mb-3">
+                        <label for="edit-produto-nome_produto" class="form-label">Nome</label>
+                        <input id="edit-produto-nome_produto" type="text" class="form-control" name="nome_produto"  required />
+                      </div>
+                      <div class="mb-3">
+                        <label for="edit-produto-id_categoria" class="form-label">Categoria</label>
+                        <select id="edit-produto-id_categoria" class="form-select" name="id_categoria" required>
+                          @foreach ($listaCategoria as $opcao)
+                            <option value="{{ $opcao->id_categoria }}">{{ $opcao->nome_categoria }}</option>
+                          @endforeach
+                        </select>
+                      </div>
+                      <div class="mb-3">
+                        <label for="edit-produto-descricao_curta_produto" class="form-label">Descrição curta</label>
+                        <input id="edit-produto-descricao_curta_produto" type="text" class="form-control" name="descricao_curta_produto"  required />
+                      </div>
+                      <div class="mb-3">
+                        <label for="edit-produto-descricao_longa_produto" class="form-label">Descrição longa</label>
+                        <textarea id="edit-produto-descricao_longa_produto" class="form-control" name="descricao_longa_produto" ></textarea>
+                      </div>
+                      <div class="mb-3">
+                        <label for="edit-produto-valor_produto" class="form-label">Valor</label>
+                        <input id="edit-produto-valor_produto" type="number" step="0.01" class="form-control" name="valor_produto"  required />
+                      </div>
+                      <div class="mb-3">
+                        <label for="edit-produto-imagem_produto" class="form-label">Imagem</label>
+                        <input id="edit-produto-imagem_produto" type="file" class="form-control" name="imagem_produto" accept="image/*"  />
+                        <img id="edit-produto-imagem_produto-preview" class="img-fluid rounded mt-2" alt="Prévia da imagem" />
+                      </div>
+                      <div class="mb-3">
+                        <label for="edit-produto-destaque_produto" class="form-label">Destaque</label>
+                        <select id="edit-produto-destaque_produto" class="form-select" name="destaque_produto">
+                          <option value="0">0</option>
+                          <option value="1">1</option>
+                        </select>
+                      </div>
+                      <div class="mb-3">
+                        <label for="edit-produto-status_produto" class="form-label">Status</label>
+                        <select id="edit-produto-status_produto" class="form-select" name="status_produto">
+                          <option value="ATIVO">ATIVO</option>
+                          <option value="INATIVO">INATIVO</option>
+                        </select>
+                      </div>
+                  </div>
+                  <div class="modal-footer"><button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button><button type="submit" class="btn btn-primary">Atualizar</button></div>
+                </form>
+              </div></div>
+            </div>
+
+            {{-- MODAL: CONFIRMAÇÃO DA ALTERAÇÃO DE STATUS --}}
+            <div class="modal fade" id="modal-status-produto" tabindex="-1" aria-hidden="true">
+              <div class="modal-dialog"><div class="modal-content">
+                <form id="form-status-produto" method="POST">
+                  @csrf
+                  @method('PATCH')
+                  <div class="modal-header"><h5 class="modal-title">Alterar status</h5><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div>
+                  <div class="modal-body"><p class="mb-0">Tem certeza que deseja alterar o status deste registro?</p></div>
+                  <div class="modal-footer"><button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button><button type="submit" class="btn btn-danger">Confirmar</button></div>
+                </form>
+              </div></div>
+            </div>
+
+            {{-- JAVASCRIPT: PREENCHIMENTO DO MODAL, PREVIEW E STATUS --}}
+            <script>
+              const modalEditproduto=document.getElementById('modal-edit-produto');
+              const modalStatusproduto=document.getElementById('modal-status-produto');
+              modalEditproduto.addEventListener('show.bs.modal',function(event){
+                const botao=event.relatedTarget;
+                document.getElementById('form-edit-produto').action=botao.getAttribute('data-url');
+                document.getElementById('edit-produto-nome_produto').value=botao.getAttribute('data-nome_produto');
+                document.getElementById('edit-produto-id_categoria').value=botao.getAttribute('data-id_categoria');
+                document.getElementById('edit-produto-descricao_curta_produto').value=botao.getAttribute('data-descricao_curta_produto');
+                document.getElementById('edit-produto-descricao_longa_produto').value=botao.getAttribute('data-descricao_longa_produto');
+                document.getElementById('edit-produto-valor_produto').value=botao.getAttribute('data-valor_produto');
+                document.getElementById('edit-produto-destaque_produto').value=botao.getAttribute('data-destaque_produto');
+                document.getElementById('edit-produto-status_produto').value=botao.getAttribute('data-status_produto');
+                document.getElementById('edit-produto-imagem_produto-preview').src=botao.getAttribute('data-imagem_produto');
+              });
+              modalStatusproduto.addEventListener('show.bs.modal',function(event){document.getElementById('form-status-produto').action=event.relatedTarget.getAttribute('data-status-url');});
+              document.getElementById('add-produto-imagem_produto').addEventListener('change',function(){if(this.files[0])document.getElementById('add-produto-imagem_produto-preview').src=URL.createObjectURL(this.files[0]);});
+              document.getElementById('edit-produto-imagem_produto').addEventListener('change',function(){if(this.files[0])document.getElementById('edit-produto-imagem_produto-preview').src=URL.createObjectURL(this.files[0]);});
+            </script>
       </section>
       <!--end::App Main-->
+

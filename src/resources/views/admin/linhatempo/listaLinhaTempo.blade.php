@@ -65,7 +65,7 @@
                             type="button"
                             class="btn btn-sm btn-primary"
                             data-bs-toggle="modal"
-                            data-bs-target="#modal-add-user"
+                            data-bs-target="#modal-add-linhatempo"
                           >
                             <i class="bi bi-plus-lg me-1" aria-hidden="true"> </i>
                             Novo registro
@@ -127,6 +127,13 @@
                                   type="button"
                                   class="btn btn-outline-secondary"
                                   aria-label="Editar"
+                                  data-bs-toggle="modal"
+                                  data-bs-target="#modal-edit-linhatempo"
+                                  data-url="{{ route('admin.linhatempo.update', $linha_tempo->id_linha_tempo) }}"
+                                  data-titulo_linha_tempo="{{ $linha_tempo->titulo_linha_tempo }}"
+                                  data-ano_linha_tempo="{{ $linha_tempo->ano_linha_tempo }}"
+                                  data-descricao_linha_tempo="{{ $linha_tempo->descricao_linha_tempo }}"
+                                  data-status_linha_tempo="{{ $linha_tempo->status_linha_tempo }}"
                                 >
                                   <i class="bi bi-pencil" aria-hidden="true"> </i>
                                 </button>
@@ -134,7 +141,8 @@
                                   type="button"
                                   class="btn btn-outline-danger"
                                   data-bs-toggle="modal"
-                                  data-bs-target="#modal-delete-banner"
+                                  data-bs-target="#modal-status-linhatempo"
+                                  data-status-url="{{ route('admin.linhatempo.status', $linha_tempo->id_linha_tempo) }}"
                                   aria-label="Deletar"
                                 >
                                   <i class="bi bi-trash" aria-hidden="true"> </i>
@@ -311,5 +319,103 @@
           <!--end::Container-->
         </div>
         <!--end::App Content-->
+
+
+            {{-- MODAL: CADASTRO DE LINHA DO TEMPO --}}
+            <div class="modal fade" id="modal-add-linhatempo" tabindex="-1" aria-hidden="true">
+              <div class="modal-dialog"><div class="modal-content">
+                <form action="{{ route('admin.linhatempo.store') }}" method="POST">
+                  @csrf
+                  <div class="modal-header"><h5 class="modal-title">Adicionar Linha do Tempo</h5><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div>
+                  <div class="modal-body">
+                      <div class="mb-3">
+                        <label for="add-linhatempo-titulo_linha_tempo" class="form-label">Título</label>
+                        <input id="add-linhatempo-titulo_linha_tempo" type="text" class="form-control" name="titulo_linha_tempo"  required />
+                      </div>
+                      <div class="mb-3">
+                        <label for="add-linhatempo-ano_linha_tempo" class="form-label">Data</label>
+                        <input id="add-linhatempo-ano_linha_tempo" type="date" class="form-control" name="ano_linha_tempo"  required />
+                      </div>
+                      <div class="mb-3">
+                        <label for="add-linhatempo-descricao_linha_tempo" class="form-label">Descrição</label>
+                        <textarea id="add-linhatempo-descricao_linha_tempo" class="form-control" name="descricao_linha_tempo" required></textarea>
+                      </div>
+                      <div class="mb-3">
+                        <label for="add-linhatempo-status_linha_tempo" class="form-label">Status</label>
+                        <select id="add-linhatempo-status_linha_tempo" class="form-select" name="status_linha_tempo">
+                          <option value="ATIVO">ATIVO</option>
+                          <option value="INATIVO">INATIVO</option>
+                        </select>
+                      </div>
+                  </div>
+                  <div class="modal-footer"><button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button><button type="submit" class="btn btn-primary">Salvar</button></div>
+                </form>
+              </div></div>
+            </div>
+
+            {{-- MODAL: EDIÇÃO DE LINHA DO TEMPO --}}
+            <div class="modal fade" id="modal-edit-linhatempo" tabindex="-1" aria-hidden="true">
+              <div class="modal-dialog"><div class="modal-content">
+                <form id="form-edit-linhatempo" method="POST">
+                  @csrf
+                  @method('PUT')
+                  <div class="modal-header"><h5 class="modal-title">Editar Linha do Tempo</h5><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div>
+                  <div class="modal-body">
+                      <div class="mb-3">
+                        <label for="edit-linhatempo-titulo_linha_tempo" class="form-label">Título</label>
+                        <input id="edit-linhatempo-titulo_linha_tempo" type="text" class="form-control" name="titulo_linha_tempo"  required />
+                      </div>
+                      <div class="mb-3">
+                        <label for="edit-linhatempo-ano_linha_tempo" class="form-label">Data</label>
+                        <input id="edit-linhatempo-ano_linha_tempo" type="date" class="form-control" name="ano_linha_tempo"  required />
+                      </div>
+                      <div class="mb-3">
+                        <label for="edit-linhatempo-descricao_linha_tempo" class="form-label">Descrição</label>
+                        <textarea id="edit-linhatempo-descricao_linha_tempo" class="form-control" name="descricao_linha_tempo" ></textarea>
+                      </div>
+                      <div class="mb-3">
+                        <label for="edit-linhatempo-status_linha_tempo" class="form-label">Status</label>
+                        <select id="edit-linhatempo-status_linha_tempo" class="form-select" name="status_linha_tempo">
+                          <option value="ATIVO">ATIVO</option>
+                          <option value="INATIVO">INATIVO</option>
+                        </select>
+                      </div>
+                  </div>
+                  <div class="modal-footer"><button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button><button type="submit" class="btn btn-primary">Atualizar</button></div>
+                </form>
+              </div></div>
+            </div>
+
+            {{-- MODAL: CONFIRMAÇÃO DA ALTERAÇÃO DE STATUS --}}
+            <div class="modal fade" id="modal-status-linhatempo" tabindex="-1" aria-hidden="true">
+              <div class="modal-dialog"><div class="modal-content">
+                <form id="form-status-linhatempo" method="POST">
+                  @csrf
+                  @method('PATCH')
+                  <div class="modal-header"><h5 class="modal-title">Alterar status</h5><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div>
+                  <div class="modal-body"><p class="mb-0">Tem certeza que deseja alterar o status deste registro?</p></div>
+                  <div class="modal-footer"><button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button><button type="submit" class="btn btn-danger">Confirmar</button></div>
+                </form>
+              </div></div>
+            </div>
+
+            {{-- JAVASCRIPT: PREENCHIMENTO DO MODAL, PREVIEW E STATUS --}}
+            <script>
+              const modalEditlinhatempo=document.getElementById('modal-edit-linhatempo');
+              const modalStatuslinhatempo=document.getElementById('modal-status-linhatempo');
+              modalEditlinhatempo.addEventListener('show.bs.modal',function(event){
+                const botao=event.relatedTarget;
+                document.getElementById('form-edit-linhatempo').action=botao.getAttribute('data-url');
+                document.getElementById('edit-linhatempo-titulo_linha_tempo').value=botao.getAttribute('data-titulo_linha_tempo');
+                document.getElementById('edit-linhatempo-ano_linha_tempo').value=botao.getAttribute('data-ano_linha_tempo');
+                document.getElementById('edit-linhatempo-descricao_linha_tempo').value=botao.getAttribute('data-descricao_linha_tempo');
+                document.getElementById('edit-linhatempo-status_linha_tempo').value=botao.getAttribute('data-status_linha_tempo');
+
+              });
+              modalStatuslinhatempo.addEventListener('show.bs.modal',function(event){document.getElementById('form-status-linhatempo').action=event.relatedTarget.getAttribute('data-status-url');});
+
+            </script>
       </section>
       <!--end::App Main-->
+
+

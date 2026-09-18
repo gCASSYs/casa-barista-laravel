@@ -65,7 +65,7 @@
                             type="button"
                             class="btn btn-sm btn-primary"
                             data-bs-toggle="modal"
-                            data-bs-target="#modal-add-user"
+                            data-bs-target="#modal-add-galeria"
                           >
                             <i class="bi bi-plus-lg me-1" aria-hidden="true"> </i>
                             Novo registro
@@ -131,6 +131,12 @@
                                   type="button"
                                   class="btn btn-outline-secondary"
                                   aria-label="Editar"
+                                  data-bs-toggle="modal"
+                                  data-bs-target="#modal-edit-galeria"
+                                  data-url="{{ route('admin.galeria.update', $galeria->id_galeria) }}"
+                                  data-nome_galeria="{{ $galeria->nome_galeria }}"
+                                  data-status_galeria="{{ $galeria->status_galeria }}"
+                                  data-imagem_galeria="{{ asset('barista/assets/' . $galeria->imagem_galeria) }}"
                                 >
                                   <i class="bi bi-pencil" aria-hidden="true"> </i>
                                 </button>
@@ -138,7 +144,8 @@
                                   type="button"
                                   class="btn btn-outline-danger"
                                   data-bs-toggle="modal"
-                                  data-bs-target="#modal-delete-galeria"
+                                  data-bs-target="#modal-status-galeria"
+                                  data-status-url="{{ route('admin.galeria.status', $galeria->id_galeria) }}"
                                   aria-label="DeletAR"
                                 >
                                   <i class="bi bi-trash" aria-hidden="true"> </i>
@@ -315,5 +322,96 @@
           <!--end::Container-->
         </div>
         <!--end::App Content-->
+
+
+            {{-- MODAL: CADASTRO DE IMAGEM DA GALERIA --}}
+            <div class="modal fade" id="modal-add-galeria" tabindex="-1" aria-hidden="true">
+              <div class="modal-dialog"><div class="modal-content">
+                <form action="{{ route('admin.galeria.store') }}" method="POST" enctype="multipart/form-data">
+                  @csrf
+                  <div class="modal-header"><h5 class="modal-title">Adicionar Imagem da Galeria</h5><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div>
+                  <div class="modal-body">
+                      <div class="mb-3">
+                        <label for="add-galeria-nome_galeria" class="form-label">Nome</label>
+                        <input id="add-galeria-nome_galeria" type="text" class="form-control" name="nome_galeria"  required />
+                      </div>
+                      <div class="mb-3">
+                        <label for="add-galeria-imagem_galeria" class="form-label">Imagem</label>
+                        <input id="add-galeria-imagem_galeria" type="file" class="form-control" name="imagem_galeria" accept="image/*" required />
+                        <img id="add-galeria-imagem_galeria-preview" class="img-fluid rounded mt-2" alt="Prévia da imagem" />
+                      </div>
+                      <div class="mb-3">
+                        <label for="add-galeria-status_galeria" class="form-label">Status</label>
+                        <select id="add-galeria-status_galeria" class="form-select" name="status_galeria">
+                          <option value="ATIVO">ATIVO</option>
+                          <option value="INATIVO">INATIVO</option>
+                        </select>
+                      </div>
+                  </div>
+                  <div class="modal-footer"><button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button><button type="submit" class="btn btn-primary">Salvar</button></div>
+                </form>
+              </div></div>
+            </div>
+
+            {{-- MODAL: EDIÇÃO DE IMAGEM DA GALERIA --}}
+            <div class="modal fade" id="modal-edit-galeria" tabindex="-1" aria-hidden="true">
+              <div class="modal-dialog"><div class="modal-content">
+                <form id="form-edit-galeria" method="POST" enctype="multipart/form-data">
+                  @csrf
+                  @method('PUT')
+                  <div class="modal-header"><h5 class="modal-title">Editar Imagem da Galeria</h5><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div>
+                  <div class="modal-body">
+                      <div class="mb-3">
+                        <label for="edit-galeria-nome_galeria" class="form-label">Nome</label>
+                        <input id="edit-galeria-nome_galeria" type="text" class="form-control" name="nome_galeria"  required />
+                      </div>
+                      <div class="mb-3">
+                        <label for="edit-galeria-imagem_galeria" class="form-label">Imagem</label>
+                        <input id="edit-galeria-imagem_galeria" type="file" class="form-control" name="imagem_galeria" accept="image/*"  />
+                        <img id="edit-galeria-imagem_galeria-preview" class="img-fluid rounded mt-2" alt="Prévia da imagem" />
+                      </div>
+                      <div class="mb-3">
+                        <label for="edit-galeria-status_galeria" class="form-label">Status</label>
+                        <select id="edit-galeria-status_galeria" class="form-select" name="status_galeria">
+                          <option value="ATIVO">ATIVO</option>
+                          <option value="INATIVO">INATIVO</option>
+                        </select>
+                      </div>
+                  </div>
+                  <div class="modal-footer"><button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button><button type="submit" class="btn btn-primary">Atualizar</button></div>
+                </form>
+              </div></div>
+            </div>
+
+            {{-- MODAL: CONFIRMAÇÃO DA ALTERAÇÃO DE STATUS --}}
+            <div class="modal fade" id="modal-status-galeria" tabindex="-1" aria-hidden="true">
+              <div class="modal-dialog"><div class="modal-content">
+                <form id="form-status-galeria" method="POST">
+                  @csrf
+                  @method('PATCH')
+                  <div class="modal-header"><h5 class="modal-title">Alterar status</h5><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div>
+                  <div class="modal-body"><p class="mb-0">Tem certeza que deseja alterar o status deste registro?</p></div>
+                  <div class="modal-footer"><button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button><button type="submit" class="btn btn-danger">Confirmar</button></div>
+                </form>
+              </div></div>
+            </div>
+
+            {{-- JAVASCRIPT: PREENCHIMENTO DO MODAL, PREVIEW E STATUS --}}
+            <script>
+              const modalEditgaleria=document.getElementById('modal-edit-galeria');
+              const modalStatusgaleria=document.getElementById('modal-status-galeria');
+              modalEditgaleria.addEventListener('show.bs.modal',function(event){
+                const botao=event.relatedTarget;
+                document.getElementById('form-edit-galeria').action=botao.getAttribute('data-url');
+                document.getElementById('edit-galeria-nome_galeria').value=botao.getAttribute('data-nome_galeria');
+                document.getElementById('edit-galeria-status_galeria').value=botao.getAttribute('data-status_galeria');
+                document.getElementById('edit-galeria-imagem_galeria-preview').src=botao.getAttribute('data-imagem_galeria');
+              });
+              modalStatusgaleria.addEventListener('show.bs.modal',function(event){document.getElementById('form-status-galeria').action=event.relatedTarget.getAttribute('data-status-url');});
+              document.getElementById('add-galeria-imagem_galeria').addEventListener('change',function(){if(this.files[0])document.getElementById('add-galeria-imagem_galeria-preview').src=URL.createObjectURL(this.files[0]);});
+              document.getElementById('edit-galeria-imagem_galeria').addEventListener('change',function(){if(this.files[0])document.getElementById('edit-galeria-imagem_galeria-preview').src=URL.createObjectURL(this.files[0]);});
+            </script>
       </section>
       <!--end::App Main-->
+
+

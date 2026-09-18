@@ -65,7 +65,7 @@
                             type="button"
                             class="btn btn-sm btn-primary"
                             data-bs-toggle="modal"
-                            data-bs-target="#modal-add-user"
+                            data-bs-target="#modal-add-usuarios"
                           >
                             <i class="bi bi-plus-lg me-1" aria-hidden="true"> </i>
                             Novo registro
@@ -154,6 +154,14 @@
                                   type="button"
                                   class="btn btn-outline-secondary"
                                   aria-label="Editar"
+                                  data-bs-toggle="modal"
+                                  data-bs-target="#modal-edit-usuarios"
+                                  data-url="{{ route('admin.usuarios.update', $usuarios->id_usuarios) }}"
+                                  data-nome_usuarios="{{ $usuarios->nome_usuarios }}"
+                                  data-email_usuarios="{{ $usuarios->email_usuarios }}"
+                                  data-nivel_usuarios="{{ $usuarios->nivel_usuarios }}"
+                                  data-status_usuarios="{{ $usuarios->status_usuarios }}"
+                                  data-foto_usuarios="{{ asset('barista/assets/' . $usuarios->foto_usuarios) }}"
                                 >
                                   <i class="bi bi-pencil" aria-hidden="true"> </i>
                                 </button>
@@ -161,7 +169,8 @@
                                   type="button"
                                   class="btn btn-outline-danger"
                                   data-bs-toggle="modal"
-                                  data-bs-target="#modal-delete-usuario"
+                                  data-bs-target="#modal-status-usuarios"
+                                  data-status-url="{{ route('admin.usuarios.status', $usuarios->id_usuarios) }}"
                                   aria-label="Deletar"
                                 >
                                   <i class="bi bi-trash" aria-hidden="true"> </i>
@@ -338,5 +347,121 @@
           <!--end::Container-->
         </div>
         <!--end::App Content-->
+
+
+            {{-- MODAL: CADASTRO DE USUÁRIO --}}
+            <div class="modal fade" id="modal-add-usuarios" tabindex="-1" aria-hidden="true">
+              <div class="modal-dialog"><div class="modal-content">
+                <form action="{{ route('admin.usuarios.store') }}" method="POST" enctype="multipart/form-data">
+                  @csrf
+                  <div class="modal-header"><h5 class="modal-title">Adicionar Usuário</h5><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div>
+                  <div class="modal-body">
+                      <div class="mb-3">
+                        <label for="add-usuarios-nome_usuarios" class="form-label">Nome</label>
+                        <input id="add-usuarios-nome_usuarios" type="text" class="form-control" name="nome_usuarios"  required />
+                      </div>
+                      <div class="mb-3">
+                        <label for="add-usuarios-email_usuarios" class="form-label">E-mail</label>
+                        <input id="add-usuarios-email_usuarios" type="email" class="form-control" name="email_usuarios"  required />
+                      </div>
+                      <div class="mb-3">
+                        <label for="add-usuarios-senha_usuarios" class="form-label">Senha</label>
+                        <input id="add-usuarios-senha_usuarios" type="password" class="form-control" name="senha_usuarios"  required />
+                      </div>
+                      <div class="mb-3">
+                        <label for="add-usuarios-foto_usuarios" class="form-label">Foto</label>
+                        <input id="add-usuarios-foto_usuarios" type="file" class="form-control" name="foto_usuarios" accept="image/*" required />
+                        <img id="add-usuarios-foto_usuarios-preview" class="img-fluid rounded mt-2" alt="Prévia da imagem" />
+                      </div>
+                      <div class="mb-3">
+                        <label for="add-usuarios-nivel_usuarios" class="form-label">Nível</label>
+                        <input id="add-usuarios-nivel_usuarios" type="text" class="form-control" name="nivel_usuarios"  required />
+                      </div>
+                      <div class="mb-3">
+                        <label for="add-usuarios-status_usuarios" class="form-label">Status</label>
+                        <select id="add-usuarios-status_usuarios" class="form-select" name="status_usuarios">
+                          <option value="ATIVO">ATIVO</option>
+                          <option value="INATIVO">INATIVO</option>
+                        </select>
+                      </div>
+                  </div>
+                  <div class="modal-footer"><button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button><button type="submit" class="btn btn-primary">Salvar</button></div>
+                </form>
+              </div></div>
+            </div>
+
+            {{-- MODAL: EDIÇÃO DE USUÁRIO --}}
+            <div class="modal fade" id="modal-edit-usuarios" tabindex="-1" aria-hidden="true">
+              <div class="modal-dialog"><div class="modal-content">
+                <form id="form-edit-usuarios" method="POST" enctype="multipart/form-data">
+                  @csrf
+                  @method('PUT')
+                  <div class="modal-header"><h5 class="modal-title">Editar Usuário</h5><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div>
+                  <div class="modal-body">
+                      <div class="mb-3">
+                        <label for="edit-usuarios-nome_usuarios" class="form-label">Nome</label>
+                        <input id="edit-usuarios-nome_usuarios" type="text" class="form-control" name="nome_usuarios"  required />
+                      </div>
+                      <div class="mb-3">
+                        <label for="edit-usuarios-email_usuarios" class="form-label">E-mail</label>
+                        <input id="edit-usuarios-email_usuarios" type="email" class="form-control" name="email_usuarios"  required />
+                      </div>
+                      <div class="mb-3">
+                        <label for="edit-usuarios-senha_usuarios" class="form-label">Senha</label>
+                        <input id="edit-usuarios-senha_usuarios" type="password" class="form-control" name="senha_usuarios" placeholder="Deixe vazio para manter a senha"  />
+                      </div>
+                      <div class="mb-3">
+                        <label for="edit-usuarios-foto_usuarios" class="form-label">Foto</label>
+                        <input id="edit-usuarios-foto_usuarios" type="file" class="form-control" name="foto_usuarios" accept="image/*"  />
+                        <img id="edit-usuarios-foto_usuarios-preview" class="img-fluid rounded mt-2" alt="Prévia da imagem" />
+                      </div>
+                      <div class="mb-3">
+                        <label for="edit-usuarios-nivel_usuarios" class="form-label">Nível</label>
+                        <input id="edit-usuarios-nivel_usuarios" type="text" class="form-control" name="nivel_usuarios"  required />
+                      </div>
+                      <div class="mb-3">
+                        <label for="edit-usuarios-status_usuarios" class="form-label">Status</label>
+                        <select id="edit-usuarios-status_usuarios" class="form-select" name="status_usuarios">
+                          <option value="ATIVO">ATIVO</option>
+                          <option value="INATIVO">INATIVO</option>
+                        </select>
+                      </div>
+                  </div>
+                  <div class="modal-footer"><button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button><button type="submit" class="btn btn-primary">Atualizar</button></div>
+                </form>
+              </div></div>
+            </div>
+
+            {{-- MODAL: CONFIRMAÇÃO DA ALTERAÇÃO DE STATUS --}}
+            <div class="modal fade" id="modal-status-usuarios" tabindex="-1" aria-hidden="true">
+              <div class="modal-dialog"><div class="modal-content">
+                <form id="form-status-usuarios" method="POST">
+                  @csrf
+                  @method('PATCH')
+                  <div class="modal-header"><h5 class="modal-title">Alterar status</h5><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div>
+                  <div class="modal-body"><p class="mb-0">Tem certeza que deseja alterar o status deste registro?</p></div>
+                  <div class="modal-footer"><button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button><button type="submit" class="btn btn-danger">Confirmar</button></div>
+                </form>
+              </div></div>
+            </div>
+
+            {{-- JAVASCRIPT: PREENCHIMENTO DO MODAL, PREVIEW E STATUS --}}
+            <script>
+              const modalEditusuarios=document.getElementById('modal-edit-usuarios');
+              const modalStatususuarios=document.getElementById('modal-status-usuarios');
+              modalEditusuarios.addEventListener('show.bs.modal',function(event){
+                const botao=event.relatedTarget;
+                document.getElementById('form-edit-usuarios').action=botao.getAttribute('data-url');
+                document.getElementById('edit-usuarios-nome_usuarios').value=botao.getAttribute('data-nome_usuarios');
+                document.getElementById('edit-usuarios-email_usuarios').value=botao.getAttribute('data-email_usuarios');
+                document.getElementById('edit-usuarios-nivel_usuarios').value=botao.getAttribute('data-nivel_usuarios');
+                document.getElementById('edit-usuarios-status_usuarios').value=botao.getAttribute('data-status_usuarios');
+                document.getElementById('edit-usuarios-foto_usuarios-preview').src=botao.getAttribute('data-foto_usuarios');
+              });
+              modalStatususuarios.addEventListener('show.bs.modal',function(event){document.getElementById('form-status-usuarios').action=event.relatedTarget.getAttribute('data-status-url');});
+              document.getElementById('add-usuarios-foto_usuarios').addEventListener('change',function(){if(this.files[0])document.getElementById('add-usuarios-foto_usuarios-preview').src=URL.createObjectURL(this.files[0]);});
+              document.getElementById('edit-usuarios-foto_usuarios').addEventListener('change',function(){if(this.files[0])document.getElementById('edit-usuarios-foto_usuarios-preview').src=URL.createObjectURL(this.files[0]);});
+            </script>
       </section>
       <!--end::App Main-->
+

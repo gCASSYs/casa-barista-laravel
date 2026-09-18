@@ -65,7 +65,7 @@
                             type="button"
                             class="btn btn-sm btn-primary"
                             data-bs-toggle="modal"
-                            data-bs-target="#modal-add-user"
+                            data-bs-target="#modal-add-venda"
                           >
                             <i class="bi bi-plus-lg me-1" aria-hidden="true"> </i>
                             Novo registro
@@ -145,6 +145,15 @@
                                   type="button"
                                   class="btn btn-outline-secondary"
                                   aria-label="Editar"
+                                  data-bs-toggle="modal"
+                                  data-bs-target="#modal-edit-venda"
+                                  data-url="{{ route('admin.venda.update', $venda->id_venda) }}"
+                                  data-id_cliente="{{ $venda->id_cliente }}"
+                                  data-data_hora_venda="{{ $venda->data_hora_venda }}"
+                                  data-valor_total_venda="{{ $venda->valor_total_venda }}"
+                                  data-forma_pagamento_venda="{{ $venda->forma_pagamento_venda }}"
+                                  data-observacao_venda="{{ $venda->observacao_venda }}"
+                                  data-status_venda="{{ $venda->status_venda }}"
                                 >
                                   <i class="bi bi-pencil" aria-hidden="true"> </i>
                                 </button>
@@ -152,7 +161,8 @@
                                   type="button"
                                   class="btn btn-outline-danger"
                                   data-bs-toggle="modal"
-                                  data-bs-target="#modal-delete-banner"
+                                  data-bs-target="#modal-status-venda"
+                                  data-status-url="{{ route('admin.venda.status', $venda->id_venda) }}"
                                   aria-label="Deletar"
                                 >
                                   <i class="bi bi-trash" aria-hidden="true"> </i>
@@ -329,5 +339,131 @@
           <!--end::Container-->
         </div>
         <!--end::App Content-->
+
+
+            {{-- MODAL: CADASTRO DE VENDA --}}
+            <div class="modal fade" id="modal-add-venda" tabindex="-1" aria-hidden="true">
+              <div class="modal-dialog"><div class="modal-content">
+                <form action="{{ route('admin.venda.store') }}" method="POST">
+                  @csrf
+                  <div class="modal-header"><h5 class="modal-title">Adicionar Venda</h5><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div>
+                  <div class="modal-body">
+                      <div class="mb-3">
+                        <label for="add-venda-id_cliente" class="form-label">Cliente</label>
+                        <select id="add-venda-id_cliente" class="form-select" name="id_cliente" required>
+                          @foreach ($listaClientes as $opcao)
+                            <option value="{{ $opcao->id_cliente }}">{{ $opcao->nome_cliente }}</option>
+                          @endforeach
+                        </select>
+                      </div>
+                      <div class="mb-3">
+                        <label for="add-venda-data_hora_venda" class="form-label">Data e hora</label>
+                        <input id="add-venda-data_hora_venda" type="datetime-local" class="form-control" name="data_hora_venda"  required />
+                      </div>
+                      <div class="mb-3">
+                        <label for="add-venda-valor_total_venda" class="form-label">Valor total</label>
+                        <input id="add-venda-valor_total_venda" type="number" step="0.01" class="form-control" name="valor_total_venda"  required />
+                      </div>
+                      <div class="mb-3">
+                        <label for="add-venda-forma_pagamento_venda" class="form-label">Forma de pagamento</label>
+                        <input id="add-venda-forma_pagamento_venda" type="text" class="form-control" name="forma_pagamento_venda"  required />
+                      </div>
+                      <div class="mb-3">
+                        <label for="add-venda-observacao_venda" class="form-label">Observação</label>
+                        <input id="add-venda-observacao_venda" type="text" class="form-control" name="observacao_venda"  required />
+                      </div>
+                      <div class="mb-3">
+                        <label for="add-venda-status_venda" class="form-label">Status</label>
+                        <select id="add-venda-status_venda" class="form-select" name="status_venda">
+                          <option value="EM ANDAMENTO">EM ANDAMENTO</option>
+                          <option value="FINALIZADA">FINALIZADA</option>
+                          <option value="CANCELADA">CANCELADA</option>
+                        </select>
+                      </div>
+                  </div>
+                  <div class="modal-footer"><button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button><button type="submit" class="btn btn-primary">Salvar</button></div>
+                </form>
+              </div></div>
+            </div>
+
+            {{-- MODAL: EDIÇÃO DE VENDA --}}
+            <div class="modal fade" id="modal-edit-venda" tabindex="-1" aria-hidden="true">
+              <div class="modal-dialog"><div class="modal-content">
+                <form id="form-edit-venda" method="POST">
+                  @csrf
+                  @method('PUT')
+                  <div class="modal-header"><h5 class="modal-title">Editar Venda</h5><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div>
+                  <div class="modal-body">
+                      <div class="mb-3">
+                        <label for="edit-venda-id_cliente" class="form-label">Cliente</label>
+                        <select id="edit-venda-id_cliente" class="form-select" name="id_cliente" required>
+                          @foreach ($listaClientes as $opcao)
+                            <option value="{{ $opcao->id_cliente }}">{{ $opcao->nome_cliente }}</option>
+                          @endforeach
+                        </select>
+                      </div>
+                      <div class="mb-3">
+                        <label for="edit-venda-data_hora_venda" class="form-label">Data e hora</label>
+                        <input id="edit-venda-data_hora_venda" type="datetime-local" class="form-control" name="data_hora_venda"  required />
+                      </div>
+                      <div class="mb-3">
+                        <label for="edit-venda-valor_total_venda" class="form-label">Valor total</label>
+                        <input id="edit-venda-valor_total_venda" type="number" step="0.01" class="form-control" name="valor_total_venda"  required />
+                      </div>
+                      <div class="mb-3">
+                        <label for="edit-venda-forma_pagamento_venda" class="form-label">Forma de pagamento</label>
+                        <input id="edit-venda-forma_pagamento_venda" type="text" class="form-control" name="forma_pagamento_venda"  required />
+                      </div>
+                      <div class="mb-3">
+                        <label for="edit-venda-observacao_venda" class="form-label">Observação</label>
+                        <input id="edit-venda-observacao_venda" type="text" class="form-control" name="observacao_venda"  required />
+                      </div>
+                      <div class="mb-3">
+                        <label for="edit-venda-status_venda" class="form-label">Status</label>
+                        <select id="edit-venda-status_venda" class="form-select" name="status_venda">
+                          <option value="EM ANDAMENTO">EM ANDAMENTO</option>
+                          <option value="FINALIZADA">FINALIZADA</option>
+                          <option value="CANCELADA">CANCELADA</option>
+                        </select>
+                      </div>
+                  </div>
+                  <div class="modal-footer"><button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button><button type="submit" class="btn btn-primary">Atualizar</button></div>
+                </form>
+              </div></div>
+            </div>
+
+            {{-- MODAL: CONFIRMAÇÃO DA ALTERAÇÃO DE STATUS --}}
+            <div class="modal fade" id="modal-status-venda" tabindex="-1" aria-hidden="true">
+              <div class="modal-dialog"><div class="modal-content">
+                <form id="form-status-venda" method="POST">
+                  @csrf
+                  @method('PATCH')
+                  <div class="modal-header"><h5 class="modal-title">Alterar status</h5><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div>
+                  <div class="modal-body"><p class="mb-0">Tem certeza que deseja alterar o status deste registro?</p></div>
+                  <div class="modal-footer"><button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button><button type="submit" class="btn btn-danger">Confirmar</button></div>
+                </form>
+              </div></div>
+            </div>
+
+            {{-- JAVASCRIPT: PREENCHIMENTO DO MODAL, PREVIEW E STATUS --}}
+            <script>
+              const modalEditvenda=document.getElementById('modal-edit-venda');
+              const modalStatusvenda=document.getElementById('modal-status-venda');
+              modalEditvenda.addEventListener('show.bs.modal',function(event){
+                const botao=event.relatedTarget;
+                document.getElementById('form-edit-venda').action=botao.getAttribute('data-url');
+                document.getElementById('edit-venda-id_cliente').value=botao.getAttribute('data-id_cliente');
+                document.getElementById('edit-venda-data_hora_venda').value=botao.getAttribute('data-data_hora_venda');
+                document.getElementById('edit-venda-valor_total_venda').value=botao.getAttribute('data-valor_total_venda');
+                document.getElementById('edit-venda-forma_pagamento_venda').value=botao.getAttribute('data-forma_pagamento_venda');
+                document.getElementById('edit-venda-observacao_venda').value=botao.getAttribute('data-observacao_venda');
+                document.getElementById('edit-venda-status_venda').value=botao.getAttribute('data-status_venda');
+
+              });
+              modalStatusvenda.addEventListener('show.bs.modal',function(event){document.getElementById('form-status-venda').action=event.relatedTarget.getAttribute('data-status-url');});
+
+            </script>
       </section>
       <!--end::App Main-->
+
+

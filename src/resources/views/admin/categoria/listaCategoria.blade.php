@@ -65,7 +65,7 @@
                             type="button"
                             class="btn btn-sm btn-primary"
                             data-bs-toggle="modal"
-                            data-bs-target="#modal-add-user"
+                            data-bs-target="#modal-add-categoria"
                           >
                             <i class="bi bi-plus-lg me-1" aria-hidden="true"> </i>
                             Novo registro
@@ -118,6 +118,11 @@
                                   type="button"
                                   class="btn btn-outline-secondary"
                                   aria-label="Editar"
+                                  data-bs-toggle="modal"
+                                  data-bs-target="#modal-edit-categoria"
+                                  data-url="{{ route('admin.categoria.update', $categoria->id_categoria) }}"
+                                  data-nome_categoria="{{ $categoria->nome_categoria }}"
+                                  data-status_categoria="{{ $categoria->status_categoria }}"
                                 >
                                   <i class="bi bi-pencil" aria-hidden="true"> </i>
                                 </button>
@@ -125,7 +130,8 @@
                                   type="button"
                                   class="btn btn-outline-danger"
                                   data-bs-toggle="modal"
-                                  data-bs-target="#modal-delete-cetegoria"
+                                  data-bs-target="#modal-status-categoria"
+                                  data-status-url="{{ route('admin.categoria.status', $categoria->id_categoria) }}"
                                   aria-label="Deletar"
                                 >
                                   <i class="bi bi-trash" aria-hidden="true"> </i>
@@ -302,5 +308,84 @@
           <!--end::Container-->
         </div>
         <!--end::App Content-->
+
+
+            {{-- MODAL: CADASTRO DE CATEGORIA --}}
+            <div class="modal fade" id="modal-add-categoria" tabindex="-1" aria-hidden="true">
+              <div class="modal-dialog"><div class="modal-content">
+                <form action="{{ route('admin.categoria.store') }}" method="POST">
+                  @csrf
+                  <div class="modal-header"><h5 class="modal-title">Adicionar Categoria</h5><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div>
+                  <div class="modal-body">
+                      <div class="mb-3">
+                        <label for="add-categoria-nome_categoria" class="form-label">Nome</label>
+                        <input id="add-categoria-nome_categoria" type="text" class="form-control" name="nome_categoria"  required />
+                      </div>
+                      <div class="mb-3">
+                        <label for="add-categoria-status_categoria" class="form-label">Status</label>
+                        <select id="add-categoria-status_categoria" class="form-select" name="status_categoria">
+                          <option value="ATIVO">ATIVO</option>
+                          <option value="INATIVO">INATIVO</option>
+                        </select>
+                      </div>
+                  </div>
+                  <div class="modal-footer"><button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button><button type="submit" class="btn btn-primary">Salvar</button></div>
+                </form>
+              </div></div>
+            </div>
+
+            {{-- MODAL: EDIÇÃO DE CATEGORIA --}}
+            <div class="modal fade" id="modal-edit-categoria" tabindex="-1" aria-hidden="true">
+              <div class="modal-dialog"><div class="modal-content">
+                <form id="form-edit-categoria" method="POST">
+                  @csrf
+                  @method('PUT')
+                  <div class="modal-header"><h5 class="modal-title">Editar Categoria</h5><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div>
+                  <div class="modal-body">
+                      <div class="mb-3">
+                        <label for="edit-categoria-nome_categoria" class="form-label">Nome</label>
+                        <input id="edit-categoria-nome_categoria" type="text" class="form-control" name="nome_categoria"  required />
+                      </div>
+                      <div class="mb-3">
+                        <label for="edit-categoria-status_categoria" class="form-label">Status</label>
+                        <select id="edit-categoria-status_categoria" class="form-select" name="status_categoria">
+                          <option value="ATIVO">ATIVO</option>
+                          <option value="INATIVO">INATIVO</option>
+                        </select>
+                      </div>
+                  </div>
+                  <div class="modal-footer"><button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button><button type="submit" class="btn btn-primary">Atualizar</button></div>
+                </form>
+              </div></div>
+            </div>
+
+            {{-- MODAL: CONFIRMAÇÃO DA ALTERAÇÃO DE STATUS --}}
+            <div class="modal fade" id="modal-status-categoria" tabindex="-1" aria-hidden="true">
+              <div class="modal-dialog"><div class="modal-content">
+                <form id="form-status-categoria" method="POST">
+                  @csrf
+                  @method('PATCH')
+                  <div class="modal-header"><h5 class="modal-title">Alterar status</h5><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div>
+                  <div class="modal-body"><p class="mb-0">Tem certeza que deseja alterar o status deste registro?</p></div>
+                  <div class="modal-footer"><button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button><button type="submit" class="btn btn-danger">Confirmar</button></div>
+                </form>
+              </div></div>
+            </div>
+
+            {{-- JAVASCRIPT: PREENCHIMENTO DO MODAL, PREVIEW E STATUS --}}
+            <script>
+              const modalEditcategoria=document.getElementById('modal-edit-categoria');
+              const modalStatuscategoria=document.getElementById('modal-status-categoria');
+              modalEditcategoria.addEventListener('show.bs.modal',function(event){
+                const botao=event.relatedTarget;
+                document.getElementById('form-edit-categoria').action=botao.getAttribute('data-url');
+                document.getElementById('edit-categoria-nome_categoria').value=botao.getAttribute('data-nome_categoria');
+                document.getElementById('edit-categoria-status_categoria').value=botao.getAttribute('data-status_categoria');
+
+              });
+              modalStatuscategoria.addEventListener('show.bs.modal',function(event){document.getElementById('form-status-categoria').action=event.relatedTarget.getAttribute('data-status-url');});
+
+            </script>
       </section>
       <!--end::App Main-->
+

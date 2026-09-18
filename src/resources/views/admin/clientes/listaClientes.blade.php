@@ -65,7 +65,7 @@
                             type="button"
                             class="btn btn-sm btn-primary"
                             data-bs-toggle="modal"
-                            data-bs-target="#modal-add-user"
+                            data-bs-target="#modal-add-clientes"
                           >
                             <i class="bi bi-plus-lg me-1" aria-hidden="true"> </i>
                             Novo registro
@@ -144,6 +144,13 @@
                                   type="button"
                                   class="btn btn-outline-secondary"
                                   aria-label="Editar"
+                                  data-bs-toggle="modal"
+                                  data-bs-target="#modal-edit-clientes"
+                                  data-url="{{ route('admin.clientes.update', $cliente->id_cliente) }}"
+                                  data-nome_cliente="{{ $cliente->nome_cliente }}"
+                                  data-email_cliente="{{ $cliente->email_cliente }}"
+                                  data-status_cliente="{{ $cliente->status_cliente }}"
+                                  data-foto_cliente="{{ asset('barista/assets/' . $cliente->foto_cliente) }}"
                                 >
                                   <i class="bi bi-pencil" aria-hidden="true"> </i>
                                 </button>
@@ -151,7 +158,8 @@
                                   type="button"
                                   class="btn btn-outline-danger"
                                   data-bs-toggle="modal"
-                                  data-bs-target="#modal-delete-cliente"
+                                  data-bs-target="#modal-status-clientes"
+                                  data-status-url="{{ route('admin.clientes.status', $cliente->id_cliente) }}"
                                   aria-label="Deletar"
                                 >
                                   <i class="bi bi-trash" aria-hidden="true"> </i>
@@ -328,5 +336,112 @@
           <!--end::Container-->
         </div>
         <!--end::App Content-->
+
+
+            {{-- MODAL: CADASTRO DE CLIENTE --}}
+            <div class="modal fade" id="modal-add-clientes" tabindex="-1" aria-hidden="true">
+              <div class="modal-dialog"><div class="modal-content">
+                <form action="{{ route('admin.clientes.store') }}" method="POST" enctype="multipart/form-data">
+                  @csrf
+                  <div class="modal-header"><h5 class="modal-title">Adicionar Cliente</h5><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div>
+                  <div class="modal-body">
+                      <div class="mb-3">
+                        <label for="add-clientes-nome_cliente" class="form-label">Nome</label>
+                        <input id="add-clientes-nome_cliente" type="text" class="form-control" name="nome_cliente"  required />
+                      </div>
+                      <div class="mb-3">
+                        <label for="add-clientes-email_cliente" class="form-label">E-mail</label>
+                        <input id="add-clientes-email_cliente" type="email" class="form-control" name="email_cliente"  required />
+                      </div>
+                      <div class="mb-3">
+                        <label for="add-clientes-senha_cliente" class="form-label">Senha</label>
+                        <input id="add-clientes-senha_cliente" type="password" class="form-control" name="senha_cliente"  required />
+                      </div>
+                      <div class="mb-3">
+                        <label for="add-clientes-foto_cliente" class="form-label">Foto</label>
+                        <input id="add-clientes-foto_cliente" type="file" class="form-control" name="foto_cliente" accept="image/*" required />
+                        <img id="add-clientes-foto_cliente-preview" class="img-fluid rounded mt-2" alt="Prévia da imagem" />
+                      </div>
+                      <div class="mb-3">
+                        <label for="add-clientes-status_cliente" class="form-label">Status</label>
+                        <select id="add-clientes-status_cliente" class="form-select" name="status_cliente">
+                          <option value="ATIVO">ATIVO</option>
+                          <option value="INATIVO">INATIVO</option>
+                        </select>
+                      </div>
+                  </div>
+                  <div class="modal-footer"><button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button><button type="submit" class="btn btn-primary">Salvar</button></div>
+                </form>
+              </div></div>
+            </div>
+
+            {{-- MODAL: EDIÇÃO DE CLIENTE --}}
+            <div class="modal fade" id="modal-edit-clientes" tabindex="-1" aria-hidden="true">
+              <div class="modal-dialog"><div class="modal-content">
+                <form id="form-edit-clientes" method="POST" enctype="multipart/form-data">
+                  @csrf
+                  @method('PUT')
+                  <div class="modal-header"><h5 class="modal-title">Editar Cliente</h5><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div>
+                  <div class="modal-body">
+                      <div class="mb-3">
+                        <label for="edit-clientes-nome_cliente" class="form-label">Nome</label>
+                        <input id="edit-clientes-nome_cliente" type="text" class="form-control" name="nome_cliente"  required />
+                      </div>
+                      <div class="mb-3">
+                        <label for="edit-clientes-email_cliente" class="form-label">E-mail</label>
+                        <input id="edit-clientes-email_cliente" type="email" class="form-control" name="email_cliente"  required />
+                      </div>
+                      <div class="mb-3">
+                        <label for="edit-clientes-senha_cliente" class="form-label">Senha</label>
+                        <input id="edit-clientes-senha_cliente" type="password" class="form-control" name="senha_cliente" placeholder="Deixe vazio para manter a senha"  />
+                      </div>
+                      <div class="mb-3">
+                        <label for="edit-clientes-foto_cliente" class="form-label">Foto</label>
+                        <input id="edit-clientes-foto_cliente" type="file" class="form-control" name="foto_cliente" accept="image/*"  />
+                        <img id="edit-clientes-foto_cliente-preview" class="img-fluid rounded mt-2" alt="Prévia da imagem" />
+                      </div>
+                      <div class="mb-3">
+                        <label for="edit-clientes-status_cliente" class="form-label">Status</label>
+                        <select id="edit-clientes-status_cliente" class="form-select" name="status_cliente">
+                          <option value="ATIVO">ATIVO</option>
+                          <option value="INATIVO">INATIVO</option>
+                        </select>
+                      </div>
+                  </div>
+                  <div class="modal-footer"><button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button><button type="submit" class="btn btn-primary">Atualizar</button></div>
+                </form>
+              </div></div>
+            </div>
+
+            {{-- MODAL: CONFIRMAÇÃO DA ALTERAÇÃO DE STATUS --}}
+            <div class="modal fade" id="modal-status-clientes" tabindex="-1" aria-hidden="true">
+              <div class="modal-dialog"><div class="modal-content">
+                <form id="form-status-clientes" method="POST">
+                  @csrf
+                  @method('PATCH')
+                  <div class="modal-header"><h5 class="modal-title">Alterar status</h5><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div>
+                  <div class="modal-body"><p class="mb-0">Tem certeza que deseja alterar o status deste registro?</p></div>
+                  <div class="modal-footer"><button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button><button type="submit" class="btn btn-danger">Confirmar</button></div>
+                </form>
+              </div></div>
+            </div>
+
+            {{-- JAVASCRIPT: PREENCHIMENTO DO MODAL, PREVIEW E STATUS --}}
+            <script>
+              const modalEditclientes=document.getElementById('modal-edit-clientes');
+              const modalStatusclientes=document.getElementById('modal-status-clientes');
+              modalEditclientes.addEventListener('show.bs.modal',function(event){
+                const botao=event.relatedTarget;
+                document.getElementById('form-edit-clientes').action=botao.getAttribute('data-url');
+                document.getElementById('edit-clientes-nome_cliente').value=botao.getAttribute('data-nome_cliente');
+                document.getElementById('edit-clientes-email_cliente').value=botao.getAttribute('data-email_cliente');
+                document.getElementById('edit-clientes-status_cliente').value=botao.getAttribute('data-status_cliente');
+                document.getElementById('edit-clientes-foto_cliente-preview').src=botao.getAttribute('data-foto_cliente');
+              });
+              modalStatusclientes.addEventListener('show.bs.modal',function(event){document.getElementById('form-status-clientes').action=event.relatedTarget.getAttribute('data-status-url');});
+              document.getElementById('add-clientes-foto_cliente').addEventListener('change',function(){if(this.files[0])document.getElementById('add-clientes-foto_cliente-preview').src=URL.createObjectURL(this.files[0]);});
+              document.getElementById('edit-clientes-foto_cliente').addEventListener('change',function(){if(this.files[0])document.getElementById('edit-clientes-foto_cliente-preview').src=URL.createObjectURL(this.files[0]);});
+            </script>
       </section>
       <!--end::App Main-->
+

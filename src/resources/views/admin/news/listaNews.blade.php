@@ -65,7 +65,7 @@
                             type="button"
                             class="btn btn-sm btn-primary"
                             data-bs-toggle="modal"
-                            data-bs-target="#modal-add-user"
+                            data-bs-target="#modal-add-news"
                           >
                             <i class="bi bi-plus-lg me-1" aria-hidden="true"> </i>
                             Novo registro
@@ -116,6 +116,11 @@
                                   type="button"
                                   class="btn btn-outline-secondary"
                                   aria-label="Editar"
+                                  data-bs-toggle="modal"
+                                  data-bs-target="#modal-edit-news"
+                                  data-url="{{ route('admin.news.update', $news->id_news) }}"
+                                  data-email_news="{{ $news->email_news }}"
+                                  data-aceite_news="{{ $news->aceite_news }}"
                                 >
                                   <i class="bi bi-pencil" aria-hidden="true"> </i>
                                 </button>
@@ -123,7 +128,8 @@
                                   type="button"
                                   class="btn btn-outline-danger"
                                   data-bs-toggle="modal"
-                                  data-bs-target="#modal-delete-produto"
+                                  data-bs-target="#modal-status-news"
+                                  data-status-url="{{ route('admin.news.status', $news->id_news) }}"
                                   aria-label="Deletar"
                                 >
                                   <i class="bi bi-trash" aria-hidden="true"> </i>
@@ -300,5 +306,84 @@
           <!--end::Container-->
         </div>
         <!--end::App Content-->
+
+
+            {{-- MODAL: CADASTRO DE NEWSLETTER --}}
+            <div class="modal fade" id="modal-add-news" tabindex="-1" aria-hidden="true">
+              <div class="modal-dialog"><div class="modal-content">
+                <form action="{{ route('admin.news.store') }}" method="POST">
+                  @csrf
+                  <div class="modal-header"><h5 class="modal-title">Adicionar Newsletter</h5><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div>
+                  <div class="modal-body">
+                      <div class="mb-3">
+                        <label for="add-news-email_news" class="form-label">E-mail</label>
+                        <input id="add-news-email_news" type="email" class="form-control" name="email_news"  required />
+                      </div>
+                      <div class="mb-3">
+                        <label for="add-news-aceite_news" class="form-label">Aceite</label>
+                        <select id="add-news-aceite_news" class="form-select" name="aceite_news">
+                          <option value="1">Sim</option>
+                          <option value="0">Não</option>
+                        </select>
+                      </div>
+                  </div>
+                  <div class="modal-footer"><button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button><button type="submit" class="btn btn-primary">Salvar</button></div>
+                </form>
+              </div></div>
+            </div>
+
+            {{-- MODAL: EDIÇÃO DE NEWSLETTER --}}
+            <div class="modal fade" id="modal-edit-news" tabindex="-1" aria-hidden="true">
+              <div class="modal-dialog"><div class="modal-content">
+                <form id="form-edit-news" method="POST">
+                  @csrf
+                  @method('PUT')
+                  <div class="modal-header"><h5 class="modal-title">Editar Newsletter</h5><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div>
+                  <div class="modal-body">
+                      <div class="mb-3">
+                        <label for="edit-news-email_news" class="form-label">E-mail</label>
+                        <input id="edit-news-email_news" type="email" class="form-control" name="email_news"  required />
+                      </div>
+                      <div class="mb-3">
+                        <label for="edit-news-aceite_news" class="form-label">Aceite</label>
+                        <select id="edit-news-aceite_news" class="form-select" name="aceite_news">
+                          <option value="1">Sim</option>
+                          <option value="0">Não</option>
+                        </select>
+                      </div>
+                  </div>
+                  <div class="modal-footer"><button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button><button type="submit" class="btn btn-primary">Atualizar</button></div>
+                </form>
+              </div></div>
+            </div>
+
+            {{-- MODAL: CONFIRMAÇÃO DA ALTERAÇÃO DE STATUS --}}
+            <div class="modal fade" id="modal-status-news" tabindex="-1" aria-hidden="true">
+              <div class="modal-dialog"><div class="modal-content">
+                <form id="form-status-news" method="POST">
+                  @csrf
+                  @method('PATCH')
+                  <div class="modal-header"><h5 class="modal-title">Alterar status</h5><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div>
+                  <div class="modal-body"><p class="mb-0">Tem certeza que deseja alterar o status deste registro?</p></div>
+                  <div class="modal-footer"><button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button><button type="submit" class="btn btn-danger">Confirmar</button></div>
+                </form>
+              </div></div>
+            </div>
+
+            {{-- JAVASCRIPT: PREENCHIMENTO DO MODAL, PREVIEW E STATUS --}}
+            <script>
+              const modalEditnews=document.getElementById('modal-edit-news');
+              const modalStatusnews=document.getElementById('modal-status-news');
+              modalEditnews.addEventListener('show.bs.modal',function(event){
+                const botao=event.relatedTarget;
+                document.getElementById('form-edit-news').action=botao.getAttribute('data-url');
+                document.getElementById('edit-news-email_news').value=botao.getAttribute('data-email_news');
+                document.getElementById('edit-news-aceite_news').value=botao.getAttribute('data-aceite_news');
+
+              });
+              modalStatusnews.addEventListener('show.bs.modal',function(event){document.getElementById('form-status-news').action=event.relatedTarget.getAttribute('data-status-url');});
+
+            </script>
       </section>
       <!--end::App Main-->
+
