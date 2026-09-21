@@ -171,7 +171,7 @@
 
                                   @if($banner->status_banner === 'ATIVO')
                                     <button
-                                      type="submit"
+                                      type="button"
                                       class="btn btn-outline-danger"
                                       data-bs-toggle="modal"
                                       data-bs-target="#modal-status-banner"
@@ -179,12 +179,12 @@
                                       data-url="{{ route('admin.banner.status', $banner->id_banner) }}"
                                       data-titulo="{{ $banner->id_banner }}"
                                       data-status="ATIVO"
-                                      aria-label="Deletar">
+                                      aria-label="Desativar banner">
                                       <i class="bi bi-eye-fill" aria-hidden="true"> </i>
                                     </button>
                                       @else
                                         <button
-                                          type="submit"
+                                          type="button"
                                           class="btn btn-outline-success"
                                           data-bs-toggle="modal"
                                           data-bs-target="#modal-status-banner"
@@ -192,7 +192,7 @@
                                           data-url="{{ route('admin.banner.status', $banner->id_banner) }}"
                                           data-titulo="{{ $banner->id_banner }}"
                                           data-status="INATIVO"
-                                          aria-label="Deletar">
+                                          aria-label="Ativar banner">
                                           <i class="bi bi-eye-slash-fill" aria-hidden="true"> </i>
                                         </button> 
 

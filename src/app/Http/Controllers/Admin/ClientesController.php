@@ -4,13 +4,17 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Cliente;
+use App\Services\ImageProcessor;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 
 class ClientesController extends Controller
-{   
+{
+    public function __construct(private readonly ImageProcessor $imageProcessor) {}
+
     //Lista todos os clientes cadastrados
     public function index()
     {
@@ -28,17 +32,23 @@ class ClientesController extends Controller
             'senha_cliente' => 'required|string|min:6', 'foto_cliente' => 'required|image|mimes:jpg,jpeg,png,webp|max:4096',
             'status_cliente' => 'required|in:ATIVO,INATIVO',
         ]);
+        $arquivoSalvo = null;
         try {
+            DB::beginTransaction();
             $cliente = Cliente::create(array_merge($dados, ['senha_cliente' => Hash::make($dados['senha_cliente']), 'foto_cliente' => 'cliente/sem-foto.png']));
             $imagem = $request->file('foto_cliente');
             // Usa o nome do cliente no arquivo, junto com o ID para não repetir.
             $nomeCliente = Str::limit(Str::slug($dados['nome_cliente'], '_'), 38, '');
             $nome = $nomeCliente . '_' . $cliente->id_cliente . '.' . $imagem->extension();
             File::ensureDirectoryExists(public_path('barista/assets/cliente'));
-            $imagem->move(public_path('barista/assets/cliente'), $nome);
+            $this->imageProcessor->cover($imagem, public_path('barista/assets/cliente/' . $nome), 350, 350);
+            $arquivoSalvo = public_path('barista/assets/cliente/' . $nome);
             $cliente->update(['foto_cliente' => 'cliente/' . $nome]);
+            DB::commit();
             return redirect()->route('admin.clientes.index')->with('sucesso', 'Cliente cadastrado com sucesso!');
         } catch (\Throwable $th) {
+            if (DB::transactionLevel() > 0) DB::rollBack();
+            if ($arquivoSalvo && File::exists($arquivoSalvo)) File::delete($arquivoSalvo);
             report($th); return back()->withInput()->with('erro', 'Não foi possível cadastrar o cliente.');
         }
     }
@@ -57,11 +67,12 @@ class ClientesController extends Controller
             $dados['senha_cliente'] = $dados['senha_cliente'] ? Hash::make($dados['senha_cliente']) : $cliente->senha_cliente;
             if ($request->hasFile('foto_cliente')) {
                 $antiga = public_path('barista/assets/' . $cliente->foto_cliente);
-                if (File::exists($antiga)) unlink($antiga);
                 $imagem = $request->file('foto_cliente');
                 $nomeCliente = Str::limit(Str::slug($dados['nome_cliente'], '_'), 38, '');
                 $nome = $nomeCliente . '_' . $cliente->id_cliente . '.' . $imagem->extension();
-                $imagem->move(public_path('barista/assets/cliente'), $nome);
+                $nova = public_path('barista/assets/cliente/' . $nome);
+                $this->imageProcessor->cover($imagem, $nova, 350, 350);
+                if ($antiga !== $nova && File::exists($antiga)) File::delete($antiga);
                 $dados['foto_cliente'] = 'cliente/' . $nome;
             } elseif ($cliente->nome_cliente !== $dados['nome_cliente']) {
                 // Renomeia a foto atual quando somente o nome do cliente muda.
@@ -95,5 +106,3 @@ class ClientesController extends Controller
         }
     }
 }
-
-

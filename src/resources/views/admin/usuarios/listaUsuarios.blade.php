@@ -68,7 +68,7 @@
                             data-bs-target="#modal-add-usuarios"
                           >
                             <i class="bi bi-plus-lg me-1" aria-hidden="true"> </i>
-                            Novo registro
+                            Novo usuario
                           </button>
                         </div>
                       </div>
@@ -167,13 +167,14 @@
                                 </button>
                                 <button
                                   type="button"
-                                  class="btn btn-outline-danger"
+                                  class="btn {{ $usuarios->status_usuarios === 'ATIVO' ? 'btn-outline-danger' : 'btn-outline-success' }}"
                                   data-bs-toggle="modal"
                                   data-bs-target="#modal-status-usuarios"
                                   data-status-url="{{ route('admin.usuarios.status', $usuarios->id_usuarios) }}"
-                                  aria-label="Deletar"
+                                  title="{{ $usuarios->status_usuarios === 'ATIVO' ? 'Desativar usuário' : 'Ativar usuário' }}"
+                                  aria-label="{{ $usuarios->status_usuarios === 'ATIVO' ? 'Desativar usuário' : 'Ativar usuário' }}"
                                 >
-                                  <i class="bi bi-trash" aria-hidden="true"> </i>
+                                  <i class="bi {{ $usuarios->status_usuarios === 'ATIVO' ? 'bi-eye-fill' : 'bi-eye-slash-fill' }}" aria-hidden="true"> </i>
                                 </button>
                               </div>
                             </td>
@@ -439,7 +440,7 @@
                   @csrf
                   @method('PATCH')
                   <div class="modal-header"><h5 class="modal-title">Alterar status</h5><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div>
-                  <div class="modal-body"><p class="mb-0">Tem certeza que deseja alterar o status deste registro?</p></div>
+                  <div class="modal-body"><p class="mb-0">Tem certeza que deseja alterar o status deste usuario?</p></div>
                   <div class="modal-footer"><button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button><button type="submit" class="btn btn-danger">Confirmar</button></div>
                 </form>
               </div></div>
@@ -464,4 +465,3 @@
             </script>
       </section>
       <!--end::App Main-->
-

@@ -4,12 +4,16 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Galeria;
+use App\Services\ImageProcessor;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 
 class GaleriaController extends Controller
-{   
+{
+    public function __construct(private readonly ImageProcessor $imageProcessor) {}
+
     //Lista todos os galérias cadastrados
     public function index()
     {
@@ -28,7 +32,10 @@ class GaleriaController extends Controller
             'status_galeria' => 'required|in:ATIVO,INATIVO',
         ]);
 
+        $arquivoSalvo = null;
+
         try {
+            DB::beginTransaction();
             $galeria = Galeria::create([
                 'nome_galeria' => $dados['nome_galeria'],
                 'imagem_galeria' => 'galeria/sem-foto.png',
@@ -38,11 +45,15 @@ class GaleriaController extends Controller
             $nome = Str::limit(Str::slug($dados['nome_galeria'], '_'), 42, '') . '_' . $galeria->id_galeria . '.' . $imagem->extension();
             $pasta = public_path('barista/assets/galeria');
             File::ensureDirectoryExists($pasta);
-            $imagem->move($pasta, $nome);
+            $this->imageProcessor->cover($imagem, $pasta . DIRECTORY_SEPARATOR . $nome, 800, 800);
+            $arquivoSalvo = $pasta . DIRECTORY_SEPARATOR . $nome;
             $galeria->update(['imagem_galeria' => 'galeria/' . $nome]);
+            DB::commit();
 
             return redirect()->route('admin.galeria.index')->with('sucesso', 'Imagem cadastrada com sucesso!');
         } catch (\Throwable $th) {
+            if (DB::transactionLevel() > 0) DB::rollBack();
+            if ($arquivoSalvo && File::exists($arquivoSalvo)) File::delete($arquivoSalvo);
             report($th);
             return back()->withInput()->with('erro', 'Não foi possível cadastrar a imagem. Tente novamente.');
         }
@@ -62,10 +73,11 @@ class GaleriaController extends Controller
             $caminho = $galeria->imagem_galeria;
             if ($request->hasFile('imagem_galeria')) {
                 $antiga = public_path('barista/assets/' . $galeria->imagem_galeria);
-                if (File::exists($antiga)) unlink($antiga);
                 $imagem = $request->file('imagem_galeria');
                 $nome = Str::limit(Str::slug($dados['nome_galeria'], '_'), 42, '') . '_' . $galeria->id_galeria . '.' . $imagem->extension();
-                $imagem->move(public_path('barista/assets/galeria'), $nome);
+                $nova = public_path('barista/assets/galeria/' . $nome);
+                $this->imageProcessor->cover($imagem, $nova, 800, 800);
+                if ($antiga !== $nova && File::exists($antiga)) File::delete($antiga);
                 $caminho = 'galeria/' . $nome;
             } elseif ($galeria->nome_galeria !== $dados['nome_galeria']) {
                 // Renomeia a imagem atual quando somente o nome da galeria muda.
@@ -105,5 +117,3 @@ class GaleriaController extends Controller
         }
     }
 }
-
-

@@ -158,13 +158,14 @@
                                 </button>
                                 <button
                                   type="button"
-                                  class="btn btn-outline-danger"
+                                  class="btn {{ $depoimento->status_depoimento === 'APROVADO' ? 'btn-outline-danger' : 'btn-outline-success' }}"
                                   data-bs-toggle="modal"
                                   data-bs-target="#modal-status-depoimento"
                                   data-status-url="{{ route('admin.depoimento.status', $depoimento->id_depoimento) }}"
-                                  aria-label="Deletar"
+                                  title="{{ $depoimento->status_depoimento === 'APROVADO' ? 'Reprovar depoimento' : 'Aprovar depoimento' }}"
+                                  aria-label="{{ $depoimento->status_depoimento === 'APROVADO' ? 'Reprovar depoimento' : 'Aprovar depoimento' }}"
                                 >
-                                  <i class="bi bi-trash" aria-hidden="true"> </i>
+                                  <i class="bi {{ $depoimento->status_depoimento === 'APROVADO' ? 'bi-eye-fill' : 'bi-eye-slash-fill' }}" aria-hidden="true"> </i>
                                 </button>
                               </div>
                             </td>
@@ -455,5 +456,4 @@
             </script>
       </section>
       <!--end::App Main-->
-
 

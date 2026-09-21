@@ -68,7 +68,7 @@
                             data-bs-target="#modal-add-news"
                           >
                             <i class="bi bi-plus-lg me-1" aria-hidden="true"> </i>
-                            Novo registro
+                            Nova Newlatter
                           </button>
                         </div>
                       </div>
@@ -126,13 +126,14 @@
                                 </button>
                                 <button
                                   type="button"
-                                  class="btn btn-outline-danger"
+                                  class="btn {{ $news->aceite_news == 1 ? 'btn-outline-danger' : 'btn-outline-success' }}"
                                   data-bs-toggle="modal"
                                   data-bs-target="#modal-status-news"
                                   data-status-url="{{ route('admin.news.status', $news->id_news) }}"
-                                  aria-label="Deletar"
+                                  title="{{ $news->aceite_news == 1 ? 'Desativar aceite' : 'Ativar aceite' }}"
+                                  aria-label="{{ $news->aceite_news == 1 ? 'Desativar aceite' : 'Ativar aceite' }}"
                                 >
-                                  <i class="bi bi-trash" aria-hidden="true"> </i>
+                                  <i class="bi {{ $news->aceite_news == 1 ? 'bi-eye-fill' : 'bi-eye-slash-fill' }}" aria-hidden="true"> </i>
                                 </button>
                               </div>
                             </td>
@@ -364,7 +365,7 @@
                   @csrf
                   @method('PATCH')
                   <div class="modal-header"><h5 class="modal-title">Alterar status</h5><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div>
-                  <div class="modal-body"><p class="mb-0">Tem certeza que deseja alterar o status deste registro?</p></div>
+                  <div class="modal-body"><p class="mb-0">Tem certeza que deseja alterar o status desta Newlatter?</p></div>
                   <div class="modal-footer"><button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button><button type="submit" class="btn btn-danger">Confirmar</button></div>
                 </form>
               </div></div>
@@ -386,4 +387,3 @@
             </script>
       </section>
       <!--end::App Main-->
-

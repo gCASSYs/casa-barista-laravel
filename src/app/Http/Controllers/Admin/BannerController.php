@@ -4,13 +4,16 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Banner;
+use App\Services\ImageProcessor;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\DB;
 
 class BannerController extends Controller
-{   
+{
+    public function __construct(private readonly ImageProcessor $imageProcessor) {}
+
     //Lista todos os banners cadastrados
     public function index()
     {
@@ -67,7 +70,7 @@ class BannerController extends Controller
             $diretorioBanner = public_path('barista/assets/banner');
             // Cria a pasta se ela não existir.
             File::ensureDirectoryExists($diretorioBanner);
-            $imagem->move($diretorioBanner, $nomeImg);
+            $this->imageProcessor->cover($imagem, $diretorioBanner . DIRECTORY_SEPARATOR . $nomeImg, 1920, 740);
             $caminhoArquivo = $diretorioBanner . DIRECTORY_SEPARATOR . $nomeImg;
 
             // 6 - Salva no banco o caminho final da imagem.
@@ -145,14 +148,12 @@ class BannerController extends Controller
                 $nomeImg = $tituloSlung . '_' . $banner->id_banner . '.' . $extensao;
                 //dd($nomeImg);
                 
-                // Excluir a imagem anterior se ela existir
-                if (File::exists($imgAntiga)) {
-                    unlink($imgAntiga);
-                }
-
-                
                 //salvar a nova imagem
-                $imagem->move($pasta, $nomeImg);
+                $novaImagem = $pasta . DIRECTORY_SEPARATOR . $nomeImg;
+                $this->imageProcessor->cover($imagem, $novaImagem, 1920, 740);
+                if ($imgAntiga !== $novaImagem && File::exists($imgAntiga)) {
+                    File::delete($imgAntiga);
+                }
                 $caminhoArquivo = 'banner/' . $nomeImg;
 
             }elseif ($banner->titulo_banner !== $request->titulo_banner) {
@@ -269,4 +270,3 @@ class BannerController extends Controller
 
     6. A transação e o try/catch desfazem o cadastro e removem a imagem se falhar.
 */
-

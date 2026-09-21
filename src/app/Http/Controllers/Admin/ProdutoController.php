@@ -5,12 +5,16 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Produto;
 use App\Models\Categoria;
+use App\Services\ImageProcessor;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 
 class ProdutoController extends Controller
-{   
+{
+    public function __construct(private readonly ImageProcessor $imageProcessor) {}
+
     //Lista todos os produtos cadastrados
     public function index()
     {
@@ -30,17 +34,23 @@ class ProdutoController extends Controller
             'valor_produto' => 'required|numeric|min:0', 'imagem_produto' => 'required|image|mimes:jpg,jpeg,png,webp|max:4096',
             'destaque_produto' => 'required|in:0,1', 'status_produto' => 'required|in:ATIVO,INATIVO',
         ]);
+        $arquivoSalvo = null;
         try {
+            DB::beginTransaction();
             $produto = Produto::create(array_merge($dados, ['imagem_produto' => 'produto/sem-foto.png']));
             $imagem = $request->file('imagem_produto');
             // Usa o nome do produto no arquivo, junto com o ID para não repetir.
             $nomeProduto = Str::limit(Str::slug($dados['nome_produto'], '_'), 20, '');
             $nome = $nomeProduto . '_' . $produto->id_produto . '.' . $imagem->extension();
             File::ensureDirectoryExists(public_path('barista/assets/produto'));
-            $imagem->move(public_path('barista/assets/produto'), $nome);
+            $this->imageProcessor->cover($imagem, public_path('barista/assets/produto/' . $nome), 960, 480);
+            $arquivoSalvo = public_path('barista/assets/produto/' . $nome);
             $produto->update(['imagem_produto' => 'produto/' . $nome]);
+            DB::commit();
             return redirect()->route('admin.produto.index')->with('sucesso', 'Produto cadastrado com sucesso!');
         } catch (\Throwable $th) {
+            if (DB::transactionLevel() > 0) DB::rollBack();
+            if ($arquivoSalvo && File::exists($arquivoSalvo)) File::delete($arquivoSalvo);
             report($th); return back()->withInput()->with('erro', 'Não foi possível cadastrar o produto.');
         }
     }
@@ -59,12 +69,13 @@ class ProdutoController extends Controller
             $caminho = $produto->imagem_produto;
             if ($request->hasFile('imagem_produto')) {
                 $antiga = public_path('barista/assets/' . $produto->imagem_produto);
-                if (File::exists($antiga)) unlink($antiga);
                 $imagem = $request->file('imagem_produto');
                 $nomeProduto = Str::limit(Str::slug($dados['nome_produto'], '_'), 20, '');
                 $nome = $nomeProduto . '_' . $produto->id_produto . '.' . $imagem->extension();
                 File::ensureDirectoryExists(public_path('barista/assets/produto'));
-                $imagem->move(public_path('barista/assets/produto'), $nome);
+                $nova = public_path('barista/assets/produto/' . $nome);
+                $this->imageProcessor->cover($imagem, $nova, 960, 480);
+                if ($antiga !== $nova && File::exists($antiga)) File::delete($antiga);
                 $caminho = 'produto/' . $nome;
             } elseif ($produto->nome_produto !== $dados['nome_produto']) {
                 // Renomeia a imagem atual quando somente o nome do produto muda.
@@ -99,5 +110,3 @@ class ProdutoController extends Controller
         }
     }
 }
-
-

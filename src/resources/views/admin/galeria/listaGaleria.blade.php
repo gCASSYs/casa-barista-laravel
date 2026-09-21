@@ -12,7 +12,7 @@
               <div class="col-sm-6">
                 <nav aria-label="breadcrumb">
                   <ol class="breadcrumb float-sm-end">
-                    <li class="breadcrumb-item"><a href="{{ route('admin.galeria.index') }}">Home</a></li>
+                    <li class="breadcrumb-item"><a href="{{ route('admin.galeria.index') }}">Dashboard</a></li>
                     <li class="breadcrumb-item active" aria-current="page">Galerias</li>
                   </ol>
                 </nav>
@@ -68,7 +68,7 @@
                             data-bs-target="#modal-add-galeria"
                           >
                             <i class="bi bi-plus-lg me-1" aria-hidden="true"> </i>
-                            Novo registro
+                            Nova Imagem
                           </button>
                         </div>
                       </div>
@@ -142,13 +142,14 @@
                                 </button>
                                 <button
                                   type="button"
-                                  class="btn btn-outline-danger"
+                                  class="btn {{ $galeria->status_galeria === 'ATIVO' ? 'btn-outline-danger' : 'btn-outline-success' }}"
                                   data-bs-toggle="modal"
                                   data-bs-target="#modal-status-galeria"
                                   data-status-url="{{ route('admin.galeria.status', $galeria->id_galeria) }}"
-                                  aria-label="DeletAR"
+                                  title="{{ $galeria->status_galeria === 'ATIVO' ? 'Desativar imagem' : 'Ativar imagem' }}"
+                                  aria-label="{{ $galeria->status_galeria === 'ATIVO' ? 'Desativar imagem' : 'Ativar imagem' }}"
                                 >
-                                  <i class="bi bi-trash" aria-hidden="true"> </i>
+                                  <i class="bi {{ $galeria->status_galeria === 'ATIVO' ? 'bi-eye-fill' : 'bi-eye-slash-fill' }}" aria-hidden="true"> </i>
                                 </button>
                               </div>
                             </td>
@@ -390,7 +391,7 @@
                   @csrf
                   @method('PATCH')
                   <div class="modal-header"><h5 class="modal-title">Alterar status</h5><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div>
-                  <div class="modal-body"><p class="mb-0">Tem certeza que deseja alterar o status deste registro?</p></div>
+                  <div class="modal-body"><p class="mb-0">Tem certeza que deseja alterar o status desta imagem?</p></div>
                   <div class="modal-footer"><button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button><button type="submit" class="btn btn-danger">Confirmar</button></div>
                 </form>
               </div></div>
@@ -413,5 +414,4 @@
             </script>
       </section>
       <!--end::App Main-->
-
 

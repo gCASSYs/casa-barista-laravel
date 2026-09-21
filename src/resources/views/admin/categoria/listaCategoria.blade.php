@@ -68,7 +68,7 @@
                             data-bs-target="#modal-add-categoria"
                           >
                             <i class="bi bi-plus-lg me-1" aria-hidden="true"> </i>
-                            Novo registro
+                            Nova categoria
                           </button>
                         </div>
                       </div>
@@ -128,13 +128,14 @@
                                 </button>
                                 <button
                                   type="button"
-                                  class="btn btn-outline-danger"
+                                  class="btn {{ $categoria->status_categoria === 'ATIVO' ? 'btn-outline-danger' : 'btn-outline-success' }}"
                                   data-bs-toggle="modal"
                                   data-bs-target="#modal-status-categoria"
                                   data-status-url="{{ route('admin.categoria.status', $categoria->id_categoria) }}"
-                                  aria-label="Deletar"
+                                  title="{{ $categoria->status_categoria === 'ATIVO' ? 'Desativar categoria' : 'Ativar categoria' }}"
+                                  aria-label="{{ $categoria->status_categoria === 'ATIVO' ? 'Desativar categoria' : 'Ativar categoria' }}"
                                 >
-                                  <i class="bi bi-trash" aria-hidden="true"> </i>
+                                  <i class="bi {{ $categoria->status_categoria === 'ATIVO' ? 'bi-eye-fill' : 'bi-eye-slash-fill' }}" aria-hidden="true"> </i>
                                 </button>
                               </div>
                             </td>
@@ -366,7 +367,7 @@
                   @csrf
                   @method('PATCH')
                   <div class="modal-header"><h5 class="modal-title">Alterar status</h5><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div>
-                  <div class="modal-body"><p class="mb-0">Tem certeza que deseja alterar o status deste registro?</p></div>
+                  <div class="modal-body"><p class="mb-0">Tem certeza que deseja alterar o status desta categoria?</p></div>
                   <div class="modal-footer"><button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button><button type="submit" class="btn btn-danger">Confirmar</button></div>
                 </form>
               </div></div>
@@ -388,4 +389,3 @@
             </script>
       </section>
       <!--end::App Main-->
-
