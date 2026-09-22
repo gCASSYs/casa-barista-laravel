@@ -258,55 +258,114 @@
             <!--end::Color Mode Toggle-->
 
             <!--begin::User Menu Dropdown-->
+
+
+            <!--begin::User Menu Dropdown-->
             <li class="nav-item dropdown user-menu">
-              <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
-                <img
-                  src="{{ asset('admin/assets/img/user2-160x160.jpg') }}"
-                  class="user-image rounded-circle shadow"
-                  alt="Alexander Pierce"
-                />
-                <span class="d-none d-md-inline">Alexander Pierce</span>
-              </a>
-              <ul class="dropdown-menu dropdown-menu-lg dropdown-menu-end">
-                <!--begin::User Image-->
-                <li class="user-header text-bg-primary">
-                  <img
-                    src="{{ asset('admin/assets/img/user2-160x160.jpg') }}"
-                    class="rounded-circle shadow"
-                    alt="Alexander Pierce"
-                  />
-                  <p>
-                    Alexander Pierce - Web Developer
-                    <small>Member since Nov. 2023</small>
-                  </p>
-                </li>
-                <!--end::User Image-->
-                <!--begin::Menu Body-->
-                <li class="user-body">
-                  <!--begin::Row-->
-                  <div class="row">
-                    <div class="col-4 text-center">
-                      <a href="#">Followers</a>
-                    </div>
-                    <div class="col-4 text-center">
-                      <a href="#">Sales</a>
-                    </div>
-                    <div class="col-4 text-center">
-                      <a href="#">Friends</a>
-                    </div>
-                  </div>
-                  <!--end::Row-->
-                </li>
-                <!--end::Menu Body-->
-                <!--begin::Menu Footer-->
-                <li class="user-footer">
-                  <a href="#" class="btn btn-outline-secondary">Profile</a>
-                  <a href="#" class="btn btn-outline-danger float-end">Sign out</a>
-                </li>
-                <!--end::Menu Footer-->
-              </ul>
+
+                <!-- Usuário no topo -->
+                <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
+
+                    <img src="{{ asset('admin/assets/img/user2-160x160.jpg') }}"
+                        class="user-image rounded-circle shadow" alt="{{ auth()->user()->nome_usuarios }}" />
+
+                    <span class="d-none d-md-inline">
+                        {{ auth()->user()->nome_usuarios }}
+                    </span>
+
+                </a>
+
+
+                <!-- Dropdown -->
+                <ul class="dropdown-menu dropdown-menu-lg dropdown-menu-end">
+
+                    <!-- Cabeçalho do usuário -->
+                    <li class="user-header text-bg-primary">
+
+                        <img src="{{ asset('admin/assets/img/user2-160x160.jpg') }}" class="rounded-circle shadow"
+                            alt="{{ auth()->user()->nome_usuarios }}" />
+
+                        <p>
+
+                            {{ auth()->user()->nome_usuarios }}
+
+                            <small>
+                                {{ ucfirst(strtolower(auth()->user()->nivel_usuarios)) }}
+                            </small>
+
+                        </p>
+
+                    </li>
+
+
+                    <!-- Informações do usuário -->
+                    <li class="user-body">
+
+                        <div class="row">
+
+                            <div class="col-12">
+
+                                <p class="mb-1">
+                                    <strong>E-mail:</strong>
+                                    {{ auth()->user()->email_usuarios }}
+                                </p>
+
+                                <p class="mb-1">
+                                    <strong>Nível:</strong>
+                                    {{ ucfirst(strtolower(auth()->user()->nivel_usuarios)) }}
+                                </p>
+
+                                <p class="mb-0">
+                                    <strong>Status:</strong>
+
+                                    @if (auth()->user()->status_usuarios === 'ATIVO')
+                                        <span class="badge text-bg-success">
+                                            Ativo
+                                        </span>
+                                    @else
+                                        <span class="badge text-bg-danger">
+                                            Inativo
+                                        </span>
+                                    @endif
+
+                                </p>
+
+                            </div>
+
+                        </div>
+
+                    </li>
+
+
+                    <!-- Rodapé -->
+                    <li class="user-footer">
+
+                        <a href="#" class="btn btn-outline-secondary">
+                            <i class="bi bi-person me-1"></i>
+                            Perfil
+                        </a>
+
+
+                        <form action="{{ route('logout') }}" method="POST" class="d-inline float-end">
+
+                            @csrf
+
+                            <button type="submit" class="btn btn-outline-danger">
+
+                                <i class="bi bi-box-arrow-right me-1"></i>
+                                Sair
+
+                            </button>
+
+                        </form>
+
+                    </li>
+
+                </ul>
+
             </li>
             <!--end::User Menu Dropdown-->
+            
           </ul>
           <!--end::End Navbar Links-->
         </div>

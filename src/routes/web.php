@@ -17,6 +17,7 @@ use App\Http\Controllers\Admin\LinhaTempoController;
 use App\Http\Controllers\Admin\NewsController;
 use App\Http\Controllers\Admin\CategoriaController;
 use App\Http\Controllers\Admin\UsuariosController;
+use App\Http\Controllers\Auth\LoginController;
 
 
 //ROTAS WEB
@@ -29,67 +30,196 @@ Route::get('/eventos', [EventosController::class, 'eventos'])->name('eventos');
 Route::get('/contato', [ContatoController::class, 'contato'])->name('contato');
 //Basicamente ele está dizendo: quando clicar vai ir para HomeController que tem uma classe, pois pode ter varios e um nome para facilitar
 
-//PARTE DO DASHBOARD
 
 
-Route::prefix('admin')->group(function () {
 
-    Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('dashboard');
+#  ÁREA RESTRITA - Todas as rotas deste grupo exigem autenticação.
 
-    //PARTE DO DASHBOARD DO BANNER
-    Route::get('/banner', [BannerController::class, 'index'])->name('admin.banner.index');
-   
-    //CRUD DO BANNER:
-    //CADASTRAR BANNER
-    Route::post('/banner', [BannerController::class, 'store'])->name('admin.banner.store');
-    //ABRIR O FORM DE EDITAR  (nao vamos usar o edit pois vai abrir na mesma pagina do index, entao vamos usar o modal para editar)
-    //Route::get('/banner/{id}/editar', [BannerController::class, 'edit'])->name('admin.banner.edit');
-    //ATUALIZAR BANNER
-    Route::put('/banner/{id}', [BannerController::class, 'update'])->name('admin.banner.update');
-    //ATIVAR OU DESATIVAR BANNER
-    Route::patch('/banner/{id}', [BannerController::class, 'status'])->name('admin.banner.status');
+/*
+|--------------------------------------------------------------------------
+| LOGIN
+|--------------------------------------------------------------------------
+|
+| O middleware guest permite acessar estas rotas somente quando o usuário NÃO está autenticado.
+|
+*/
 
-    //PARTE DO DASHBOARD DA GALERIA
-    Route::get('/galeria', [GaleriaController::class, 'index'])->name('admin.galeria.index');
+Route::middleware('guest')->group(function () {
 
-    //CRUD DA GALERIA:
-    //CADASTRAR GALERIA
-    Route::post('/galeria', [GaleriaController::class, 'store'])->name('admin.galeria.store');
-    //ABRIR O FORM DE EDITAR GALERIA
-    // A edição abre em modal na própria listagem.
-    //ATUALIZAR GALERIA
-    Route::put('/galeria/{id}', [GaleriaController::class, 'update'])->name('admin.galeria.update');
-    //ATIVAR OU DESATIVAR GALERIA
-    Route::patch('/galeria/{id}/status', [GaleriaController::class, 'status'])->name('admin.galeria.status');
+    // Exibir tela de login
+    Route::get('/login', [LoginController::class, 'index'])
+        ->name('login');
+
+    // Processar login
+    Route::post('/login', [LoginController::class, 'login'])
+        ->name('login.auth');
+
+});
 
 
-    //PARTE DO DASHBOARD DOS DEPOIMENTOS
-    Route::get('/depoimento', [DepoimentoController::class, 'index'])->name('admin.depoimento.index');
+/*
+|--------------------------------------------------------------------------
+| ÁREA RESTRITA
+|--------------------------------------------------------------------------
+|
+| Todas as rotas deste grupo exigem autenticação.
+|
+*/
 
-    //CRUD DOS DEPOIMENTOS:
-    //CADASTRAR DEPOIMENTO
-    Route::post('/depoimento', [DepoimentoController::class, 'store'])->name('admin.depoimento.store');
-    //ABRIR O FORM DE EDITAR DEPOIMENTO
-    // A edição abre em modal na própria listagem.
-    //ATUALIZAR DEPOIMENTO
-    Route::put('/depoimento/{id}', [DepoimentoController::class, 'update'])->name('admin.depoimento.update');
-    //ATIVAR OU DESATIVAR DEPOIMENTO
-    Route::patch('/depoimento/{id}/status', [DepoimentoController::class, 'status'])->name('admin.depoimento.status');
+Route::middleware('auth')->group(function () {
 
-    //PARTE DO DASHBOARD DOS CLIENTES
-    Route::get('/clientes', [ClientesController::class, 'index'])->name('admin.clientes.index');
 
-    //CRUD DOS CLIENTES:
-    //CADASTRAR CLIENTE
-    Route::post('/clientes', [ClientesController::class, 'store'])->name('admin.clientes.store');
-    //ABRIR O FORM DE EDITAR CLIENTE
-    // A edição abre em modal na própria listagem.
-    //ATUALIZAR CLIENTE
-    Route::put('/clientes/{id}', [ClientesController::class, 'update'])->name('admin.clientes.update');
-    //ATIVAR OU DESATIVAR CLIENTE
-    Route::patch('/clientes/{id}/status', [ClientesController::class, 'status'])->name('admin.clientes.status');
+    /*
+    |--------------------------------------------------------------------------
+    | DASHBOARD
+    |--------------------------------------------------------------------------
+    */
 
-    //PARTE DO DASHBOARD DAS VENDAS
+    Route::get('/admin/dashboard', [AdminController::class, 'dashboard'])
+        ->name('dashboard');
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | LOGOUT
+    |--------------------------------------------------------------------------
+    */
+
+    Route::post('/logout', [LoginController::class, 'logout'])
+        ->name('logout');
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | ROTAS ADMINISTRATIVAS
+    |--------------------------------------------------------------------------
+    */
+
+    Route::prefix('admin')->group(function () {
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | CRUD BANNER
+        |--------------------------------------------------------------------------
+        */
+
+        // Listar banners
+        Route::get('/banner', [BannerController::class, 'index'])
+            ->name('admin.banner.index');
+
+        // Cadastrar banner
+        Route::post('/banner', [BannerController::class, 'store'])
+            ->name('admin.banner.store');
+
+        // Editar banner
+        // Route::get('/banner/{id}/editar', [BannerController::class, 'edit'])
+        //     ->name('admin.banner.edit');
+
+        // Atualizar banner
+        Route::put('/banner/{id}', [BannerController::class, 'update'])
+            ->name('admin.banner.update');
+
+        // Ativar / desativar banner
+        Route::patch('/banner/{id}', [BannerController::class, 'status'])
+            ->name('admin.banner.status');
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | CRUD GALERIA
+        |--------------------------------------------------------------------------
+        */
+
+        //PARTE DO DASHBOARD DA GALERIA
+        Route::get('/galeria', [GaleriaController::class, 'index'])->name('admin.galeria.index');
+
+        //CRUD DA GALERIA:
+        //CADASTRAR GALERIA
+        Route::post('/galeria', [GaleriaController::class, 'store'])->name('admin.galeria.store');
+        //ABRIR O FORM DE EDITAR GALERIA
+        // A edição abre em modal na própria listagem.
+        //ATUALIZAR GALERIA
+        Route::put('/galeria/{id}', [GaleriaController::class, 'update'])->name('admin.galeria.update');
+        //ATIVAR OU DESATIVAR GALERIA
+        Route::patch('/galeria/{id}/status', [GaleriaController::class, 'status'])->name('admin.galeria.status');
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | CRUD PRODUTO
+        |--------------------------------------------------------------------------
+        */
+
+        //CRUD DOS PRODUTOS:
+        //CADASTRAR PRODUTO
+        Route::post('/produto', [ProdutoController::class, 'store'])->name('admin.produto.store');
+        //ABRIR O FORM DE EDITAR PRODUTO 
+        // A edição abre em modal na própria listagem.
+        //ATUALIZAR PRODUTO
+        Route::put('/produto/{id}', [ProdutoController::class, 'update'])->name('admin.produto.update');
+        //ATIVAR OU DESATIVAR PRODUTO
+        Route::patch('/produto/{id}/status', [ProdutoController::class, 'status'])->name('admin.produto.status');
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | CRUD CATEGORIA
+        |--------------------------------------------------------------------------
+        */
+
+
+        //CRUD DA CATEGORIA:
+        //CADASTRAR CATEGORIA
+        Route::post('/categoria', [CategoriaController::class, 'store'])->name('admin.categoria.store');
+        //ABRIR O FORM DE EDITAR CATEGORIA
+        // A edição abre em modal na própria listagem.
+        //ATUALIZAR CATEGORIA
+        Route::put('/categoria/{id}', [CategoriaController::class, 'update'])->name('admin.categoria.update');
+        //ATIVAR OU DESATIVAR CATEGORIA
+        Route::patch('/categoria/{id}/status', [CategoriaController::class, 'status'])->name('admin.categoria.status');
+
+        /*
+        |--------------------------------------------------------------------------
+        | CRUD DEPOIMENTO
+        |--------------------------------------------------------------------------
+        */
+
+        //PARTE DO DASHBOARD DOS DEPOIMENTOS
+        Route::get('/depoimento', [DepoimentoController::class, 'index'])->name('admin.depoimento.index');
+
+        //CRUD DOS DEPOIMENTOS:
+        //CADASTRAR DEPOIMENTO
+        Route::post('/depoimento', [DepoimentoController::class, 'store'])->name('admin.depoimento.store');
+        //ABRIR O FORM DE EDITAR DEPOIMENTO
+        // A edição abre em modal na própria listagem.
+        //ATUALIZAR DEPOIMENTO
+        Route::put('/depoimento/{id}', [DepoimentoController::class, 'update'])->name('admin.depoimento.update');
+        //ATIVAR OU DESATIVAR DEPOIMENTO
+        Route::patch('/depoimento/{id}/status', [DepoimentoController::class, 'status'])->name('admin.depoimento.status');
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | CRUD CLIENTE
+        |--------------------------------------------------------------------------
+        */
+
+        //PARTE DO DASHBOARD DOS CLIENTES
+        Route::get('/clientes', [ClientesController::class, 'index'])->name('admin.clientes.index');
+
+        //CRUD DOS CLIENTES:
+        //CADASTRAR CLIENTE
+        Route::post('/clientes', [ClientesController::class, 'store'])->name('admin.clientes.store');
+        //ABRIR O FORM DE EDITAR CLIENTE
+        // A edição abre em modal na própria listagem.
+        //ATUALIZAR CLIENTE
+        Route::put('/clientes/{id}', [ClientesController::class, 'update'])->name('admin.clientes.update');
+        //ATIVAR OU DESATIVAR CLIENTE
+        Route::patch('/clientes/{id}/status', [ClientesController::class, 'status'])->name('admin.clientes.status');
+
+
+            //PARTE DO DASHBOARD DAS VENDAS
     Route::get('/venda', [VendaController::class, 'index'])->name('admin.venda.index');
 
     //CRUD DAS VENDAS:
@@ -102,18 +232,28 @@ Route::prefix('admin')->group(function () {
     //ATIVAR OU DESATIVAR VENDA
     Route::patch('/venda/{id}/status', [VendaController::class, 'status'])->name('admin.venda.status');
 
+
+    });
+
+});
+
+
+
+
+
+
+
+
+    
+
+    
+
+
+
     //PARTE DO DASHBOARD DOS PRODUTOS
     Route::get('/produto', [ProdutoController::class, 'index'])->name('admin.produto.index');
 
-    //CRUD DOS PRODUTOS:
-    //CADASTRAR PRODUTO
-    Route::post('/produto', [ProdutoController::class, 'store'])->name('admin.produto.store');
-    //ABRIR O FORM DE EDITAR PRODUTO 
-    // A edição abre em modal na própria listagem.
-    //ATUALIZAR PRODUTO
-    Route::put('/produto/{id}', [ProdutoController::class, 'update'])->name('admin.produto.update');
-    //ATIVAR OU DESATIVAR PRODUTO
-    Route::patch('/produto/{id}/status', [ProdutoController::class, 'status'])->name('admin.produto.status');
+
 
     //PARTE DO DASHBOARD DA LINHA DO TEMPO
     Route::get('/linhatempo', [LinhaTempoController::class, 'index'])->name('admin.linhatempo.index');
@@ -131,15 +271,6 @@ Route::prefix('admin')->group(function () {
     //PARTE DO DASHBOARD DA CATEGORIA
     Route::get('/categoria', [CategoriaController::class, 'index'])->name('admin.categoria.index');
 
-    //CRUD DA CATEGORIA:
-    //CADASTRAR CATEGORIA
-    Route::post('/categoria', [CategoriaController::class, 'store'])->name('admin.categoria.store');
-    //ABRIR O FORM DE EDITAR CATEGORIA
-    // A edição abre em modal na própria listagem.
-    //ATUALIZAR CATEGORIA
-    Route::put('/categoria/{id}', [CategoriaController::class, 'update'])->name('admin.categoria.update');
-    //ATIVAR OU DESATIVAR CATEGORIA
-    Route::patch('/categoria/{id}/status', [CategoriaController::class, 'status'])->name('admin.categoria.status');
 
     //PARTE DO DASHBOARD DA NEWSLATTER
     Route::get('/news', [NewsController::class, 'index'])->name('admin.news.index');
@@ -167,7 +298,6 @@ Route::prefix('admin')->group(function () {
     //ATIVAR OU DESATIVAR USUÁRIO
     Route::patch('/usuarios/{id}/status', [UsuariosController::class, 'status'])->name('admin.usuarios.status');
 
-});    
 
 //Metodo Get é buscar dados
 //Metodo Post é criar dados
